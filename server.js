@@ -14,7 +14,11 @@ app.get('/dirtdestroyer', function(req, res) {
     res.sendFile(path.join(__dirname + '/dirtdestroyer.html'));
 });
 
-app.get('/test', function(req, res) {
+app.get('/frame/odorblocker', function(req, res) {
+	res.end('<iframe src="./odorblocker" style="border:none"></iframe>')
+})
+
+app.get('/frame/dirtdestroyer', function(req, res) {
 	res.end('<iframe src="./dirtdestroyer" style="border:none"></iframe>')
 })
 
