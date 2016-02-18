@@ -22,4 +22,8 @@ app.get('/frame/dirtdestroyer', function(req, res) {
 	res.end('<iframe src="./dirtdestroyer" style="border:none"></iframe>')
 })
 
+app.get('/test', function(req, res) {
+	res.end('<iframe src="./dirtdestroyer" style="border:none"></iframe>')
+})
+
 app.listen(process.env.PORT || 8080);
