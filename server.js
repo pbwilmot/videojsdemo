@@ -17,5 +17,5 @@ app.get('/DirtDestroyer', function(req, res) {
 app.get('/test', function(req, res) {
 	res.end('<iframe src="http://localhost:8000/dirtdestroyer"></iframe>')
 })
-// app.listen(8080);
-app.listen(8000);
+
+app.listen(process.env.PORT || 8080);
