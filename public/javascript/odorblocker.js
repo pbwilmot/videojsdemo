@@ -18,7 +18,7 @@ var player = videojs('content_video');
 
 var options = {
   id: 'content_video',
-  adTagUrl: 'https://ad.doubleclick.net/ddm/pfadx/N3493.2187701BUZZSTARTER/B9411881.128413474;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml;dc_vast=3'
+  adTagUrl: 'https://svastx.moatads.com/buzzstartervpaid67711111384/Buzzstarter_128048632.xml'
 };
 
 player.ima(options);
