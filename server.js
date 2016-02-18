@@ -6,11 +6,11 @@ var path = require('path');
 
 app.use('/static', express.static('public'));
 
-app.get('/OdorBlocker', function(req, res) {
+app.get('/odorblocker', function(req, res) {
     res.sendFile(path.join(__dirname + '/odorblocker.html'));
 });
 
-app.get('/DirtDestroyer', function(req, res) {
+app.get('/dirtdestroyer', function(req, res) {
     res.sendFile(path.join(__dirname + '/dirtdestroyer.html'));
 });
 
