@@ -18,4 +18,16 @@ app.get('/dirtdestroyer', function(req, res) {
 	res.sendFile(path.join(__dirname + '/dirtdestroyer.html'));
 });
 
+app.get('/vine', function(req, res) {
+	res.sendFile(path.join(__dirname + '/vine.html'));
+});
+
+app.get('/twitch', function(req, res) {
+	res.sendFile(path.join(__dirname + '/twitch.html'));
+});
+
+app.get('/youtube', function(req, res) {
+	res.sendFile(path.join(__dirname + '/youtube.html'));
+});
+
 app.listen(process.env.PORT || 8080);
