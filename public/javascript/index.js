@@ -1,29 +1,34 @@
-var show = document.getElementById('slider-show');
-var hide = document.getElementById('slider-hide');
-var closeFrame = document.getElementById('close-iframe');
+var closeFrame = $('#close-iframe');
+var slider = $('.toggle-slider');
+var closeBtn = $('.toggle-close-btn');
 
-show.addEventListener('click', function(){
-  showHide('slider');
+slider.click(function() {
+  showHide();
 });
 
-hide.addEventListener('click', function(){
-  showHide('slider');
+closeFrame.click(function(){
+  showHide();
 });
 
-closeFrame.addEventListener('click', function() {
-  showHide('slider');
+closeBtn.click(function() {
+  toggleCloseBtn();
 });
 
-function showHide(shID) {
-  if (document.getElementById(shID)) {
-    if (document.getElementById('slider').style.height === '0px') {
-      document.getElementById(shID+'-show').style.display = 'none';
-      document.getElementById(shID+'-hide').style.display = 'inline';
-      document.getElementById(shID).style.height = '364px';
+function showHide() {
+  if ($('#slider')) {
+    if ($('#slider').height() === 0) {
+      $('#slider').height(364);
     } else {
-      document.getElementById(shID+'-show').style.display = 'inline';
-      document.getElementById(shID+'-hide').style.display = 'none';
-      document.getElementById(shID).style.height = '0px';
+      $('#slider').height(0);
     }
   }
+}
+
+function toggleCloseBtn() {
+  if ($('#close-iframe').css('display') === 'none') {
+    setTimeout(function() {
+      $('#close-iframe').fadeIn();
+    }, 2000);
+  } else
+  $('#close-iframe').fadeOut();
 }

@@ -186,12 +186,8 @@ footer {
   -o-transition: height 2s;
 }
 
-a.showLink, a.hideLink {
-    text-decoration: none;
-}
-
-#slider-show {
-  display: none;
+.action-btns {
+  cursor: pointer;
 }
 
 center {
