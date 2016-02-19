@@ -6,6 +6,10 @@ var cors = require('cors')
 app.use(cors());
 app.use('/static', express.static('public'));
 
+app.get('/', function(req, res) {
+	res.sendFile(path.join(__dirname + '/index.html'));
+});
+
 app.get('/odorblocker', function(req, res) {
 	res.sendFile(path.join(__dirname + '/odorblocker.html'));
 });

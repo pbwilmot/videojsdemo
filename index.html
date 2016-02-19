@@ -1,23 +1,51 @@
+<!--
+  Copyright 2016 Traction Labs Inc.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
 <html>
   <head>
-    <title>Buzzstarter AdUnit</title>
     <link href="//vjs.zencdn.net/5.3/video-js.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/style/videojs.ads.css" />
-    <link rel="stylesheet" href="static/style/videojs.ima.css" />
-    <link rel="stylesheet" href="static/style/style.css" />
-  </head>
+    <link rel="stylesheet" type="text/css" href="/static/style/style.css" />
+    <link rel="stylesheet" href="/static/style/videojs.ads.css" />
+    <link rel="stylesheet" href="/static/style/videojs.ima.css" />
 
+    <title>Buzzstarter Embeded HTML5 Video Example</title>
+  </head>
   <body>
-    <video id="content_video" class="video-js vjs-default-skin"
-        poster = "static/android.png" controls preload="auto" width="640"
-        height="360">
-      <source src="http://rmcdn.2mdn.net/Demo/vast_inspector/android.mp4"
-          type="video/mp4" ></source>
-    </video>
+    <div id="ima-sample-container">
+      <header>Embeded HTML5 Video Example</header>
+
+      <center>
+        <label for="tag">Tag (<span id="sampleAdTag" class="urlLink">sample</span>):&nbsp;</label>
+        <input type="text" size="75" id="tagInput" />
+      </center>
+
+      <div id="ima-sample-videoplayer">
+        <video id="content_video" class="video-js vjs-default-skin"
+            poster = "static/old-spice-sweat-defense-thumb.png" controls preload="auto"
+            width="640" height="360">
+          <source src="static/blank.mp4"
+              type="video/mp4" ></source>
+        </video>
+      </div>
+      <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
+    </div>
     <script src="//vjs.zencdn.net/5.3/video.min.js"></script>
     <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="static/javascript/videojs.ads.js"></script>
     <script src="static/javascript/videojs.ima.js"></script>
     <script src="static/javascript/ads.js"></script>
+    <script type="text/javascript">
+      var ads = new Ads();
+    </script>
   </body>
 </html>
