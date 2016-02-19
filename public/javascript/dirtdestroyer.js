@@ -23,6 +23,24 @@ var options = {
 
 player.ima(options);
 
+this.events = [
+  google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+  google.ima.AdEvent.Type.CLICK,
+  google.ima.AdEvent.Type.COMPLETE,
+  google.ima.AdEvent.Type.FIRST_QUARTILE,
+  google.ima.AdEvent.Type.LOADED,
+  google.ima.AdEvent.Type.MIDPOINT,
+  google.ima.AdEvent.Type.PAUSED,
+  google.ima.AdEvent.Type.STARTED,
+  google.ima.AdEvent.Type.THIRD_QUARTILE
+];
+
+for (var index = 0; index < this.events.length; index++) {
+  this.player.ima.addEventListener(
+      this.events[index],
+      this.bind(this, this.onAdEvent));
+}
+  
 // Remove controls from the player on iPad to stop native controls from stealing
 // our click
 var contentPlayer =  document.getElementById('content_video_html5_api');

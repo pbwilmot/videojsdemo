@@ -52,14 +52,15 @@ var Ads = function() {
 Ads.prototype.SAMPLE_AD_TAG = '//svastx.moatads.com/buzzstartervpaid67711111384/Buzzstarter128413474.xml';
 
 Ads.prototype.init = function() {
+  this.player.ima.initializeAdDisplayContainer();
   if (this.adTagInput.value == '') {
-    this.log('Error: please fill in an ad tag');
+    this.log('Error: no ad tag specified.  Using default tag');
+    this.player.ima.setContent(null, this.SAMPLE_AD_TAG, true);
   } else {
-    this.player.ima.initializeAdDisplayContainer();
     this.player.ima.setContent(null, this.adTagInput.value, true);
-    this.player.ima.requestAds();
-    this.player.play();
   }
+  this.player.ima.requestAds();
+  this.player.play();
 };
 
 Ads.prototype.onSampleAdTagClick_ = function() {
