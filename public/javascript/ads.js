@@ -90,3 +90,5 @@ Ads.prototype.bind = function(thisObj, fn) {
   };
 };
 
+
+var ads = new Ads();
