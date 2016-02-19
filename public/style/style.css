@@ -62,7 +62,6 @@ footer {
   height: 360px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
 }
 
 #content_video {
@@ -172,4 +171,29 @@ footer {
   width: 728px;
   height: 90px;
   margin-top: 20px;
+}
+
+.vjs-poster {
+  background-size: 100% 100%;
+}
+
+#example {
+  overflow: hidden;
+  height: 364px;
+  transition: height 2s;
+  -moz-transition: height 2s; /* Firefox 4 */
+  -webkit-transition: height 2s; /* Safari and Chrome */
+  -o-transition: height 2s; /* Opera */
+}
+
+a.showLink, a.hideLink {
+    text-decoration: none;
+}
+
+#example-show {
+  display: none;
+}
+
+center {
+  margin-bottom: 20px;
 }

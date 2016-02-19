@@ -17,25 +17,33 @@
     <link rel="stylesheet" type="text/css" href="/static/style/style.css" />
     <link rel="stylesheet" href="/static/style/videojs.ads.css" />
     <link rel="stylesheet" href="/static/style/videojs.ima.css" />
-
     <title>Buzzstarter Embeded HTML5 Video Example</title>
   </head>
   <body>
     <div id="ima-sample-container">
       <header>Embeded HTML5 Video Example</header>
-
+      <a href="#" id="example-show" class="showLink">Show iFrame</a>
+      <a href="#" id="example-hide" class="hideLink">Hide iFrame</a>
       <center>
         <label for="tag">Tag (<span id="sampleAdTag" class="urlLink">sample</span>):&nbsp;</label>
         <input type="text" size="75" id="tagInput" />
       </center>
-
-      <div id="ima-sample-videoplayer">
-        <video id="content_video" class="video-js vjs-default-skin"
-            poster = "static/old-spice-sweat-defense-thumb.png" controls preload="auto"
-            width="640" height="360">
-          <source src="static/blank.mp4"
-              type="video/mp4" ></source>
-        </video>
+      <div id="example" class="more open">
+        <div id="ima-sample-videoplayer" class="slider">
+          <video
+            id="content_video"
+            class="video-js vjs-default-skin"
+            poster = "static/old-spice-sweat-defense-thumb.png"
+            controls
+            preload="auto"
+            width="640"
+            height="360">
+            <source
+              src="static/blank.mp4"
+              type="video/mp4">
+            </source>
+          </video>
+        </div>
       </div>
       <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
     </div>
@@ -44,6 +52,7 @@
     <script src="static/javascript/videojs.ads.js"></script>
     <script src="static/javascript/videojs.ima.js"></script>
     <script src="static/javascript/ads.js"></script>
+    <script src="static/javascript/index.js"></script>
     <script type="text/javascript">
       var ads = new Ads();
     </script>
