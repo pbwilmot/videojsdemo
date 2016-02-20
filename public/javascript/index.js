@@ -14,6 +14,10 @@ closeBtn.click(function() {
   toggleCloseBtn();
 });
 
+$(window).scroll(function() {
+  startInView();
+});
+
 function showHide() {
   if ($('#slider')) {
     if ($('#slider').height() === 0) {
@@ -31,4 +35,14 @@ function toggleCloseBtn() {
     }, 2000);
   } else
   $('#close-iframe').fadeOut();
+}
+
+var videoList = [];
+var scrollPauseList = [];
+var clickedPauseList = [];
+
+function startInView() {
+  if (viewability.vertical(document.getElementById('slider')).value === 0.50) {
+    console.log('hi');
+  }
 }
