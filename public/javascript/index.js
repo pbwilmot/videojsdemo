@@ -16,8 +16,6 @@ closeBtn.click(function() {
 
 $(window).scroll(function() {
   startInView();
-  var v = viewability.vertical(document.getElementById('slider'));
-  console.log(v);
 });
 
 function showHide() {
