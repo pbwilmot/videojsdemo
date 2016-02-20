@@ -16,6 +16,8 @@ closeBtn.click(function() {
 
 $(window).scroll(function() {
   startInView();
+  var v = viewability.vertical(document.getElementById('slider'));
+  console.log(v);
 });
 
 function showHide() {
@@ -42,7 +44,7 @@ var scrollPauseList = [];
 var clickedPauseList = [];
 
 function startInView() {
-  if (viewability.vertical(document.getElementById('slider')).value === 0.50) {
+  if (viewability.vertical(document.getElementById('slider')).value <= 0.50) {
     console.log('hi');
   }
 }
