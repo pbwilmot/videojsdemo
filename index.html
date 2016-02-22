@@ -32,34 +32,26 @@
         <label for="tag">Tag (<span id="sampleAdTag" class="urlLink">sample</span>):&nbsp;</label>
         <input type="text" size="75" id="tagInput" />
       </center>
-      <div id="slider" class="more">
-        <div id="ima-sample-videoplayer">
-          <span id="close-iframe">x</span>
-          <video
-            id="content_video"
-            class="video-js vjs-default-skin"
-            poster = "static/old-spice-sweat-defense-thumb.png"
-            controls
-            preload="auto"
-            width="640"
-            height="360">
-            <source
-              src="static/blank.mp4"
-              type="video/mp4">
-            </source>
-          </video>
-        </div>
+      <div id="BuzzAdDiv">
+        <!-- <video id="content_video" class="video-js vjs-default-skin"
+            poster = "static/old-spice-sweat-defense-thumb.png" controls preload="auto"
+            width="640" height="360">
+          <source src="static/blank.mp4"
+              type="video/mp4" ></source>
+        </video> -->
       </div>
       <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
     </div>
     <script src="//vjs.zencdn.net/5.3/video.min.js"></script>
     <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="static/javascript/ads.js"></script>
     <script src="static/javascript/index.js"></script>
     <script src="//cdn.jsdelivr.net/viewability/latest/viewability.min.js"></script>
     <script src="//da2hw5uyqeo5b.cloudfront.net/videojs.ads.js"></script>
     <script src="//da2hw5uyqeo5b.cloudfront.net/videojs.ima.js"></script>
-    <script src="static/javascript/ads.js"></script>
+    <script src="static/javascript/buzzadmanager.js"></script>
+    <script type="text/javascript">
+      var buzz = new BuzzAdManager('BuzzAdDiv', otpions)
+    </script>
   </body>
 </html>
