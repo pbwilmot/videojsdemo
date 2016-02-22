@@ -1,3 +1,4 @@
+
 var Ads = function() {
 
   this.player = videojs('content_video');
@@ -89,6 +90,5 @@ Ads.prototype.bind = function(thisObj, fn) {
     fn.apply(thisObj, arguments);
   };
 };
-
 
 var ads = new Ads();
