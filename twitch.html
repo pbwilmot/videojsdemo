@@ -18,16 +18,59 @@
     <title>Buzzstarter Embeded Twitch Video Example</title>
   </head>
   <body>
+	<!-- <object type="application/x-shockwave-flash" tyle="width: 100%; height: 100vh;" data="https://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf?channel=monstercat" bgcolor="#000000">
+		<param name="allowFullScreen" value="true" />
+		<param name="allowScriptAccess" value="always" />
+		<param name="allowNetworking" value="all" />
+		<param name="movie" value="https://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />
+		<param name="flashvars" value="hostname=www.twitch.tv&amp;channel=monstercat&amp;auto_play=true&amp;start_volume=25" />
+	</object> -->
+
+		<object type="application/x-shockwave-flash" style="width: 100%; height: 100vh;" id="live_embed_player_flash" data="//www.twitch.tv/widgets/live_embed_player.swf?channel=monstercat"
+        bgcolor="#000000">
+        	<param name="wmode" value="transparent" />
+            <param name="allowFullScreen" value="true" />
+            <param name="allowScriptAccess" value="all" />
+            <param name="allowNetworking" value="all" />
+            <param name="movie" value="//www.twitch.tv/widgets/live_embed_player.swf" />
+            <param name="flashvars" value="hostname=www.twitch.tv&channel=monstercat&auto_play=true&start_volume=25" />
+        </object>
+  		<!-- Embedly -->
+  		<!-- <a class="embedly-card" href="http://www.twitch.tv/monstercat">Riot Games</a>
+		<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script> -->
         <!-- Video -->
-        <iframe style="width: 100%; height: 100vh;" scrolling="no" frameborder="0" src="//www.twitch.tv/riotgames/embed"></iframe>
+        <!-- <iframe style="width: 100%; height: 100vh;" scrolling="no" frameborder="0" src="https://www.twitch.tv/monstercat/embed"></iframe>  -->
         <!-- Chat -->
-        <!-- <iframe style="width: 350px; height: 379px;" scrolling="no" frameborder="0" src="http://www.twitch.tv/riotgames/chat?popout="></iframe> -->
-<!-- <center>
-	    <a href="http://www.twitch.tv/riotgames?tt_medium=live_embed&tt_content=text_link" style="padding: 2px 0px 4px; width: 345px; font-size: 10px; font-weight: normal; text-decoration: underline; display: block;">Watch live video from (twitch user name here) on www.twitch.tv</a>
-</center> -->
+        <!-- <iframe style="width: 350px; height: 379px;" scrolling="no" frameborder="0" src="http://www.twitch.tv/monstercat/chat?popout="></iframe> -->
+<center>
+	    <a href="//www.twitch.tv/monstercat?tt_medium=live_embed&tt_content=text_link" style="padding: 2px 0px 4px; width: 345px; font-size: 10px; font-weight: normal; text-decoration: underline; display: block;">Watch live video from (twitch user name here) on www.twitch.tv</a>
+</center>
     </div>
     <script type="text/javascript">
-    // add tracking here
+
+    // document.getElementById('live_embed_player_flash').addEventListener('click', function() {
+    // 	console.log('BOOP');
+    // });
+    // // add tracking here
+    // setTimeout(function() {
+    // 	console.log('sending clickevent');
+    // 	document.getElementById('live_embed_player_flash').focus();
+    // 	document.getElementById('live_embed_player_flash').click();
+    // }, 5000);
+    
     </script>
+<!--     <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+<div id="live_embed_player_flash"></div>
+<script type="text/javascript">
+    var options = {
+        width: 854,
+        height: 480,
+        channel: "monstercat",
+        autoplay: true
+    };
+    var player = new Twitch.Player("live_embed_player_flash", options);
+    player.setVolume(0.5);
+    player.play();
+</script> -->
   </body>
 </html>

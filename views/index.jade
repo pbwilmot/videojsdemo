@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    link(href='//vjs.zencdn.net/5.3/video-js.min.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='/static/style/style.css')
+    link(rel='stylesheet', href='/static/style/videojs.ads.css')
+    link(rel='stylesheet', href='/static/style/videojs.ima.css')
+    title Buzzstarter Embeded HTML5 Video Example
+  body
+    #ima-sample-container
+      header Embeded HTML5 Video Example
+      center
+        label(for='tag')
+          | Tag (
+          span#sampleAdTag.urlLink sample
+          | ):
+        input#tagInput(type='text', size='75')
+      #ima-sample-videoplayer
+        video#content_video.video-js.vjs-default-skin(poster='static/old-spice-sweat-defense-thumb.png', controls='', preload='auto', width='640', height='360')
+          source(src='static/blank.mp4', type='video/mp4')
+      footer Copyright (C) 2016 Buzzstarter Inc.
+    script(src='//vjs.zencdn.net/5.3/video.min.js')
+    script(src='//imasdk.googleapis.com/js/sdkloader/ima3.js')
+    script(src='static/javascript/videojs.ads.js')
+    script(src='static/javascript/videojs.ima.js')
+    script(src='static/javascript/ads.js')
+    script(type='text/javascript').
+      console.log('#{tag}' + ' : ' + '#{autoplay}')
+      var ads = new Ads(vastTag='#{tag}', autoplay = '#{autoplay}');
+
