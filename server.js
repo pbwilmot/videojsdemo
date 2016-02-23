@@ -12,8 +12,8 @@ app.get('/', function(req, res) {
 	res.render('index');
 });
 
-app.get('/testpage', function(req, res) {
-	res.sendfile('public/testpage.html');
+app.get('/setup', function(req, res) {
+	res.sendFile(path.join(__dirname + '/views/setup.html'));
 });
 
 app.get('/jade', function(req, res) {
