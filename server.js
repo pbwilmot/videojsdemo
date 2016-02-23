@@ -16,4 +16,12 @@ app.get('/jade', function(req, res) {
   res.render('video', { tag: req.query.tag, autoplay: req.query.autoplay, poster: req.query.poster});
 });
 
+app.get('/womenshealth', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/womenshealth.html'));
+});
+
+app.get('/womenshealthpost', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/womenshealthpost.html'));
+});
+
 app.listen(process.env.PORT || 8080);
