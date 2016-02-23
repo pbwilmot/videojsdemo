@@ -1,17 +1,8 @@
 doctype html
 html
   head
-    link(href='//vjs.zencdn.net/5.3/video-js.min.css', rel='stylesheet')
-    link(rel='stylesheet', type='text/css', href='/static/style/style.css')
-    link(rel='stylesheet', href='/static/style/videojs.ads.css')
-    link(rel='stylesheet', href='/static/style/videojs.ima.css')
-    title Buzzstarter Embeded HTML5 Video Example
   body
     #BuzzAdDiv
-    script(src='//vjs.zencdn.net/5.3/video.min.js')
-    script(src='//imasdk.googleapis.com/js/sdkloader/ima3.js')
-    script(src='static/javascript/videojs.ads.js')
-    script(src='static/javascript/videojs.ima.js')
     script(src='static/javascript/buzzadmanager.js')
     script(type='text/javascript').
       var buzz = new BuzzAdManager('BuzzAdDiv');

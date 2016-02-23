@@ -5,13 +5,6 @@ var Ads = function(adTag, autoplay) {
   this.autoplay = autoplay;
   this.player = videojs('content_video');
 
-  this.adTagInput = document.getElementById('tagInput');
-  this.sampleAdTag = document.getElementById('sampleAdTag');
-  this.sampleAdTag.addEventListener(
-      'click',
-      this.bind(this, this.onSampleAdTagClick_),
-      false);
-
   // Remove controls from the player on iPad to stop native controls from stealing
   // our click
   var contentPlayer =  document.getElementById('content_video_html5_api');
