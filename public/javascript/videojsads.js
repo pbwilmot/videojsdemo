@@ -91,5 +91,3 @@ Ads.prototype.bind = function(thisObj, fn) {
     fn.apply(thisObj, arguments);
   };
 };
-
-var ads = new Ads();
