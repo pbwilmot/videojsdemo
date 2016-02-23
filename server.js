@@ -13,7 +13,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/jade', function(req, res) {
-  res.render('video', { tag: req.query.tag, autoplay: req.query.autoplay});
+  res.render('video', { tag: req.query.tag, autoplay: req.query.autoplay, poster: req.query.poster});
 });
 
 app.get('/odorblocker', function(req, res) {

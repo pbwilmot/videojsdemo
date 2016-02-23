@@ -51,18 +51,16 @@ var Ads = function(adTag, autoplay) {
   }
 };
 
-// Ads.prototype.SAMPLE_AD_TAG = '//svastx.moatads.com/buzzstartervpaid67711111384/Buzzstarter128413474.xml';
-Ads.prototype.SAMPLE_AD_TAG = '';
+Ads.prototype.SAMPLE_AD_TAG = '//svastx.moatads.com/buzzstartervpaid67711111384/Buzzstarter128413474.xml';
+// Ads.prototype.SAMPLE_AD_TAG = '';
 
 Ads.prototype.init = function() {
   console.log('init called');
   this.player.ima.initializeAdDisplayContainer();
-  if (this.adTagInput.value == '') {
+  if (this.adTag.value == '') {
     this.log('Error: no ad tag specified.  Using default tag');
-    this.player.ima.setContent(null, this.adTag || this.SAMPLE_AD_TAG, true);
-  } else {
-    this.player.ima.setContent(null, this.adTagInput.value, true);
   }
+  this.player.ima.setContent(null, this.adTag || this.SAMPLE_AD_TAG, true);
   this.player.ima.requestAds();
   this.player.play();
 };

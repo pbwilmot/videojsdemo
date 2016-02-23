@@ -6,7 +6,8 @@ html
     link(rel='stylesheet', href='/static/style/videojs.ads.css')
     link(rel='stylesheet', href='/static/style/videojs.ima.css')
   body
-    #content_video
+    video#content_video.video-js.vjs-default-skin(poster='#{poster}', controls='', preload='auto', style='width:100%; height:100vh')
+      source(src='//da2hw5uyqeo5b.cloudfront.net/blank.mp4', type='video/mp4')
     script(src='//vjs.zencdn.net/5.3/video.min.js')
     script(src='//imasdk.googleapis.com/js/sdkloader/ima3.js')
     script(src='static/javascript/videojs.ads.js')
@@ -14,4 +15,3 @@ html
     script(src='static/javascript/ads.js')
     script(type='text/javascript').
       var ad = new Ads('#{tag}', '#{autoplay}')
-
