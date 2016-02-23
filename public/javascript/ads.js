@@ -1,14 +1,9 @@
+var Ads = function(adTag, autoplay) {
 
-var Ads = function() {
-
+  console.log('AdManager created w/ tag: ' + adTag + ' : autoplay :' + autoplay );
+  this.adTag = adTag;
+  this.autoplay = autoplay;
   this.player = videojs('content_video');
-
-  this.adTagInput = document.getElementById('tagInput');
-  this.sampleAdTag = document.getElementById('sampleAdTag');
-  this.sampleAdTag.addEventListener(
-      'click',
-      this.bind(this, this.onSampleAdTagClick_),
-      false);
 
   // Remove controls from the player on iPad to stop native controls from stealing
   // our click
@@ -27,7 +22,6 @@ var Ads = function() {
       navigator.userAgent.match(/Android/i)) {
     startEvent = 'tap';
   }
-  this.player.one(startEvent, this.bind(this, this.init));
 
   this.options = {
     id: 'content_video'
@@ -48,18 +42,25 @@ var Ads = function() {
   this.player.ima(
       this.options,
       this.bind(this, this.adsManagerLoadedCallback));
+
+  if(this.autoplay == "true") {
+    console.log('Autoplay starting');
+    this.init();
+  } else {
+    this.player.one(startEvent, this.bind(this, this.init));
+  }
 };
 
 Ads.prototype.SAMPLE_AD_TAG = '//svastx.moatads.com/buzzstartervpaid67711111384/Buzzstarter128413474.xml';
+// Ads.prototype.SAMPLE_AD_TAG = '';
 
 Ads.prototype.init = function() {
+  console.log('init called');
   this.player.ima.initializeAdDisplayContainer();
-  if (this.adTagInput.value == '') {
+  if (this.adTag.value == '') {
     this.log('Error: no ad tag specified.  Using default tag');
-    this.player.ima.setContent(null, this.SAMPLE_AD_TAG, true);
-  } else {
-    this.player.ima.setContent(null, this.adTagInput.value, true);
   }
+  this.player.ima.setContent(null, this.adTag || this.SAMPLE_AD_TAG, true);
   this.player.ima.requestAds();
   this.player.play();
 };
