@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/static/style/setup/style.css">
 	</head>
 	<body>
-		<div class="container">
+		<div class="container" id="setup-container">
 			<nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -36,7 +36,7 @@
                 		SETUP
                 		<span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <!-- <ul class="dropdown-menu">
                 	<form id="setup-form">
 	                	<li>
 		                	<label for="type">Vine</label>
@@ -66,13 +66,50 @@
 	                	</li>
 	                  <li><button value="submit" class="btn btn-block btn-primary	">SUBMIT</button></li>
                 	</form>
-                </ul>
+                </ul> -->
               </li>
             </ul>
           </div>
         </div>
       </nav>
 		</div>
+    <div class="container" id="setup">
+      <form id="setup-form">
+        <ul>
+          <li>
+            <label for="type">Vine</label>
+            <input class="choose-type" name="type" value="VINE" type="radio" />
+            <label for="type">Youtube</label>
+            <input class="choose-type" name="type" value="YOUTUBE" type="radio" />
+          </li>
+          <li id="vine" class="li-type">
+            Vine Url
+            <input name=src value="" class="form-control" />
+            Auto Play
+            <input type="radio" name="autoplay" value="Yes">Yes
+            <input type="radio" name="autoplay" value="No"> No
+            Auto close
+            <input type="radio" name="autoclose" value="Yes">Yes
+            <input type="radio" name="autoclose" value="No"> No
+            Auto mute
+            <input type="radio" name="automute" value="Yes">Yes
+            <input type="radio" name="automute" value="No"> No
+          </li>
+          <li id="youtube" class="li-type">
+            <label for="src">Youtube src</label>
+            <input name=src value="" class="form-control" />
+            Auto Play
+            <input type="radio" name="autoplay" value="Yes">Yes
+            <input type="radio" name="youtube[autoplay]" value="No"> No
+          </li>
+          <li>
+            <button value="submit" class="btn btn-block btn-primary">
+              SUBMIT
+            </button>
+          </li>
+        </ul>
+      </form>
+    </div>
 		<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 		<script src="static/javascript/controllers/setup.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
