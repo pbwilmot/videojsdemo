@@ -32,4 +32,11 @@ app.get('/crossdomain.xml', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
 });
 
+app.get('/innovidDesktop', function(req, res) {
+	res.sendFile(path.join(__dirname + '/innovid_desktop.html'));
+});
+
+app.get('/innovidmobile', function(req, res) {
+	res.sendFile(path.join(__dirname + '/innovid_mobile.html'));
+});
 app.listen(process.env.PORT || 8080);
