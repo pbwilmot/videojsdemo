@@ -43,5 +43,11 @@ $('.choose-type').on('click', function() {
 $('#setup-form').submit(function(e) {
 	e.preventDefault();
 	query = $('#setup-form input').not('[value=""]').serialize();
-	console.log(query);
+	$.ajax({
+  	url: "/",
+  	context: document.body
+  }).done(function( data ) {
+      console.log(data);
+    });
+
 });

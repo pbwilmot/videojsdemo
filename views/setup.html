@@ -36,37 +36,6 @@
                 		SETUP
                 		<span class="caret"></span>
                 </a>
-                <!-- <ul class="dropdown-menu">
-                	<form id="setup-form">
-	                	<li>
-		                	<label for="type">Vine</label>
-		            			<input class="choose-type" name="type" value="VINE" type="radio" />
-		            			<label for="type">Youtube</label>
-		            			<input class="choose-type" name="type" value="YOUTUBE" type="radio" />
-		                </li>
-                		<li id="vine" class="li-type">
-                			Vine Url
-	                		<input name=src value="" class="form-control" />
-	                		Auto Play
-	                		<input type="radio" name="autoplay" value="Yes">Yes
-	                		<input type="radio" name="autoplay" value="No"> No
-	                		Auto close
-	                		<input type="radio" name="autoclose" value="Yes">Yes
-	                		<input type="radio" name="autoclose" value="No"> No
-	                		Auto mute
-	                		<input type="radio" name="automute" value="Yes">Yes
-	                		<input type="radio" name="automute" value="No"> No
-                		</li>
-	                	<li id="youtube" class="li-type">
-	                		<label for="src">Youtube src</label>
-	                		<input name=src value="" class="form-control" />
-	                		Auto Play
-	                		<input type="radio" name="autoplay" value="Yes">Yes
-	                		<input type="radio" name="youtube[autoplay]" value="No"> No
-	                	</li>
-	                  <li><button value="submit" class="btn btn-block btn-primary	">SUBMIT</button></li>
-                	</form>
-                </ul> -->
               </li>
             </ul>
           </div>
@@ -81,6 +50,8 @@
             <input class="choose-type" name="type" value="VINE" type="radio" />
             <label for="type">Youtube</label>
             <input class="choose-type" name="type" value="YOUTUBE" type="radio" />
+            <label for="type">TWITCH</label>
+            <input class="choose-type" name="type" value="TWITCH" type="radio" />
           </li>
           <li id="vine" class="li-type">
             Vine Url
@@ -101,6 +72,13 @@
             Auto Play
             <input type="radio" name="autoplay" value="Yes">Yes
             <input type="radio" name="youtube[autoplay]" value="No"> No
+          </li>
+          <li id="twitch" class="li-type">
+            <label for="src">Twitch src</label>
+            <input name=src class="form-control" />
+            Auto Play
+            <input type="radio" name="autoplay" value="Yes">Yes
+            <input type="radio" name="autoplay" value="No"> No
           </li>
           <li>
             <button value="submit" class="btn btn-block btn-primary">
