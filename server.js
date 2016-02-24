@@ -24,4 +24,8 @@ app.get('/womenshealthpost', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/womenshealthpost.html'));
 });
 
+app.get('/techcrunch', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/techcrunch.html'));
+});
+
 app.listen(process.env.PORT || 8080);
