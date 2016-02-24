@@ -48,6 +48,12 @@ GET  /?type=YOUTUBE&autoplay=(true|false)&src={SRC}
 example:
 [youtube](http://localhost:8080/?type=YOUTUBE&src=http%3A%2F%2Fwww.youtube.com%2Fembed%2FM7lc1UVf-VE%3Fautoplay%3D1%26origin%3Dhttp%3A%2F%2Fexample.com%26controls%3D0)
 
+special case for youtube to load into a full sized container (style="height:100vh")
+```
+<iframe src="http://localhost:8080/?type=YOUTUBE&src=M7lc1UVf-VE&autoplay=false&automute=true" frameborder="0" style="height:100vh" width="100%"></iframe>
+
+```
+
 
 ```
 GET  /?type=VINE&autoplay=(true|false)&src={SRC}
