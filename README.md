@@ -1,6 +1,6 @@
 ## About:
 
-MediaKit for showcasing	
+MediaKit for showcasing
  embedded video ad products
 
 
@@ -33,8 +33,9 @@ note: it is highly recommended to encode the src query parameter to html query f
 ```
 GET  /?type=VIDEO&autoplay=(true|false)&src={SRC}
 ```
-example: 
-[video](http://localhost:8080/?type=VIDEO&src=http%3A%2F%2Flocalhost%3A8080%2Fjade%3Fautoplay%3Dfalse%26tag%3Dhttps%3A%2F%2Fsvastx.moatads.com%2Fbuzzstartervpaid67711111384%2FBuzzstarter128413474.xml%26poster%3Dhttps%3A%2F%2Fda2hw5uyqeo5b.cloudfront.net%2Fold-spice-sweat-defense-thumb.png)
+example:
+[video](http://localhost:8080/?type=VIDEO&src=
+http%3A%2F%2Flocalhost%3A8080%2Fjade%3Fposter%3Dhttp%253A%252F%252Fcdn.rsvlts.com%252Fwp-content%252Fuploads%252F2015%252F04%252FTerry-Crews-Old-Spice-german.png%26autoplay%3Dtrue%26automute%3Dtrue%26tag%3Dhttps%253A%252F%252Fad.doubleclick.net%252Fddm%252Fpfadx%252FN30602.1355588DOUBLECLICK.COMB57%252FB9159337.124494810%253Bsz%253D0x0%253Bord%253D%255Btimestamp%255D%253Bdc_lat%253D%253Bdc_rdid%253D%253Btag_for_child_directed_treatment%253D%253Bdcmt%253Dtext%252Fxml%253Bdc_vast%253D3%0A)
 
 ```
 GET  /?type=TWITCH&autoplay=(true|false)&src={SRC}
@@ -63,7 +64,7 @@ example:
 
 
 
-### Userful links 
+### Userful links
 
 service to encode/decode html:
 
