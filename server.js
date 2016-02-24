@@ -30,4 +30,11 @@ app.get('/youtube', function(req, res) {
 	res.sendFile(path.join(__dirname + '/youtube.html'));
 });
 
+app.get('/innovidDesktop', function(req, res) {
+	res.sendFile(path.join(__dirname + '/innovid_desktop.html'));
+});
+
+app.get('/innovidmobile', function(req, res) {
+	res.sendFile(path.join(__dirname + '/innovid_mobile.html'));
+});
 app.listen(process.env.PORT || 8080);
