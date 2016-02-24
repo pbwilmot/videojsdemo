@@ -75,12 +75,8 @@ function addIFrame(parent, source, adSettings) {
   iframe.frameBorder = "0";
   iframe.style.width = "100%";
   iframe.style.height = "100vh";
-  // iframe.width = "300px";
-  // iframe.height = "300px";
   iframe.id = "randomid";
-  // iframe.setAttribute("src", src);
   iframe.src = source;
-  // iframe.onload = BuzzIFrameLoaded(iframe, adSettings);
   parent.appendChild(iframe);
 }
 
@@ -122,8 +118,6 @@ function makeAd(adDiv, type, source, adSettings, options) {
         function() {loadTwitch(source);}
       );
       return;
-    // Fall through to youtube and add the iframe
-    break;
   }
   src = source;
   addIFrame(adDiv, source, adSettings);
@@ -132,7 +126,6 @@ function makeAd(adDiv, type, source, adSettings, options) {
 function waitUntil(check,onComplete,delay,timeout) {
   // if the check returns true, execute onComplete immediately
   if (check()) {
-      debugger;
       onComplete();
       return;
   }
@@ -176,23 +169,13 @@ function loadjscssfile(filename, filetype) {
     var options = {
         autoplay: adSettings.autoplay,
         muted: adSettings.automute,
-        channel: channel       
+        channel: channel
     };
     var tplayer = new Twitch.Player(adDiv, options);
-    adDiv.children[0].style = "height:100vh; width: 100%";
-  }
-
-  function waitForAvailable(source) {
-    if(typeof Twitch == "object"){
-     loadTwitch(source);
-    } else {
-      window.setTimeout(waitForAvailable(source), 100);
+    if (adDiv.children.length > 0) {
+      adDiv.children[0].style = "height:100vh; width: 100%";
     }
-
   }
-
-  
-
 
 /*
   function activateDiv(adDiv) {
@@ -258,14 +241,12 @@ function loadjscssfile(filename, filetype) {
     }
   }
 
-  var player;
   function onYouTubeIframeAPIReady() {
-    console.log('BOOP ' + src);
+    var player;
     player = new YT.Player(adDiv, {
       videoId: src,
       events: {
         'onReady': function(event) {
-          console.log(event);
           if(adSettings.autoplay) {
             player.playVideo();
           }
@@ -277,7 +258,5 @@ function loadjscssfile(filename, filetype) {
     });
   }
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-return {
-  "BuzzAdManager": BuzzAdManager
-};
+  return {"BuzzAdManager": BuzzAdManager};
 }(window));

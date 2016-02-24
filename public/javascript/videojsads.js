@@ -4,7 +4,6 @@ var Ads = function(adTag, autoplay, automute) {
   this.adTag = adTag;
   this.autoplay = autoplay;
   this.automute = automute;
-  console.log(automute);
   this.player = videojs('content_video');
 
   // Remove controls from the player on iPad to stop native controls from stealing
@@ -58,12 +57,11 @@ var Ads = function(adTag, autoplay, automute) {
 };
 
 Ads.prototype.SAMPLE_AD_TAG = '//svastx.moatads.com/buzzstartervpaid67711111384/Buzzstarter128413474.xml';
-// Ads.prototype.SAMPLE_AD_TAG = '';
 
 Ads.prototype.init = function() {
   console.log('init called');
   this.player.ima.initializeAdDisplayContainer();
-  if (this.adTag.value == '') {
+  if (this.adTag.value === '') {
     this.log('Error: no ad tag specified.  Using default tag');
   }
   this.player.ima.setContent(null, this.adTag || this.SAMPLE_AD_TAG, true);
