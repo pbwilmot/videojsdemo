@@ -3,6 +3,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
 
 var VINE_SDK_PATH = "https://platform.vine.co/static/scripts/embed.js";
 var YOUTUBE_API = "https://www.youtube.com/iframe_api";
+var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
 
 var AD_TYPES = {
   VIDEO: 'VIDEO',
@@ -112,6 +113,15 @@ function makeAd(adDiv, type, source, adSettings, options) {
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.TWITCH:
+
+      loadjscssfile(TWITCH_API,"js");
+      src = source;
+      waitUntil(
+        function() {
+        return typeof Twitch == "object";},
+        function() {loadTwitch(source);}
+      );
+      return;
     // Fall through to youtube and add the iframe
     break;
   }
@@ -119,7 +129,34 @@ function makeAd(adDiv, type, source, adSettings, options) {
   addIFrame(adDiv, source, adSettings);
 }
 
+function waitUntil(check,onComplete,delay,timeout) {
+  // if the check returns true, execute onComplete immediately
+  if (check()) {
+      debugger;
+      onComplete();
+      return;
+  }
+
+  if (!delay) delay=100;
+
+  var timeoutPointer;
+  var intervalPointer=setInterval(function () {
+      if (!check()) return; // if check didn't return true, means we need another check in the next interval
+
+      // if the check returned true, means we're done here. clear the interval and the timeout and execute onComplete
+      clearInterval(intervalPointer);
+      if (timeoutPointer) clearTimeout(timeoutPointer);
+      onComplete();
+  },delay);
+  // if after timeout milliseconds function doesn't return true, abort
+  if (timeout) timeoutPointer=setTimeout(function () {
+      clearInterval(intervalPointer);
+  },timeout);
+}
+
+
 function loadjscssfile(filename, filetype) {
+  console.log(filename);
   var fileref;
     if (filetype == "js") { //if filename is a external JavaScript file
       fileref = document.createElement('script');
@@ -134,6 +171,27 @@ function loadjscssfile(filename, filetype) {
     if (typeof fileref != "undefined")
       document.getElementsByTagName("head")[0].appendChild(fileref);
   }
+
+  function loadTwitch(channel){
+    var options = {
+        autoplay: adSettings.autoplay,
+        muted: adSettings.automute,
+        channel: channel       
+    };
+    var tplayer = new Twitch.Player(adDiv, options);
+    adDiv.children[0].style = "height:100vh; width: 100%";
+  }
+
+  function waitForAvailable(source) {
+    if(typeof Twitch == "object"){
+     loadTwitch(source);
+    } else {
+      window.setTimeout(waitForAvailable(source), 100);
+    }
+
+  }
+
+  
 
 
 /*
