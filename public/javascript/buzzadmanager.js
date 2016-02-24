@@ -81,6 +81,7 @@ function addIFrame(parent, source, adSettings) {
 }
 
 function makeAd(adDiv, type, source, adSettings, options) {
+  //parent.postMessage("yt::playing", "*");
   switch (type) {
     case AD_TYPES.YOUTUBE:
       loadjscssfile(YOUTUBE_API, "js");
@@ -241,8 +242,8 @@ function loadjscssfile(filename, filetype) {
     }
   }
 
+  var player;
   function onYouTubeIframeAPIReady() {
-    var player;
     player = new YT.Player(adDiv, {
       videoId: src,
       events: {
@@ -253,9 +254,66 @@ function loadjscssfile(filename, filetype) {
           if(adSettings.automute) {
             player.mute();
           }
-        }
+        },
+        'onStateChange': onPlayerStateChange,
+        'onError': onPlayerError
       }
     });
+  }
+
+  function onPlayerError(event) {
+    // TODO: error handling
+    parent.postMessage("yt::error" + event.data);
+  }
+
+  var rcvStates = {
+    thirdquartile: false,
+    midpoint: false,
+    firstquartile: false
+  };
+  function pollGetCurrentTime() {
+    var progress = player.getCurrentTime() / player.getDuration();
+    console.log(progress);
+    if (progress >= 1) {
+      parent.postMessage("yt::complete", "*");
+      return;
+    }
+    else if (progress >= 0.75 && !rcvStates.thirdquartile) {
+      parent.postMessage("yt::thirdquartile", "*");
+      rcvStates.thirdquartile = true;
+    }
+    else if (progress >= 0.5 && !rcvStates.midpoint) {
+      parent.postMessage("yt::midpoint", "*");
+      rcvStates.midpoint = true;
+    }
+    else if (progress >= 0.25 && !rcvStates.firstquartile) {
+      parent.postMessage("yt::firstquartile", "*");
+      rcvStates.firstquartile = true;
+    }
+
+    window.setTimeout(pollGetCurrentTime, 1000);
+  }
+
+  function onPlayerStateChange(event) {
+    console.log(event.data);
+    switch(event.data) {
+      case YT.PlayerState.PLAYING:
+        if (player.getCurrentTime() > 0) {
+          parent.postMessage("yt::resume", "*");
+        } else {
+          parent.postMessage("yt::playing", "*");
+        }
+        pollGetCurrentTime();
+        break;
+      case YT.PlayerState.PAUSED:
+        parent.postMessage("yt::paused", "*");
+        break;
+      case YT.PlayerState.ENDED:
+        parent.postMessage("yt::ended", "*");
+        break;
+      default:
+        console.log('unrecognized state');
+    }
   }
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};

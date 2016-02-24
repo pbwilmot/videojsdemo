@@ -12,6 +12,10 @@ app.get('/', function(req, res) {
 	res.render('index');
 });
 
+app.get('/testpage', function(req, res) {
+	res.sendfile('public/testpage.html');
+});
+
 app.get('/jade', function(req, res) {
   res.render('video', { query: req.query });
 });
