@@ -32,4 +32,8 @@ app.get('/tcpost', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/tcpost.html'));
 });
 
+app.get('/aom', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/aom.html'));
+});
+
 app.listen(process.env.PORT || 8080);
