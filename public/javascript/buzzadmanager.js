@@ -22,7 +22,7 @@ var BuzzAdManager = function(id, opts) {
   console.log(JSON.stringify(options));
   adSettings = makeAdSettings(options);
   console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
-  makeAd(adDiv, options.type, options.src, adSettings);
+  makeAd(adDiv, options.type, options.src, adSettings, options);
   // activateDiv(adDiv);
 };
 
@@ -83,7 +83,7 @@ function addIFrame(parent, source, adSettings) {
   parent.appendChild(iframe);
 }
 
-function makeAd(adDiv, type, source, adSettings) {
+function makeAd(adDiv, type, source, adSettings, options) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
       loadjscssfile(YOUTUBE_API, "js");
@@ -91,23 +91,28 @@ function makeAd(adDiv, type, source, adSettings) {
       src = source;
       return;
     case AD_TYPES.VINE:
-    // Load Vine SDK
-    loadjscssfile(VINE_SDK_PATH, "js");
-    if(adSettings.automute) {
-      //TODO only add this if it doesn't already exist
-      if(source.indexOf('?') > 0) {
-        source += '&audio=1';
-      } else {
-        source += '?audio=1';
+      // Load Vine SDK
+      loadjscssfile(VINE_SDK_PATH, "js");
+
+      // set vine audio
+      var audio = "1";
+      if (typeof options.mute === 'undefined' && adSettings.automute) {
+        audio = "0";
       }
-    }
+      source = updateQueryStringParams(source, "audio", audio);
+
+      var autoplay = "1";
+      if (!adSettings.autoplay) {
+        autoplay = "0";
+      }
+      source = updateQueryStringParams(source, "autoplay", autoplay);
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.TWITCH:
-    // Fall through to youtube and add the iframe          
+    // Fall through to youtube and add the iframe
     break;
   }
   src = source;
