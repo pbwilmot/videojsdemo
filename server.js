@@ -24,8 +24,12 @@ app.get('/womenshealthpost', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/womenshealthpost.html'));
 });
 
-app.get('/techcrunch', function(req, res) {
-    res.sendFile(path.join(__dirname + '/views/techcrunch.html'));
+app.get('/tc', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/tc.html'));
+});
+
+app.get('/tcpost', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/tcpost.html'));
 });
 
 app.listen(process.env.PORT || 8080);
