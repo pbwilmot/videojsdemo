@@ -1,8 +1,10 @@
-var Ads = function(adTag, autoplay) {
+var Ads = function(adTag, autoplay, automute) {
 
-  console.log('AdManager created w/ tag: ' + adTag + ' : autoplay :' + autoplay );
+  console.log('AdManager created w/ tag: ' + adTag + ' : autoplay :' + autoplay + ' : automute :' + automute);
   this.adTag = adTag;
   this.autoplay = autoplay;
+  this.automute = automute;
+  console.log(automute);
   this.player = videojs('content_video');
 
   // Remove controls from the player on iPad to stop native controls from stealing
@@ -43,6 +45,10 @@ var Ads = function(adTag, autoplay) {
       this.options,
       this.bind(this, this.adsManagerLoadedCallback));
 
+  if(this.automute == "true") {
+    console.log('Begin muted');
+    this.player.muted(true);
+  }
   if(this.autoplay == "true") {
     console.log('Autoplay starting');
     this.init();
@@ -83,8 +89,8 @@ Ads.prototype.onAdEvent = function(event) {
 };
 
 Ads.prototype.log = function(message) {
-  console.log(message)
-}
+  console.log(message);
+};
 
 Ads.prototype.bind = function(thisObj, fn) {
   return function() {
