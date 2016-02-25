@@ -110,7 +110,6 @@ function makeAd(adDiv, type, source, adSettings, options) {
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.TWITCH:
-
       loadjscssfile(TWITCH_API,"js");
       src = source;
       waitUntil(
@@ -166,17 +165,75 @@ function loadjscssfile(filename, filetype) {
       document.getElementsByTagName("head")[0].appendChild(fileref);
   }
 
+  var tplayer;
+  var twitchPlaytime = 0;
+  var prevTwitchPlaytime = 0;
+  var paused = false;
+  var inPrerollAd = false;
+  var adTime = 0;
   function loadTwitch(channel){
     var options = {
-        autoplay: adSettings.autoplay,
+        autoplay: false,
         muted: adSettings.automute,
         channel: channel
     };
-    var tplayer = new Twitch.Player(adDiv, options);
+    tplayer = new Twitch.Player(adDiv, options);
     if (adDiv.children.length > 0) {
       adDiv.children[0].style = "height:100vh; width: 100%";
     }
+
+    tplayer.addEventListener("play", twitchPlayEventHandler);
+    tplayer.addEventListener("pause", twitchPauseEventHandler);
+    tplayer.addEventListener("ended", twitchEndedEventHandler);
+    tplayer.addEventListener("online", twitchOnlineEventHandler);
+    tplayer.addEventListener("offline", twitchOfflineEventHandler);
+    tplayer.addEventListener("adstart", twitchAdStartEventHandler);
+    tplayer.addEventListener("adend", twitchAdEndEventHandler);
+
+    if (adSettings.autoplay) {
+      tplayer.play();
+    }
   }
+
+
+  function twitchPlayEventHandler() {
+    paused = false;
+    pollTwitchPlayTime(true);
+    if (twitchPlaytime > 0) {
+      parent.postMessage("twitch::resume", "*");
+    } else {
+      parent.postMessage("twitch::playing", "*");
+    }
+  }
+  function twitchPauseEventHandler() {
+    //if (!inPrerollAd) {
+    //  twitchPlaytime += tplayer.getCurrentTime();
+    //}
+    parent.postMessage("twitch::pause event handler::" + tplayer.getCurrentTime(), "*");
+    paused = true;
+    parent.postMessage("twitch::paused", "*");
+  }
+  function twitchEndedEventHandler() {
+    parent.postMessage("twitch::ended", "*");
+  }
+  function twitchOnlineEventHandler() {
+    console.log('twitch video/stream online');
+  }
+  function twitchOfflineEventHandler() {
+    parent.postMessage("twitch::error", "*");
+  }
+  function twitchAdStartEventHandler() {
+    parent.postMessage("twitch::adstart", "*");
+    inPrerollAd = true;
+    adTime = tplayer.getCurrentTime();
+  }
+  function twitchAdEndEventHandler() {
+    parent.postMessage("twitch::adend", "*");
+    inPrerollAd = false;
+    adTime += (tplayer.getCurrentTime() - adTime);
+    pollTwitchPlayTime(false);
+  }
+
 
 /*
   function activateDiv(adDiv) {
@@ -267,13 +324,13 @@ function loadjscssfile(filename, filetype) {
   }
 
   var rcvStates = {
+    complete: false,
     thirdquartile: false,
     midpoint: false,
     firstquartile: false
   };
   function pollGetCurrentTime() {
     var progress = player.getCurrentTime() / player.getDuration();
-    console.log(progress);
     if (progress >= 1) {
       parent.postMessage("yt::complete", "*");
       return;
@@ -294,6 +351,39 @@ function loadjscssfile(filename, filetype) {
     window.setTimeout(pollGetCurrentTime, 1000);
   }
 
+  function pollTwitchPlayTime(restart){
+    if (!restart){
+      twitchPlaytime = tplayer.getCurrentTime() + prevTwitchPlaytime - adTime;
+    }
+    if (paused || inPrerollAd) {
+      // kill poll when paused, save playtime
+      prevTwitchPlaytime = twitchPlaytime;
+      return;
+    }
+
+    var windowTime = 30;
+    var progress = twitchPlaytime / windowTime;
+    if (progress >= 1 && !rcvStates.complete) {
+      parent.postMessage("twitch::complete", "*");
+      rcvStates.complete = true;
+    }
+    else if (progress >= 0.75 && !rcvStates.thirdquartile) {
+      parent.postMessage("twitch::thirdquartile", "*");
+      rcvStates.thirdquartile = true;
+    }
+    else if (progress >= 0.5 && !rcvStates.midpoint) {
+      parent.postMessage("twitch::midpoint", "*");
+      rcvStates.midpoint = true;
+    }
+    else if (progress >= 0.25 && !rcvStates.firstquartile) {
+      parent.postMessage("twitch::firstquartile", "*");
+      rcvStates.firstquartile = true;
+    }
+
+    setTimeout(function(){pollTwitchPlayTime(false);}, 1000);
+    //setTimeout(pollTwitchPlayTime, 1000);
+
+  }
   function onPlayerStateChange(event) {
     console.log(event.data);
     switch(event.data) {
