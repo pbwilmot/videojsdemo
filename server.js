@@ -9,11 +9,11 @@ app.use(cors());
 app.use('/static', express.static('public'));
 
 app.get('/', function(req, res) {
-	res.render('index');
+  res.render('index');
 });
 
-app.get('/testpage', function(req, res) {
-	res.sendfile('public/testpage.html');
+app.get('/setup', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/setup.html'));
 });
 
 app.get('/jade', function(req, res) {
@@ -25,7 +25,7 @@ app.get('/womenshealth', function(req, res) {
 });
 
 app.get('/womenshealthpost', function(req, res) {
-    res.sendFile(path.join(__dirname + '/views/womenshealthpost.html'));
+  res.render('womenshealthpost', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/tc', function(req, res) {
@@ -33,11 +33,62 @@ app.get('/tc', function(req, res) {
 });
 
 app.get('/tcpost', function(req, res) {
-    res.sendFile(path.join(__dirname + '/views/tcpost.html'));
+  res.render('tcpost');
+});
+
+app.get('/test', function(req, res) {
+  res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+});
+
+app.get('/test/post/:id', function(req, res) {
+  var route = "";
+  switch (req.params.id) {
+    case 'female-lifestyle':
+      route = 'womenshealthpost';
+      break;
+    case 'male-lifestyle':
+      route = 'tcpost';
+      break;
+    default:
+      return
+  };
+  res.render(route, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/aom', function(req, res) {
-    res.sendFile(path.join(__dirname + '/views/aom.html'));
+  res.sendFile(path.join(__dirname + '/views/aom.html'));
+});
+
+app.get('/aompost', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/aompost.html'));
+});
+
+app.get('/cnn', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/cnn.html'));
+});
+
+app.get('/cnnpost', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/cnnpost.html'));
+});
+
+app.get('/mt', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/mt.html'));
+});
+
+app.get('/mtpost', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/mtpost.html'));
+});
+
+app.get('/kotaku', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/kotaku.html'));
+});
+
+app.get('/kotakupost', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/kotakupost.html'));
+});
+
+app.get('/crossdomain.xml', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
 });
 
 app.listen(process.env.PORT || 8080);

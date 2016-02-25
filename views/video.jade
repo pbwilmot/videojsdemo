@@ -15,3 +15,51 @@ html
     script(src='/static/javascript/videojsads.js')
     script(type='text/javascript').
       var ad = new Ads('#{query.tag}', '#{query.autoplay}', '#{query.automute}')
+
+  form#setup-form
+    ul
+      li
+        label(for='type') Vine
+        input.choose-type(name='type', value='VINE', type='radio')
+        label(for='type') Youtube
+        input.choose-type(name='type', value='YOUTUBE', type='radio')
+        label(for='type') twitch
+        input.choose-type(name='type', value='YOUTUBE', type='radio')  
+      li#vine.li-type
+        | Vine Url
+        input.form-control(name='src', value='')
+        |             Auto Play
+        input(type='radio', name='autoplay', value='Yes')
+        | Yes
+        input(type='radio', name='autoplay', value='No')
+        |  No
+        |             Auto close
+        input(type='radio', name='autoclose', value='Yes')
+        | Yes
+        input(type='radio', name='autoclose', value='No')
+        |  No
+        |             Auto mute
+        input(type='radio', name='automute', value='Yes')
+        | Yes
+        input(type='radio', name='automute', value='No')
+        |  No
+      li#youtube.li-type
+        label(for='src') Youtube src
+        input.form-control(name='src', value='')
+        |             Auto Play
+        input(type='radio', name='autoplay', value='Yes')
+        | Yes
+        input(type='radio', name='youtube[autoplay]', value='No')
+        |  No
+      li#twitch.li-type
+        label(for='src') twitch channel name
+        input.form-control(name='src', value='')
+        |             Auto Play
+        input(type='radio', name='autoplay', value='Yes')
+        | Yes
+        input(type='radio', name='autoplay', value='No')
+        |  No  
+      li
+        button.btn.btn-block.btn-primary(value='submit')
+          | SUBMIT     
+    

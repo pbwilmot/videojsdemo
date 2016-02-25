@@ -1,0 +1,83 @@
+html
+  head
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css")
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/static/style/setup/style.css')
+  body
+    nav
+      .nav-wrapper
+        a.brand-logo(href='#') Buzzstarter
+    .row
+
+      #setup.container.col.m3
+        .card
+          .card-content
+            form#setup-form
+              .input-field.col.s12
+                select#verticle(required)
+                  option(value='', disabled='', selected='') Choose your option
+                  option(value='male-lifestyle') Male Lifestyle
+                  option(value='female-lifestyle') Female Lifestyle
+                  option(value='business') Business
+                  option(value='health-wellness') Health & Wellness
+                  option(value='tech') Tech
+                  option(value='entertainment') Entertainment
+                  option(value='style-beauty') Style & Beauty
+                  option(value='news') News
+                  option(value='foods') Foods
+                  option(value='auto') Auto
+                  option(value='gaming') Gaming
+                  option(value='multi-cultural') Multi-Cultural
+                label VERTICLE
+              
+              ul.collapsible(data-collapsible='accordion')
+                li
+                  .collapsible-header
+                    input#twitch-type.choose-type(name='type', type='radio' value="TWITCH")
+                    | TWITCH
+                  .collapsible-body
+                    .input-field.col.s12
+                      input#twitch(name='src' type='text')
+                      label(for='twitch') TWITCH USERNAME
+                      
+                    //- .input-field.col.s12
+                    //-   | AUTOPLAY
+                    //-   input#yes(name='autoplay', type='radio' value="yes")
+                    //-   label(for='yes') yes
+                    //-   input#no(name='autoplay', type='radio' value="no")
+                    //-   label(for='no') no
+                li
+                  .collapsible-header
+                    input#youtube-type.choose-type(name='type', type='radio' value="YOUTUBE")
+                    | YOUTUBE
+                  .collapsible-body
+                    .input-field
+                      //- input#youtube(name='src' type='text')
+                      label(for='youtube') YOUTUBE URL
+                    //- |             Auto Play
+                    //- input(type='radio', name='autoplay', value='Yes')
+                    //- | Yes
+                    //- input(type='radio', name='autoplay', value='No')
+                    //- |  No
+                li
+                  .collapsible-header
+                    | VINE
+                  .collapsible-body
+                    label(for='twitch') TWITCH USERNAME
+                    //- input#twitch(name='src')
+                    |             Auto Play
+                    input(type='radio', name='autoplay', value='Yes')
+                    | Yes
+                    input(type='radio', name='autoplay', value='No')
+                    |  No
+              .card-action
+                button.btn.waves-effect.waves-light(type='submit')
+                  | Submit
+
+      div#content.col.m9
+        .progress
+          .indeterminate
+    
+    script(src='https://code.jquery.com/jquery-2.1.2.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
+    script(src='static/javascript/controllers/setup.js')
