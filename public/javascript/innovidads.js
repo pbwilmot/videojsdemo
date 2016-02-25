@@ -85,10 +85,12 @@ var Ads = function(tag) {
   if (navigator.userAgent.match(/iPhone/i) ||
       navigator.userAgent.match(/iPad/i) ||
       navigator.userAgent.match(/Android/i)) {
+    console.log('Mobile device.  Setting StartEvent to be tap');
     startEvent = 'tap';
   }
 
   player.one(startEvent, function() {
+      console.log('Start Event found');
       player.ima.initializeAdDisplayContainer();
       player.ima.requestAds();
       player.play();
