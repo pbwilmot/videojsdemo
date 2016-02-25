@@ -1,4 +1,4 @@
-html
+shtml
   head
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
@@ -39,13 +39,18 @@ html
                     .input-field.col.s12
                       input#twitch(name='src' type='text')
                       label(for='twitch') TWITCH USERNAME
-                      
-                    //- .input-field.col.s12
-                    //-   | AUTOPLAY
-                    //-   input#yes(name='autoplay', type='radio' value="yes")
-                    //-   label(for='yes') yes
-                    //-   input#no(name='autoplay', type='radio' value="no")
-                    //-   label(for='no') no
+                    .input-field.col.s12
+                      | AUTO PLAY
+                      input#autoplaytrue(name='autoplay', type='radio' value="true")
+                      label(for='autoplaytrue') on
+                      input#autoplayfalse(name='autoplay', type='radio' value="false")
+                      label(for='autoplayfalse') off
+                    .input-field.col.s12
+                      | AUTO MUTE
+                      input#automutetrue(name='automute', type='radio' value="true")
+                      label(for='automutetrue') on
+                      input#automutefalse(name='automute', type='radio' value="false")
+                      label(for='automutefalse') off
                 li
                   .collapsible-header
                     input#youtube-type.choose-type(name='type', type='radio' value="YOUTUBE")
