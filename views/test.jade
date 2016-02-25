@@ -36,7 +36,7 @@ html
                     input#twitch-type.choose-type(name='type', type='radio' value="TWITCH")
                     | TWITCH
                   .collapsible-body
-                    .input-field
+                    .input-field.col.s12
                       input#twitch(name='src' type='text')
                       label(for='twitch') TWITCH USERNAME
                       
@@ -52,7 +52,7 @@ html
                     | YOUTUBE
                   .collapsible-body
                     .input-field
-                      input#youtube(name='src' type='text')
+                      //- input#youtube(name='src' type='text')
                       label(for='youtube') YOUTUBE URL
                     //- |             Auto Play
                     //- input(type='radio', name='autoplay', value='Yes')
@@ -64,7 +64,7 @@ html
                     | VINE
                   .collapsible-body
                     label(for='twitch') TWITCH USERNAME
-                    input#twitch(name='src')
+                    //- input#twitch(name='src')
                     |             Auto Play
                     input(type='radio', name='autoplay', value='Yes')
                     | Yes
