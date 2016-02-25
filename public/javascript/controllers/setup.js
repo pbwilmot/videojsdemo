@@ -42,12 +42,32 @@ $('.choose-type').on('click', function() {
 
 $('#setup-form').submit(function(e) {
 	e.preventDefault();
+	verticle = $('#verticle').val();
 	query = $('#setup-form input').not('[value=""]').serialize();
-	$.ajax({
-  	url: "/",
-  	context: document.body
-  }).done(function( data ) {
-      console.log(data);
-    });
-
+	var parent = document.getElementById('content');
+	url = 'http://localhost:8080/test/post/' + verticle + '/?' + query;
+	
+	if (document.getElementById('randomid')) {
+		parent = document.getElementById('randomid').contentWindow.document.getElementsByClassName('image-inner');	
+	}
+	else {
+		parent = document.getElementById('content');
+	}	
+	addIFrame(parent, url);
 });
+
+
+function addIFrame(parent, source, adSettings) {
+  var iframe = document.createElement('iframe');
+  iframe.frameBorder = "0";
+  iframe.style.width = "100%";
+  iframe.style.height = "100vh";
+  iframe.id = "randomid";
+  iframe.src = source;
+  if (parent.length) {
+  	parent[0].appendChild(iframe);	
+  }
+  else {
+  	parent.appendChild(iframe);	
+  }
+}

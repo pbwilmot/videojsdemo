@@ -25,7 +25,7 @@ app.get('/womenshealth', function(req, res) {
 });
 
 app.get('/womenshealthpost', function(req, res) {
-    res.sendFile(path.join(__dirname + '/views/womenshealthpost.html'));
+	res.render('womenshealthpost', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/tc', function(req, res) {
@@ -34,6 +34,25 @@ app.get('/tc', function(req, res) {
 
 app.get('/tcpost', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/tcpost.html'));
+});
+
+app.get('/test', function(req, res) {
+	res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+});
+
+app.get('/test/post/:id', function(req, res) {
+	var route = "";
+	switch (req.params.id) {
+		case 'female':
+			route = 'womenshealthpost';
+			break;
+		case 'male':
+			route = 'tcpost';
+			break;
+		default:
+			return
+	};
+	res.render(route, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/aom', function(req, res) {
