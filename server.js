@@ -43,7 +43,7 @@ app.get('/test', function(req, res) {
 app.get('/test/post/:id', function(req, res) {
 	var route = "";
 	switch (req.params.id) {
-		case 'female':
+		case 'female-lifestyle':
 			route = 'womenshealthpost';
 			break;
 		case 'male':
