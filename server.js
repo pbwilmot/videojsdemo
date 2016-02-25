@@ -83,6 +83,10 @@ app.get('/kotaku', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/kotaku.html'));
 });
 
+app.get('/kotakupost', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/kotakupost.html'));
+});
+
 app.get('/crossdomain.xml', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
 });
