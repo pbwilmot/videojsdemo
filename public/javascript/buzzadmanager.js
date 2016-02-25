@@ -81,7 +81,6 @@ function addIFrame(parent, source, adSettings) {
 }
 
 function makeAd(adDiv, type, source, adSettings, options) {
-  //parent.postMessage("yt::playing", "*");
   switch (type) {
     case AD_TYPES.YOUTUBE:
       loadjscssfile(YOUTUBE_API, "js");
@@ -206,9 +205,6 @@ function loadjscssfile(filename, filetype) {
     }
   }
   function twitchPauseEventHandler() {
-    //if (!inPrerollAd) {
-    //  twitchPlaytime += tplayer.getCurrentTime();
-    //}
     parent.postMessage("twitch::pause event handler::" + tplayer.getCurrentTime(), "*");
     paused = true;
     parent.postMessage("twitch::paused", "*");
@@ -381,8 +377,6 @@ function loadjscssfile(filename, filetype) {
     }
 
     setTimeout(function(){pollTwitchPlayTime(false);}, 1000);
-    //setTimeout(pollTwitchPlayTime, 1000);
-
   }
   function onPlayerStateChange(event) {
     console.log(event.data);
