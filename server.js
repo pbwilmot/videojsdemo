@@ -67,6 +67,10 @@ app.get('/cnn', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/cnn.html'));
 });
 
+app.get('/cnnpost', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/cnnpost.html'));
+});
+
 app.get('/crossdomain.xml', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
 });
