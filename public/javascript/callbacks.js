@@ -1,33 +1,39 @@
 window.addEventListener("message", handleEvent, false);
 
 function handleEvent(e){
-	switch(e.data) {
-		case 'yt::playing':
-			console.log("playing video"); 
+  switch(e.data.split('::')[1]) {
+		case 'playing':
+			console.log("playing video");
 			break;
-		case 'yt::resume':
-			console.log("resuming video"); 
+		case 'resume':
+			console.log("resuming video");
 			break;
-		case 'yt::paused':
-			console.log("video paused"); 
+		case 'paused':
+			console.log("video paused");
 			break;
-		case 'yt::ended':
-			console.log("video ended"); 
+		case 'ended':
+			console.log("video ended");
 			break;
-		case 'yt::complete':
-			console.log("video complete"); 
+		case 'complete':
+			console.log("video complete");
 			break;
-		case 'yt::thirdquartile':
-			console.log("third quartile"); 
+    case 'alladscompleted':
+      console.log("all ads completed");
+      break;
+    case 'click':
+      console.log("ad clicked");
+      break;
+		case 'thirdquartile':
+			console.log("third quartile");
 			break;
-		case 'yt::midpoint':
-			console.log("midpoint"); 
+		case 'midpoint':
+			console.log("midpoint");
 			break;
-		case 'yt::firstquartile':
-			console.log("first quartile"); 
+		case 'firstquartile':
+			console.log("first quartile");
 			break;
-		case 'yt::error':
-			console.log("video error"); 
+		case 'error':
+			console.log("video error");
 			break;
-	}
+  }
 }

@@ -36,6 +36,7 @@ var Ads = function(adTag, autoplay, automute) {
     google.ima.AdEvent.Type.LOADED,
     google.ima.AdEvent.Type.MIDPOINT,
     google.ima.AdEvent.Type.PAUSED,
+    google.ima.AdEvent.Type.RESUMED,
     google.ima.AdEvent.Type.STARTED,
     google.ima.AdEvent.Type.THIRD_QUARTILE
   ];
@@ -83,7 +84,38 @@ Ads.prototype.adsManagerLoadedCallback = function() {
 };
 
 Ads.prototype.onAdEvent = function(event) {
-  this.log('Ad event: ' + event.type);
+  var grandparent = parent.parent;
+  switch (event.type) {
+    case google.ima.AdEvent.Type.LOADED:
+      break;
+    case google.ima.AdEvent.Type.STARTED:
+      grandparent.postMessage("ima::playing", "*");
+      break;
+    case google.ima.AdEvent.Type.PAUSED:
+      grandparent.postMessage("ima::paused", "*");
+      break;
+    case google.ima.AdEvent.Type.RESUMED:
+      grandparent.postMessage("ima::resume", "*");
+      break;
+    case google.ima.AdEvent.Type.CLICK:
+      grandparent.postMessage("ima::click", "*");
+      break;
+    case google.ima.AdEvent.Type.FIRST_QUARTILE:
+      grandparent.postMessage("ima::firstquartile", "*");
+      break;
+    case google.ima.AdEvent.Type.MIDPOINT:
+      grandparent.postMessage("ima::midpoint", "*");
+      break;
+    case google.ima.AdEvent.Type.THIRD_QUARTILE:
+      grandparent.postMessage("ima::thirdquartile", "*");
+      break;
+    case google.ima.AdEvent.Type.COMPLETE:
+      grandparent.postMessage("ima::complete", "*");
+      break;
+    case google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
+      grandparent.postMessage("ima::alladscompleted", "*");
+      break;
+  }
 };
 
 Ads.prototype.log = function(message) {
