@@ -40,4 +40,8 @@ app.get('/aom', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/aom.html'));
 });
 
+app.get('/aompost', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/aompost.html'));
+});
+
 app.listen(process.env.PORT || 8080);

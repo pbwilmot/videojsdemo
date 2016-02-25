@@ -72,6 +72,7 @@
 <link rel='stylesheet' id='yarppWidgetCss-css' href='//www.artofmanliness.com/wp-content/plugins/yet-another-related-posts-plugin/style/widget.css?ver=4.4.2' type='text/css' media='all'/>
 <link rel='stylesheet' id='collapseomatic-css-css' href='//www.artofmanliness.com/wp-content/plugins/jquery-collapse-o-matic/light_style.css?ver=1.6' type='text/css' media='all'/>
 <link rel='stylesheet' id='SocialSharesCountstyle-css' href='//www.artofmanliness.com/wp-content/plugins/social-shares-count/assets/custom.css?ver=1.1.2' type='text/css' media='all'/>
+<link rel='stylesheet' id='cubiq-add-to-home-style-css' href='//www.artofmanliness.com/wp-content/plugins/official-add-to-homescreen/assets/addtohomescreen.css?ver=1.1.3' type='text/css' media='all'/>
 <link rel='stylesheet' id='builder-plugin-feature-gravity-forms-style-css' href='//www.artofmanliness.com/wp-content/themes/BuilderChild-aom2/plugin-features/gravity-forms/style.css?ver=4.4.2' type='text/css' media='all'/>
 <link rel='stylesheet' id='tablepress-default-css' href='//www.artofmanliness.com/wp-content/plugins/tablepress/css/default.min.css?ver=1.7' type='text/css' media='all'/>
 <link rel='stylesheet' id='shiftnav-css' href='//www.artofmanliness.com/wp-content/plugins/shiftnav-pro/pro/assets/css/shiftnav.min.css?ver=1.3.0.1.2' type='text/css' media='all'/>
@@ -82,28 +83,59 @@
 <script type='text/javascript' src='//www.artofmanliness.com/wp-content/plugins/category-responsive-menu/assets/jquery.lazyload.min.js?v=1.5&#038;ver=4.4.2'></script>
 <script type='text/javascript' src='//www.artofmanliness.com/wp-content/plugins/category-responsive-menu/assets/front.js?v=1.6&#038;ver=4.4.2'></script>
 <script type='text/javascript' src='//www.artofmanliness.com/wp-content/plugins/social-shares-count/assets/custom.js?ver=4.4.2'></script>
+<script type='text/javascript' src='//www.artofmanliness.com/wp-content/plugins/official-add-to-homescreen/assets/addtohomescreen.min.js?ver=1.1.3'></script>
 <link rel='https://api.w.org/' href='//www.artofmanliness.com/wp-json/'/>
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="//www.artofmanliness.com/xmlrpc.php?rsd"/>
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="//www.artofmanliness.com/wp-includes/wlwmanifest.xml"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <meta name="generator" content="WordPress 4.4.2"/>
 <link rel='https://github.com/WP-API/WP-API' href='//www.artofmanliness.com/wp-json'/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
  
 <style type="text/css" id="shiftnav-dynamic-css">#shiftnav-toggle-main{background:#87240f;color:#ffffff;}@media only screen and (min-width:1001px){#shiftnav-toggle-main,.shiftnav-toggle-mobile{display:none;}.shiftnav-wrap{padding-top:0!important;}body.shiftnav-disable-shift-body{padding-top:0!important;}}#shiftnav-toggle-main{background:#87240f;}.shiftnav-menu li.menu-item{background:#87240f!important;}.shiftnav-menu{background:#4c0f0d;}.shiftnav-menu li.menu-item>.shiftnav-target{border-bottom:1px solid #330000;border-top:none;}.shiftnav-target{color:#ffffff!important;}.shiftnav{background:#4c0f0d;}.shiftnav .fa{color:#ffffff;}</style>
+<style>
+  a#demo-link > h2 {color: red !important;}
+</style>
  
+<link rel="shortcut icon" sizes="196x196" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-196x196.png">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-152x152.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-144x144.png">
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-120x120.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-114x114.png">
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-76x76.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-72x72.png">
 <script type="text/javascript">
-// Add to homescreen URL cleaning
-var _reSmartURL = /\/ath(\/)?$/;
-var _reQueryString = /([\?&]ath=[^&]*$|&ath=[^&]*(&))/;
-if ( document.location.hash == '#ath' ) {
-  history.replaceState('', window.document.title, document.location.href.split('#')[0]);
-}
-if ( _reSmartURL.test(document.location.href) ) {
-  history.replaceState('', window.document.title, document.location.href.replace(_reSmartURL, '$1'));
-}
-if ( _reQueryString.test(document.location.search) ) {
-  history.replaceState('', window.document.title, document.location.href.replace(_reQueryString, '$2'));
-}
+var addtohome = addToHomescreen({
+    onShow: function () {
+    jQuery.post('http://www.artofmanliness.com/wp-admin/admin-ajax.php', {
+      action: 'ath_stats',
+      a: 1,
+      o: addToHomescreen.OS,
+      d: addToHomescreen.isTablet
+    });
+  },
+  onAdd: function () {
+    jQuery.post('http://www.artofmanliness.com/wp-admin/admin-ajax.php', {
+      action: 'ath_stats',
+      a: 2,
+      o: addToHomescreen.OS,
+      d: addToHomescreen.isTablet
+    });
+  },
+    autostart: false,
+  appID: 'org.cubiq.addtohome',
+  icon: true,
+  skipFirstVisit: true,
+  displayPace: 1440,
+  maxDisplayCount: 1,
+  startDelay: 1,
+  lifespan: 20,
+  detectHomescreen: 'hash',
+  debug: false,
+  modal: false,
+  message: ''
+
+});
+window.addEventListener('load', addtohome.show.bind(addtohome,false), false);
 </script>
 <script type='text/javascript'>
 (function() {
@@ -144,7 +176,7 @@ ados_load();
 });</script>
  
 </head>
-<body id="builder-layout-4b2a668839866" class="home blog builder-responsive builder-template-home builder-view-home builder-view-post-54655"><script type="text/javascript">
+<body id="builder-layout-4b2a668839866" class="home blog builder-responsive builder-template-home builder-view-home builder-view-post-54662"><script type="text/javascript">
 //<![CDATA[
 try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
 //]]>
@@ -196,9 +228,9 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <li class="nav-right-icon"><a class="ss-icon ss-standard search-icon">search</a></li>
 </ul>
 <ul class="nav-right">
-<li class="nav-right-icon"><a href="#" class="ss-icon ss-social">Instagram</a></li>
-<li class="nav-right-icon"><a href="#" class="ss-icon ss-social">Twitter</a></li>
-<li class="nav-right-icon"><a class="ss-icon ss-social" href="#">Facebook</a></li>
+<li class="nav-right-icon"><a href="#" class="ss-icon ss-social" target="_blank">Instagram</a></li>
+<li class="nav-right-icon"><a href="#" class="ss-icon ss-social" target="_blank">Twitter</a></li>
+<li class="nav-right-icon"><a class="ss-icon ss-social" href="#" target="_blank">Facebook</a></li>
 <li class="has-form">
 <form action="//www.artofmanliness.com" id="searchform" method="get">
 <input type="text" id="s" name="s" value="" placeholder="search">
@@ -465,6 +497,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <article class="small-3 columns">
 <header>
 <a href="#">
+<div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/look-out-window-city-fomo-future-contemplate-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/look-out-window-city-fomo-future-contemplate-538x280.png"></noscript>
 </div>
@@ -526,6 +559,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <article class="small-3 columns">
 <header>
 <a href="#">
+<div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/Ring-Types-Meaning-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/Ring-Types-Meaning-538x280.jpg"></noscript>
 </div>
@@ -663,7 +697,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/03/the-ultimate-glossary-of-strength-and-conditioning-terms/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/02/strengthglossary-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/02/strengthglossary-538x280.jpg"></noscript>
@@ -675,7 +709,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/27/podcast-172-scottish-highland-games-training-for-performance/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/matt-vincent-pillar-strength-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/matt-vincent-pillar-strength-538x280.jpg"></noscript>
@@ -687,7 +721,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/20/get-stronger-by-greasing-the-groove/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/Greasing-Groove-Header-2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/Greasing-Groove-Header-2-538x280.jpg"></noscript>
@@ -701,7 +735,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-231" data-id="category-231">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/08/25/everything-you-know-about-cholesterol-is-wrong/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/08/eggs2-401x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/08/eggs2-401x280.png"></noscript>
@@ -713,7 +747,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2014/12/02/holiday-snacks-thatll-boost-your-testosterone/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2014/12/eggnog-man-500x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2014/12/eggnog-man-500x280.jpg"></noscript>
@@ -725,7 +759,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2014/08/21/eat-man-food-and-lose-weight-a-primer-on-flexible-dieting/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2014/08/eatpizza1-513x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2014/08/eatpizza1-513x280.jpg"></noscript>
@@ -737,7 +771,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2014/07/10/do-testosterone-boosting-supplements-work/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2014/07/testosterone-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2014/07/testosterone-538x280.png"></noscript>
@@ -751,7 +785,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-233" data-id="category-233">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/27/podcast-172-scottish-highland-games-training-for-performance/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/matt-vincent-pillar-strength-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/matt-vincent-pillar-strength-538x280.jpg"></noscript>
@@ -763,7 +797,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/09/podcast-167-when-watching-people-walk-was-americas-favorite-spectator-sport/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/ped-333x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/ped-333x280.jpg"></noscript>
@@ -775,7 +809,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/25/5-winning-turkey-bowl-plays/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/turkeybowl1-e14483826857201-538x225.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/turkeybowl1-e14483826857201-538x225.png"></noscript>
@@ -787,7 +821,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/25/podcast-141-the-science-of-freediving-and-breatholding/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/deep-james-nestor-403x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/deep-james-nestor-403x280.jpg"></noscript>
@@ -801,7 +835,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-232" data-id="category-232">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/29/how-to-wash-your-hands-like-a-doctor/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/Wash-Hands-Doctor-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/Wash-Hands-Doctor-1-538x280.jpg"></noscript>
@@ -813,7 +847,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/15/wake-up-like-an-animal-your-morning-stretching-routine/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/tiger-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/tiger-538x280.png"></noscript>
@@ -825,7 +859,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/14/how-to-quit-caffeine/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/coffee-500x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/coffee-500x280.jpg"></noscript>
@@ -837,7 +871,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/14/is-it-your-temperament-or-is-it-caffeine/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/brief-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/brief-538x280.png"></noscript>
@@ -853,19 +887,19 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="row-fluid category-11 masthead-dropdown has-sidebar hidden" data-id="category-11">
 <div class="small-2 menu-background subcategory">
 <ul>
-<li class="selected left-crm-item" data-id="category-278"><a href="http://www.artofmanliness.com/category/manly-skills/cars/">Cars</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-283"><a href="http://www.artofmanliness.com/category/manly-skills/just-for-fun/">Just For Fun</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-277"><a href="http://www.artofmanliness.com/category/manly-skills/outdoors/">Outdoors</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-275"><a href="http://www.artofmanliness.com/category/manly-skills/survival-manly-skills/">Survival</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-284"><a href="http://www.artofmanliness.com/category/manly-skills/tactical-skills/">Tactical Skills</a></li>
-<li><a style="color: #b5aa98;" href="http://www.artofmanliness.com/category/manly-skills/">Browse Manly Skills</a></li>
+<li class="selected left-crm-item" data-id="category-278"><a href="#">Cars</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-283"><a href="#">Just For Fun</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-277"><a href="#">Outdoors</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-275"><a href="#">Survival</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-284"><a href="#">Tactical Skills</a></li>
+<li><a style="color: #b5aa98;" href="#">Browse Manly Skills</a></li>
 </ul>
 </div>
 <div class="subcategory-drawer row-fluid">
 <div class="category-278 first-drawer" data-id="category-278">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/11/gearhead-101-the-drivetrain/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/02/Drivetrain-Header-2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/02/Drivetrain-Header-2-538x280.jpg"></noscript>
@@ -877,7 +911,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/06/how-to-find-an-honest-and-reliable-mechanic/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/mech-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/mech-538x280.png"></noscript>
@@ -889,7 +923,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/15/how-a-cars-engine-works/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/Engine-Header-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/Engine-Header-1-538x280.jpg"></noscript>
@@ -901,7 +935,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/08/20/5-types-of-terrible-drivers-a-dossier-from-a-1955-drivers-ed-manual/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/08/13-500x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/08/13-500x280.jpg"></noscript>
@@ -915,7 +949,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-283" data-id="category-283">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/27/how-to-draw-teddy-roosevelt/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/Draw-TR-2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/Draw-TR-2-538x280.jpg"></noscript>
@@ -927,7 +961,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/22/6-manly-pumpkin-stencils/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/pump-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/pump-538x280.png"></noscript>
@@ -939,7 +973,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/07/02/cool-uncle-tricks-how-to-make-a-grass-whistle/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/07/Grass-Whistle-2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/07/Grass-Whistle-2-538x280.jpg"></noscript>
@@ -951,7 +985,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/04/19/how-to-play-mumbley-peg-video/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/04/maxresdefault2.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/04/maxresdefault2.jpg"></noscript>
@@ -965,7 +999,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-277" data-id="category-277">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/11/how-to-track-animals-a-primer-on-identifying-footprints/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/Track-Animal-Header-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/Track-Animal-Header-1-538x280.jpg"></noscript>
@@ -977,7 +1011,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/04/how-to-build-a-quinzee-snow-shelter-illustrated-guide/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/Quinzee-3-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/Quinzee-3-538x280.jpg"></noscript>
@@ -989,7 +1023,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/20/podcast-157-primitive-pursuits-winter-survival/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/80140100076040L-e14480249138011-324x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/80140100076040L-e14480249138011-324x280.jpg"></noscript>
@@ -1001,7 +1035,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/05/how-to-start-a-fire-in-the-rain-an-illustrated-guide/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/Fire-in-the-Rain-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/Fire-in-the-Rain-1-538x280.jpg"></noscript>
@@ -1015,7 +1049,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-275" data-id="category-275">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/04/how-to-build-a-quinzee-snow-shelter-illustrated-guide/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/Quinzee-3-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/Quinzee-3-538x280.jpg"></noscript>
@@ -1027,7 +1061,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/20/podcast-157-primitive-pursuits-winter-survival/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/80140100076040L-e14480249138011-324x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/80140100076040L-e14480249138011-324x280.jpg"></noscript>
@@ -1039,7 +1073,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/05/how-to-start-a-fire-in-the-rain-an-illustrated-guide/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/Fire-in-the-Rain-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/Fire-in-the-Rain-1-538x280.jpg"></noscript>
@@ -1051,7 +1085,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/17/how-to-escape-quicksand-an-illustrated-guide/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/Escape-Quicksand-2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/Escape-Quicksand-2-538x280.jpg"></noscript>
@@ -1065,7 +1099,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-284" data-id="category-284">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/30/what-to-do-in-an-active-shooter-situation/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/Active-Shooter-Header-1-538x275.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/Active-Shooter-Header-1-538x275.jpg"></noscript>
@@ -1077,7 +1111,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/17/how-to-throw-a-left-hook/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/Left-Hook-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/Left-Hook-1-538x280.jpg"></noscript>
@@ -1089,7 +1123,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/21/how-to-escape-from-the-trunk-of-a-car-an-illustrated-guide/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/Escape-Trunk-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/Escape-Trunk-1-538x280.jpg"></noscript>
@@ -1101,7 +1135,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/13/the-sioux-guide-to-situational-awareness/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/Sioux-Guide-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/Sioux-Guide-538x280.jpg"></noscript>
@@ -1117,20 +1151,20 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="row-fluid category-12 masthead-dropdown has-sidebar hidden" data-id="category-12">
 <div class="small-2 menu-background subcategory">
 <ul>
-<li class="selected left-crm-item" data-id="category-299"><a href="http://www.artofmanliness.com/category/money-career/personal-finance/">Personal Finance</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-301"><a href="http://www.artofmanliness.com/category/money-career/college/">College</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-302"><a href="http://www.artofmanliness.com/category/money-career/entrepreneurship/">Entrepreneurship</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-300"><a href="http://www.artofmanliness.com/category/money-career/networking/">Networking</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-303"><a href="http://www.artofmanliness.com/category/money-career/professional-skills/">Professional Skills</a></li>
-<li class="crm-not-selected left-crm-item" data-id="category-75"><a href="http://www.artofmanliness.com/category/money-career/so-you-want-my-job/">So You Want My Job</a></li>
-<li><a style="color: #b5aa98;" href="http://www.artofmanliness.com/category/money-career/">Browse Money &amp; Career</a></li>
+<li class="selected left-crm-item" data-id="category-299"><a href="#">Personal Finance</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-301"><a href="#">College</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-302"><a href="#">Entrepreneurship</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-300"><a href="#">Networking</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-303"><a href="#">Professional Skills</a></li>
+<li class="crm-not-selected left-crm-item" data-id="category-75"><a href="#">So You Want My Job</a></li>
+<li><a style="color: #b5aa98;" href="#">Browse Money &amp; Career</a></li>
 </ul>
 </div>
 <div class="subcategory-drawer row-fluid">
 <div class="category-299 first-drawer" data-id="category-299">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/22/podcast-165-better-conversations-on-money-and-marriage/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/one-bed-e1450790897478-1-313x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/one-bed-e1450790897478-1-313x280.jpg"></noscript>
@@ -1142,7 +1176,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/11/11/7-personal-finance-goals-for-your-30s/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/11/money_header2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/11/money_header2-538x280.jpg"></noscript>
@@ -1154,7 +1188,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/22/how-to-invest-your-time-like-money/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/invest-time.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/invest-time.jpg"></noscript>
@@ -1166,7 +1200,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/08/27/podcast-133-how-to-attain-financial-independence-via-the-strenuous-life/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/08/mmm_bikebackground-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/08/mmm_bikebackground-538x280.jpg"></noscript>
@@ -1180,7 +1214,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-301" data-id="category-301">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/11/how-to-write-the-perfect-college-application-essay/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/write-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/write-538x280.jpg"></noscript>
@@ -1192,7 +1226,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/08/06/a-guide-to-paying-back-your-student-loans/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/08/loans-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/08/loans-538x280.png"></noscript>
@@ -1204,7 +1238,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/08/04/student-loans/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/08/stud-465x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/08/stud-465x280.png"></noscript>
@@ -1216,7 +1250,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/02/04/networking-tips-for-college-success-how-to-build-relationships-and-land-a-great-job-after-college/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/02/lunch-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/02/lunch-538x280.png"></noscript>
@@ -1230,7 +1264,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-302" data-id="category-302">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/07/podcast-175-how-to-improve-your-work-and-life-with-systems/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/02/work-the-system-e1454712987426-1-362x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/02/work-the-system-e1454712987426-1-362x280.jpg"></noscript>
@@ -1242,7 +1276,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2014/09/06/art-of-manliness-podcast-80-starting-huckberry-with-andy-forch-richard-greiner/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2014/09/Greiner_and_Forch-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2014/09/Greiner_and_Forch-538x280.jpg"></noscript>
@@ -1254,7 +1288,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2014/02/04/9-lessons-in-entrepreneurship-from-shark-tank/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2014/02/tank-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2014/02/tank-538x280.jpg"></noscript>
@@ -1266,7 +1300,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2013/10/24/want-to-start-a-business-consider-these-5-invaluable-lessons-before-diving-in/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2013/10/young-businessmen-500x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2013/10/young-businessmen-500x280.jpg"></noscript>
@@ -1280,7 +1314,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-300" data-id="category-300">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/03/26/how-to-contact-a-busy-person/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/03/busyman-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/03/busyman-538x280.jpg"></noscript>
@@ -1292,7 +1326,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/02/04/networking-tips-for-college-success-how-to-build-relationships-and-land-a-great-job-after-college/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/02/lunch-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/02/lunch-538x280.png"></noscript>
@@ -1304,7 +1338,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/01/19/how-to-talk-about-your-unconventional-background-in-a-conventional-world/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/01/interview2-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/01/interview2-538x280.jpg"></noscript>
@@ -1316,7 +1350,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2014/12/09/how-to-build-unscaleable-relationships/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2014/12/photo-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2014/12/photo-538x280.png"></noscript>
@@ -1330,7 +1364,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-303" data-id="category-303">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/07/podcast-175-how-to-improve-your-work-and-life-with-systems/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/02/work-the-system-e1454712987426-1-362x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/02/work-the-system-e1454712987426-1-362x280.jpg"></noscript>
@@ -1342,7 +1376,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/05/tell-me-a-little-about-yourself/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/little-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/little-538x280.png"></noscript>
@@ -1354,7 +1388,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/20/podcast-164-how-to-wow-in-relationships-and-business/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/how-to-wow-324x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/how-to-wow-324x280.jpg"></noscript>
@@ -1366,7 +1400,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/09/how-to-fire-someone/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/shutterstock_100467238-500x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/shutterstock_100467238-500x280.jpg"></noscript>
@@ -1380,7 +1414,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-75" data-id="category-75">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/05/so-you-want-my-trade-elevator-mechanic/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/elevator.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/elevator.png"></noscript>
@@ -1392,7 +1426,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/29/so-you-want-my-trade-automotive-mechanictechnician/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/mech-334x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/mech-334x280.png"></noscript>
@@ -1404,7 +1438,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/10/15/so-you-want-my-job-crooner/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/10/wade-tower-crooner-e1439817161215-538x280.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/10/wade-tower-crooner-e1439817161215-538x280.png"></noscript>
@@ -1416,7 +1450,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/09/24/so-you-want-my-trade-electrician/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/09/electrician1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/09/electrician1-538x280.jpg"></noscript>
@@ -1440,7 +1474,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="category-254 first-drawer" data-id="category-254">
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/12/7-quirky-kisses-from-the-1930s-to-spice-up-your-smooching-sessions/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/02/Kissing-Header-3-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/02/Kissing-Header-3-538x280.jpg"></noscript>
@@ -1452,7 +1486,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/10/18-at-home-date-ideas/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/02/At-Home-Header-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/02/At-Home-Header-538x280.jpg"></noscript>
@@ -1464,7 +1498,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2016/01/28/podcast-173-date-onomics-how-skewed-sex-ratios-on-college-campuses-are-affecting-courtship-and-marriage/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2016/01/date.png">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2016/01/date.png"></noscript>
@@ -1476,7 +1510,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="small-3 columns">
 <header>
-<a href="http://www.artofmanliness.com/2015/12/16/6-ways-to-create-a-romantic-holiday-date-night-with-just-a-hammer/">
+<a href="#">
 <div class="navth thumb_container">
 <img class="lazy-load th wp-post-image mega-menu-img" style="display:none;" data-original="https://content.artofmanliness.com/uploads//2015/12/6-Ways-Hammer-1-538x280.jpg">
 <noscript><img class="th wp-post-image mega-menu-img" src="//content.artofmanliness.com/uploads//2015/12/6-Ways-Hammer-1-538x280.jpg"></noscript>
@@ -1496,7 +1530,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="section-bg">
 <div class="site-banner container row">
 <div class="site-logo">
-<a href="/">
+<a href="/aom">
 <h1>The Art of Manliness</h1>
 </a>
 <img src="//www.artofmanliness.com/wp-content/themes/BuilderChild-aom2/images/header.png" class="printlogo hidden"/>
@@ -1510,7 +1544,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="builder-module-block builder-module-sidebar builder-module-column-1   sidebar single clearfix">
 <div class="widget-wrapper single widget-wrapper-single widget-wrapper-1 clearfix">
 <div class="widget-background-wrapper" id="it_widget_content-36-background-wrapper"><div class="widget widget-1 widget-single clearfix widget-it-content" id="it_widget_content-36"> <div class="widget-content clearfix">
-<div style="text-align:center;" id="gpt-ad-top"></div>
+<!-- insert ad here -->
 </div>
 </div></div></div>
 </div>
@@ -1583,10 +1617,25 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="loop-featured"></div>
 <div class="loop-content">
 <h2 class="section-title">New</h2>
-<div id="post-54655" class="contents home-post-left-1 post-54655 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life category-podcast">
+<div id="post-54662" class="contents home-post-left-1 post-54662 post type-post status-publish format-standard has-post-thumbnail hentry category-dress-grooming category-promotion category-shoes">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/23/podcast-178-c-s-lewis-j-r-r-tolkien-and-the-inklings-mastermind-group/">
+<a href="#">
+<div class="left thumb_container">
+<img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/aom_boots-e1456342395932-1-538x280.jpg" style="display: none;">
+<noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/aom_boots-e1456342395932-1-538x280.jpg"></noscript>
+</div>
+<div class="post-title-block">
+<h2 class="post-title">3 Things to Look for in Leather Boots</h2>
+</div>
+</a>
+</header>
+</article>
+</div>
+<div class="contents home-post-left-3"><script src="//ib.3lift.com/ttj?inv_code=artofmanliness_main"></script></div> <div id="post-54655" class="contents home-post-left-3 post-54655 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life category-podcast">
+<article class="">
+<header>
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/ink-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/ink-538x280.jpg"></noscript>
@@ -1598,10 +1647,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div class="contents home-post-left-3"><script src="//ib.3lift.com/ttj?inv_code=artofmanliness_main"></script></div> <div id="post-54559" class="contents home-post-left-3 post-54559 post type-post status-publish format-standard has-post-thumbnail hentry category-manly-skills category-toolmanship">
+<div id="post-54559" class="contents home-post-left-4 post-54559 post type-post status-publish format-standard has-post-thumbnail hentry category-manly-skills category-toolmanship">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/23/a-primer-on-the-ax-how-to-use-an-ax-safely-and-effectively/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/01/head-538x206.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/01/head-538x206.jpg"></noscript>
@@ -1613,10 +1662,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54550" class="contents home-post-left-4 post-54550 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life">
+<div id="post-54550" class="contents home-post-left-5 post-54550 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/22/break-smartphone-habit/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/Smartphone-Header-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/Smartphone-Header-538x280.jpg"></noscript>
@@ -1628,10 +1677,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54413" class="contents home-post-left-5 post-54413 post type-post status-publish format-standard has-post-thumbnail hentry category-fitness category-health-sports category-podcast">
+<div id="post-54413" class="contents home-post-left-6 post-54413 post type-post status-publish format-standard has-post-thumbnail hentry category-fitness category-health-sports category-podcast">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/13/podcast-177-homemade-muscle-bodyweight-training/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/homemade-muscle-309x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/homemade-muscle-309x280.jpg"></noscript>
@@ -1643,10 +1692,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54401" class="contents home-post-left-6 post-54401 post type-post status-publish format-standard has-post-thumbnail hentry category-giveaway">
+<div id="post-54401" class="contents home-post-left-7 post-54401 post type-post status-publish format-standard has-post-thumbnail hentry category-giveaway">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/13/the-weekly-huckberry-giveaway-february-13-2016/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/give-away1-500x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/give-away1-500x280.jpg"></noscript>
@@ -1658,10 +1707,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54277" class="contents home-post-left-7 post-54277 post type-post status-publish format-standard has-post-thumbnail hentry category-dating-relationships-family category-marriage category-relationships-family">
+<div id="post-54277" class="contents home-post-left-8 post-54277 post type-post status-publish format-standard has-post-thumbnail hentry category-dating-relationships-family category-marriage category-relationships-family">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/12/7-quirky-kisses-from-the-1930s-to-spice-up-your-smooching-sessions/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/Kissing-Header-3-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/Kissing-Header-3-538x280.jpg"></noscript>
@@ -1673,10 +1722,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54383" class="contents home-post-left-8 post-54383 post type-post status-publish format-standard has-post-thumbnail hentry category-cars category-manly-skills">
+<div id="post-54383" class="contents home-post-left-9 post-54383 post type-post status-publish format-standard has-post-thumbnail hentry category-cars category-manly-skills">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/11/gearhead-101-the-drivetrain/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/Drivetrain-Header-2-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/Drivetrain-Header-2-538x280.jpg"></noscript>
@@ -1688,10 +1737,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54305" class="contents home-post-left-9 post-54305 post type-post status-publish format-standard has-post-thumbnail hentry category-dating-relationships-family category-marriage category-relationships-family">
+<div id="post-54305" class="contents home-post-left-10 post-54305 post type-post status-publish format-standard has-post-thumbnail hentry category-dating-relationships-family category-marriage category-relationships-family">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/10/18-at-home-date-ideas/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/At-Home-Header-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/At-Home-Header-538x280.jpg"></noscript>
@@ -1703,10 +1752,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54314" class="contents home-post-left-10 post-54314 post type-post status-publish format-standard has-post-thumbnail hentry category-friendship category-podcast category-relationships-family">
+<div id="post-54314" class="contents home-post-left-11 post-54314 post type-post status-publish format-standard has-post-thumbnail hentry category-friendship category-podcast category-relationships-family">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/10/podcast-176-the-vanishing-neighbor-the-transformation-of-american-community/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/neigbor.png" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/neigbor.png"></noscript>
@@ -1718,10 +1767,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54282" class="contents home-post-left-11 post-54282 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life">
+<div id="post-54282" class="contents home-post-left-12 post-54282 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/09/never-complain-never-explain/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/dis-538x280.png" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/dis-538x280.png"></noscript>
@@ -1733,10 +1782,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-46049" class="contents home-post-left-12 post-46049 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life category-manvotional">
+<div id="post-46049" class="contents home-post-left-13 post-46049 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life category-manvotional">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/07/manvotional-the-greatest-sporting-proposition-in-the-world/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2015/02/sporting2-538x280.png" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2015/02/sporting2-538x280.png"></noscript>
@@ -1748,10 +1797,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54241" class="contents home-post-left-13 post-54241 post type-post status-publish format-standard has-post-thumbnail hentry category-entrepreneurship category-money-career category-podcast category-professional-skills">
+<div id="post-54241" class="contents home-post-left-14 post-54241 post type-post status-publish format-standard has-post-thumbnail hentry category-entrepreneurship category-money-career category-podcast category-professional-skills">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/07/podcast-175-how-to-improve-your-work-and-life-with-systems/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/work-the-system-e1454712987426-1-362x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/work-the-system-e1454712987426-1-362x280.jpg"></noscript>
@@ -1763,10 +1812,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54224" class="contents home-post-left-14 post-54224 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life">
+<div id="post-54224" class="contents home-post-left-15 post-54224 post type-post status-publish format-standard has-post-thumbnail hentry category-a-mans-life">
 <article class="">
 <header>
-<a href="http://www.artofmanliness.com/2016/02/05/how-men-are-evolved-for-fighting-according-to-science/">
+<a href="#">
 <div class="left thumb_container">
 <img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/Evolved-for-Fighting-2-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/Evolved-for-Fighting-2-538x280.jpg"></noscript>
@@ -1778,22 +1827,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </header>
 </article>
 </div>
-<div id="post-54231" class="contents home-post-left-15 post-54231 post type-post status-publish format-standard has-post-thumbnail hentry category-giveaway">
-<article class="">
-<header>
-<a href="http://www.artofmanliness.com/2016/02/05/art-of-manliness-store-giveaway-february-5-2016/">
-<div class="left thumb_container">
-<img class="lazy th wp-post-image left-col-img" data-original="https://content.artofmanliness.com/uploads//2016/02/store-gallery-538x280.jpg" style="display: none;">
-<noscript><img class="th wp-post-image left-col-img" src="//content.artofmanliness.com/uploads//2016/02/store-gallery-538x280.jpg"></noscript>
-</div>
-<div class="post-title-block">
-<h2 class="post-title">Art of Manliness Store Giveaway February 5, 2016</h2>
-</div>
-</a>
-</header>
-</article>
-</div>
-<div class="loop-footer">   <div class="loop-utility clearfix"> <div class="alignleft"></div> <div class="alignright"> <a href="http://www.artofmanliness.com/page/2/">Next &rarr;</a></div> </div> </div>
+<div class="loop-footer">   <div class="loop-utility clearfix"> <div class="alignleft"></div> <div class="alignright"> <a href="#">Next &rarr;</a></div> </div> </div>
 </div>
 </div>
 </div>
@@ -1810,8 +1844,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="widget-background-wrapper" id="aomsidebars_2-2-background-wrapper"><div class="widget widget-1 widget-single clearfix widget_aomsidebars_2" id="aomsidebars_2-2"> <h2 class="section-title">Featured</h2>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/a-mans-life/">A Man's Life</a></strong>
-<a href="http://www.artofmanliness.com/2015/08/10/get-1-better-every-day-the-kaizen-way-to-self-improvement/">
+<strong><a href="#">A Man's Life</a></strong>
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2015/08/Small-Things-Over-Time-2-538x248.jpg" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2015/08/Small-Things-Over-Time-2-538x248.jpg"></noscript>
@@ -1823,7 +1857,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </footer>
 </article>
 <article class="cat-article"> <header>
-<a href="https://store.artofmanliness.com/store/product/franklin-virtues-journal">
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2015/11/virtues_journal.jpg">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2015/11/virtues_journal.jpg"></noscript>
@@ -1834,8 +1868,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/manly-skills/">Manly Skills</a></strong>
-<a href="http://www.artofmanliness.com/2014/05/21/tactical-order-of-dressing-an-illustrated-guide/">
+<strong><a href="#">Manly Skills</a></strong>
+<a href="/aompost" id="demo-link">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2014/05/Tactical-Dressing-3-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2014/05/Tactical-Dressing-3-538x280.jpg"></noscript>
@@ -1848,8 +1882,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/relationships-family/">Relationships &amp; Family</a></strong>
-<a href="http://www.artofmanliness.com/2013/01/31/relationship-red-flags/">
+<strong><a href="#">Relationships &amp; Family</a></strong>
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2013/01/redflags-500x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2013/01/redflags-500x280.jpg"></noscript>
@@ -1862,8 +1896,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/dress-grooming/">Dress &amp; Grooming</a></strong>
-<a href="http://www.artofmanliness.com/2015/02/25/suit-sport-jacket-blazer-difference/">
+<strong><a href="#">Dress &amp; Grooming</a></strong>
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2015/02/jackets-538x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2015/02/jackets-538x280.jpg"></noscript>
@@ -1876,8 +1910,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/health-sports/">Health &amp; Sports</a></strong>
-<a href="http://www.artofmanliness.com/2013/02/28/mornin-bodyweight-workout/">
+<strong><a href="#">Health &amp; Sports</a></strong>
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2013/02/pushup-430x280.png" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2013/02/pushup-430x280.png"></noscript>
@@ -1890,8 +1924,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/money-career/">Money &amp; Career</a></strong>
-<a href="http://www.artofmanliness.com/2013/02/27/the-importance-of-a-good-resume/">
+<strong><a href="#">Money &amp; Career</a></strong>
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2013/02/vintageresume-398x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2013/02/vintageresume-398x280.jpg"></noscript>
@@ -1904,8 +1938,8 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article">
 <header>
-<strong><a href="http://www.artofmanliness.com/category/travel-leisure/">Travel &amp; Leisure</a></strong>
-<a href="http://www.artofmanliness.com/2015/10/01/save-time-and-money-with-make-ahead-breakfast-burritos/">
+<strong><a href="#">Travel &amp; Leisure</a></strong>
+<a href="#">
 <div class="center thumb_container">
 <img class="lazy th wp-post-image center-col-img" data-original="https://content.artofmanliness.com/uploads//2015/09/eatingburrito-500x280.jpg" style="display: none;">
 <noscript><img class="th wp-post-image center-col-img" src="//content.artofmanliness.com/uploads//2015/09/eatingburrito-500x280.jpg"></noscript>
@@ -1918,7 +1952,7 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </article>
 <article class="cat-article"> <style>.home-mk-format{height:auto!important;}.mk-wrap{max-width:601px;margin:0 auto;padding-bottom:30px;}.format_text{background-color:#d5ceb1;border:2px solid #996;text-align:center;font-size:14px;line-height:150%}.mk-top-img{display:block;margin:0;padding:0}.mk-cont-wrap{padding:2em 5em}</style>
 <header>
-<strong><a href="http://www.artofmanliness.com/man-knowledge/">Library of Random Man Knowledge</a></strong>
+<strong><a href="#">Library of Random Man Knowledge</a></strong>
 </header>
 <div class="mk-wrap">
 <div class="format_text home-mk-format">
@@ -1926,10 +1960,10 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 <div class="mk-cont-wrap">
 "We never fail when we try to do our duty, we always fail when we neglect to do it." -Lord Baden-Powell <br><br>
 <b>Submitted by: </b>Steve Dee in Missoula, MT <div align="center">
-<a href="http://www.artofmanliness.com/man-knowledge/?rand&random_post_type=post">
+<a href="#">
 <img style="width: auto !important;" src="//www.artofmanliness.com/wp-content/themes/BuilderChild-aom2/images/more_button.png">
 </a><br>
-<a href="http://www.artofmanliness.com/man-knowledge/submit-man-knowledge">
+<a href="#">
 <img style="width: auto !important;" src="//www.artofmanliness.com/wp-content/themes/BuilderChild-aom2/images/submit_button2.png" style="margin-top: 7px;">
 </a>
 </div>
@@ -1969,49 +2003,43 @@ try{(function(a){var b="http://",c="www.artofmanliness.com",d="/cdn-cgi/cl/",e="
 </div>
 </div>
 </div>
-</section></div></div><div class="widget-background-wrapper" id="it_widget_content-7-background-wrapper"><div class="widget widget-4 widget-middle clearfix widget-it-content" id="it_widget_content-7"> <div class="widget-content clearfix">
-<div id="gpt-ad-right_side_1"></div>
-</div>
-</div></div><div class="widget-background-wrapper" id="ithemes-billboard-6-background-wrapper"><div class="widget widget-5 widget-middle clearfix widget_ithemes-billboard" id="ithemes-billboard-6"><div class="ithemes-billboard ithemes-billboard-random-post" style="text-align:center;">
-<a href="http://www.artofmanliness.com/?random&random_post_type=post" title="Random Post" style="text-decoration: none;">
+</section></div></div><div class="widget-background-wrapper" id="ithemes-billboard-6-background-wrapper"><div class="widget widget-5 widget-middle clearfix widget_ithemes-billboard" id="ithemes-billboard-6"><div class="ithemes-billboard ithemes-billboard-random-post" style="text-align:center;">
+<a href="#" title="Random Post" style="text-decoration: none;">
 <img src="//www.artofmanliness.com/wp-content/uploads/2015/07/random_post.jpg" alt="Random Post" style="max-width: 100%; height: auto;"/>
 </a>
 </div>
 </div></div><div class="widget-background-wrapper" id="ithemes-billboard-7-background-wrapper"><div class="widget widget-6 widget-middle clearfix widget_ithemes-billboard" id="ithemes-billboard-7"><div class="ithemes-billboard ithemes-billboard-podcast" style="text-align:center;">
-<a href="http://www.artofmanliness.com/category/podcast" title="Podcast" style="text-decoration: none;">
+<a href="#" title="Podcast" style="text-decoration: none;">
 <img src="//www.artofmanliness.com/wp-content/uploads/2015/07/podcast1.jpg" alt="Podcast" style="max-width: 100%; height: auto;"/>
 </a>
 </div>
 </div></div><div class="widget-background-wrapper" id="ithemes-billboard-25-background-wrapper"><div class="widget widget-7 widget-middle clearfix widget_ithemes-billboard" id="ithemes-billboard-25"><div class="ithemes-billboard ithemes-billboard-man-knowledge" style="text-align:center;">
-<a href="http://www.artofmanliness.com/man-knowledge" title="Man Knowledge" style="text-decoration: none;">
+<a href="#" title="Man Knowledge" style="text-decoration: none;">
 <img src="//www.artofmanliness.com/wp-content/uploads/2015/07/man-knowledge.jpg" alt="Man Knowledge" style="max-width: 100%; height: auto;"/>
 </a>
-</div>
-</div></div><div class="widget-background-wrapper" id="it_widget_content-8-background-wrapper"><div class="widget widget-8 widget-middle clearfix widget-it-content" id="it_widget_content-8"> <div class="widget-content clearfix">
-<div id="gpt-ad-right_side_2"></div>
 </div>
 </div></div><div class="widget-background-wrapper" id="it_widget_content-15-background-wrapper"><div class="widget widget-9 widget-middle clearfix widget-it-content" id="it_widget_content-15"><h4 class="widget-title">AoM on YouTube</h4> <div class="widget-content clearfix">
 <p><iframe width="300" height="169" src="https://www.youtube.com/embed/KNxLNY6yxRI" frameborder="0" allowfullscreen></iframe></p>
 </div>
 </div></div><div class="widget-background-wrapper" id="text-77-background-wrapper"><div class="widget widget-10 widget-middle clearfix widget_text" id="text-77"> <div class="textwidget"><center><div id="azk37352"></div></center></div>
-</div></div><div class="widget-background-wrapper" id="text-46-background-wrapper"><div class="widget widget-11 widget-bottom clearfix widget_text" id="text-46"> <div class="textwidget"><p style="text-align:center;"><a href="//www.artofmanliness.com/2015/09/28/100-skills-every-man-should-know/"><img src="//content.artofmanliness.com/uploads/images/SKILLSpop.jpg"/></a>
+</div></div><div class="widget-background-wrapper" id="text-46-background-wrapper"><div class="widget widget-11 widget-bottom clearfix widget_text" id="text-46"> <div class="textwidget"><p style="text-align:center;"><a href="#"><img src="//content.artofmanliness.com/uploads/images/SKILLSpop.jpg"/></a>
 </p>
-<p style="text-align:center;"><a href="//www.artofmanliness.com/2015/02/05/how-to-develop-the-situational-awareness-of-jason-bourne/"><img src="//content.artofmanliness.com/uploads/images/bourne.png"/></a>
-</p>
-<p style="text-align:center;">
-<a href="//www.artofmanliness.com/2013/01/18/how-to-increase-testosterone-naturally/"><img src="//content.artofmanliness.com/uploads/images/testosterone.png"/></a>
+<p style="text-align:center;"><a href="#"><img src="//content.artofmanliness.com/uploads/images/bourne.png"/></a>
 </p>
 <p style="text-align:center;">
-<a href="//www.artofmanliness.com/2014/08/05/undo-the-damage-of-sitting/"><img src="//content.artofmanliness.com/uploads/images/sitting.png"/></a>
+<a href="#"><img src="//content.artofmanliness.com/uploads/images/testosterone.png"/></a>
 </p>
 <p style="text-align:center;">
-<a href="//www.artofmanliness.com/2008/05/14/100-must-read-books-the-essential-mans-library/"><img src="//content.artofmanliness.com/uploads/images/books.png"/></a>
+<a href="#"><img src="//content.artofmanliness.com/uploads/images/sitting.png"/></a>
 </p>
 <p style="text-align:center;">
-<a href="http://www.artofmanliness.com/2016/01/25/the-ultimate-list-of-hobbies-for-men-75-ideas-for-your-free-time/"><img src="//content.artofmanliness.com/uploads/images/hobbiesformen.jpg"/></a>
+<a href="#"><img src="//content.artofmanliness.com/uploads/images/books.png"/></a>
 </p>
 <p style="text-align:center;">
-<a href="//www.artofmanliness.com/2015/08/05/the-prisoner-workout/"><img src="//content.artofmanliness.com/uploads/images/prisoner_workout.jpg"/><br/>
+<a href="#"><img src="//content.artofmanliness.com/uploads/images/hobbiesformen.jpg"/></a>
+</p>
+<p style="text-align:center;">
+<a href="#"><img src="//content.artofmanliness.com/uploads/images/prisoner_workout.jpg"/><br/>
 </a></p>
 </div>
 </div></div></div>
