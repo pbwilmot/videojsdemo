@@ -63,4 +63,12 @@ app.get('/aompost', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/aompost.html'));
 });
 
+app.get('/cnn', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/cnn.html'));
+});
+
+app.get('/crossdomain.xml', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
+});
+
 app.listen(process.env.PORT || 8080);
