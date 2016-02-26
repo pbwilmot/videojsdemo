@@ -35,10 +35,14 @@ shtml
                   option(value='TWITCH' name='type') Twitch
                   option(value='YOUTUBE' name='type') YouTube
                   option(value='VINE' name='type') Vine
+                  option(value='VIDEO' name='type') Hosted Video
                 label CHANNEL
               .input-field.col.s12
                 | URL
                 input#src(name='src' type='text')
+              #input-poster.input-field.col.s12
+                | POSTER
+                input#poster(name='poster' type='text')
               .input-field.col.s12
                       | AUTO PLAY
                       input#autoplaytrue(name='autoplay', type='radio' value="true")
