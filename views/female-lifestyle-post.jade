@@ -464,7 +464,12 @@ html(lang='en', dir='ltr', prefix='content: http://purl.org/rss/1.0/modules/cont
                                                     .image-inner
                                                         div#iframe-div
                                                             div#iframe-replace
-                                                                iframe#iframe-player(src='http://localhost:8080/?type=' + '#{type}' + '&src=' + '#{src}' + '&autoplay=' + '#{autoplay}' + '&automute=' +'#{automute}', frameborder='0', style='height:100%', width='100%')
+                                                                    .pinit
+                                                                      img(typeof='foaf:Image', src='http://www.womenshealthmag.com/sites/womenshealthmag.com/files/articles/2016/02/photo-1429314793865-7b83883d24cd.jpeg', alt='sex in cars')
+                                                                      .pinit-btn-container
+                                                                        a#active-pinit.pin-it-button(href='http://pinterest.com/pin/create/button/?url=http://www.womenshealthmag.com/sex-and-love/caught-having-sex-in-the-car&media=http://www.womenshealthmag.com/sites/womenshealthmag.com/files/articles/2016/02/photo-1429314793865-7b83883d24cd.jpeg&description=Here%E2%80%99s%20How%20Many%20People%20Have%20Officially%20Gotten%20Caught%20Having%20Sex%20in%20a%20Car%20%20http://www.womenshealthmag.com/sex-and-love/caught-having-sex-in-the-car', count-layout='none')
+                                                                        .clk-pinit
+
                                                         span.photo-cred  
                                                 .sharebar-wrapper
                                                     ul#sharebar-126596.sharebar.vertical
