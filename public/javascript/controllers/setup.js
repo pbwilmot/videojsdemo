@@ -40,7 +40,16 @@ function replaceIframe(source) {
   $('#randomid')
     .contents()
     .find('#iframe-replace')
-    .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>")    
+    .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
+    
+  $('#randomid')
+    .contents()
+    .find('#iframe-replace').load(function () {
+      $(this)
+        .contents()
+        .find('#BuzzAdDiv')
+        .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");    
+    });
 };
 
 function addIFrame(parent, source, adSettings) {
