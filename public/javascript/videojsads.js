@@ -45,14 +45,11 @@ var Ads = function(adTag, autoplay, automute) {
       this.options,
       this.bind(this, this.adsManagerLoadedCallback));
 
-  if(this.automute == "true") {
-    console.log('Begin muted');
-    this.player.muted(true);
-  }
-  if(this.autoplay == "true") {
+  if(this.autoplay === true) {
     console.log('Autoplay starting');
     this.init();
   } else {
+    console.log('Setting up Click to play listener');
     this.player.one(startEvent, this.bind(this, this.init));
   }
 };
@@ -87,6 +84,9 @@ Ads.prototype.onAdEvent = function(event) {
   var grandparent = parent.parent;
   switch (event.type) {
     case google.ima.AdEvent.Type.LOADED:
+      if(this.automute === true) {
+        this.player.ima.getAdsManager().setVolume(0)
+      }
       break;
     case google.ima.AdEvent.Type.STARTED:
       grandparent.postMessage("ima::playing", "*");

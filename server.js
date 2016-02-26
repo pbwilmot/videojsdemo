@@ -9,15 +9,15 @@ app.use(cors());
 app.use('/static', express.static('public'));
 
 app.get('/', function(req, res) {
-  res.render('index');
+  if(req.query.type === 'VIDEO') {
+    res.render('videoindex');
+  } else {
+    res.render('index');
+  }
 });
 
 app.get('/setup', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/setup.html'));
-});
-
-app.get('/jade', function(req, res) {
-  res.render('video', { query: req.query });
 });
 
 app.get('/womenshealth', function(req, res) {

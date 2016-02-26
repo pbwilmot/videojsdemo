@@ -4,6 +4,8 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
 var VINE_SDK_PATH = "https://platform.vine.co/static/scripts/embed.js";
 var YOUTUBE_API = "https://www.youtube.com/iframe_api";
 var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
+var VIDEO_API = "/static/javascript/videojsads.js";
+
 
 var AD_TYPES = {
   VIDEO: 'VIDEO',
@@ -106,6 +108,13 @@ function makeAd(adDiv, type, source, adSettings, options) {
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
+    loadjscssfile(VIDEO_API, "js");
+    waitUntil(
+      function() {
+        return typeof Ads == "function";
+      }, function() {
+        new Ads(source, adSettings.autoplay, adSettings.automute);
+      });
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.TWITCH:
