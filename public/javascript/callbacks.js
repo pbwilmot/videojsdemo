@@ -1,53 +1,80 @@
 window.addEventListener("message", handleEvent, false);
 
-function handleEvent(e){
-  var components = e.data.split('::');
-  switch(components[1]) {
-    case 'progress':
-      console.log("progress:" + components[2]);
-      break;
-    case 'playing':
-      console.log("playing video");
-      break;
-    case 'resume':
-      console.log("resuming video");
-      break;
-    case 'paused':
-      console.log("video paused");
-      break;
-    case 'ended':
-      console.log("video ended");
-      break;
-    case 'complete':
-      console.log("video complete");
-      break;
-    case 'alladscompleted':
-      console.log("all ads completed");
-      break;
-    case 'click':
-      console.log("ad clicked");
-      break;
-    case 'thirdquartile':
-      console.log("third quartile");
-      break;
-    case 'midpoint':
-      console.log("midpoint");
-      break;
-    case 'firstquartile':
-      console.log("first quartile");
-      break;
-    case 'error':
-      console.log("video error");
-      break;
-    case 'adstart':
-      // twitch only
-      console.log("twitch ad started");
-      break;
-    case 'adend':
-      // twitch only
-      console.log("twitch ad ended");
-      break;
-    default:
-      console.log(e.data);
+function eventJSON(rawEvent) {
+}
+
+var Event = (function() {
+  var _rawEvent, _btyp, _bcod, _bsrc, _bdat;
+  var _beaconURI = '//api.buzz.st/v1/track';
+
+  function Event(rawEvent) {
+    _rawEvent = rawEvent;
+    components = rawEvent.split("::");
+    if (components.length >= 2) {
+      _bsrc = components[0];
+      _btyp = components[1];
+      //_bcode = components[2];
+      _bdat = components[2];
+    } else {
+      throw TypeError("can't parse event from raw event: " + rawEvent);
+    }
   }
+
+  Event.prototype.updateQueryParams = function(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+      return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+      return uri + separator + key + "=" + value;
+    }
+  };
+
+  Event.prototype.toJSONString = function() {
+    return JSON.stringify(this.toJSON());
+  };
+
+  Event.prototype.toJSON = function() {
+    return {
+      // temporary since beacon only accepts vast right now
+      "btyp": "vast" + _btyp[0].toUpperCase() + _btyp.slice(1, _btyp.length),
+      "bcod": _bcod,
+      "bsrc": _bsrc,
+      "bdat": _args
+    };
+  };
+
+  Event.prototype.buildRequestURI = function() {
+    var jsonRepr = this.toJSON();
+    var rv = _beaconURI;
+    for (var k in jsonRepr) {
+      rv = this.updateQueryParams(rv, k, jsonRepr[k]);
+    }
+    return rv;
+  };
+
+  Event.prototype.sendBeacon = function(callback) {
+    // async perform beacon GET /v1/track
+    var req = new XMLHttpRequest();
+    req.open('GET', this.buildRequestURI(), true);
+    req.onreadystatechange = function() {
+      // call callback upon success
+      if (typeof callback === 'function' && req.status == 201) {
+        callback();
+      }
+    };
+    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.send(this.toJSONString());
+
+    // qbabing/nicholas: print/post/send the message for demo only. parent
+    // can show events coming in, maintain their own counters
+  };
+return Event;
+})();
+
+function handleEvent(e){
+  var event = new Event(e.data);
+  console.log(event.toJSONString());
+  event.sendBeacon(function() {console.log('success');});
 }
