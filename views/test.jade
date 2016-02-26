@@ -5,8 +5,8 @@ shtml
     link(rel='stylesheet', href='/static/style/setup/style.css')
   body
     nav
-      .nav-wrapper
-        a.brand-logo(href='#') Buzzstarter
+      .nav-wrapper.center-align
+        a.buzz-logo(href='#') Buzzstarter
     .row
       
       #setup.container.col.m3
@@ -50,23 +50,24 @@ shtml
               #input-poster.input-field.col.s12
                 input#poster(name='poster', type='text')
                 label(for='poster') Poster
-              .input-field.col.s12
-                | AUTO PLAY
+              .input-field.col.s12 AUTO PLAY
+                br
                 input#autoplaytrue(name='autoplay', type='radio' value="true")
                 label(for='autoplaytrue') on
                 input#autoplayfalse(name='autoplay', type='radio' value="false")
                 label(for='autoplayfalse') off
-              .input-field.col.s12
-                | AUTO MUTE
+              .input-field.col.s12 AUTO MUTE
+                br
                 input#automutetrue(name='automute', type='radio' value="true")
                 label(for='automutetrue') on
                 input#automutefalse(name='automute', type='radio' value="false")
                 label(for='automutefalse') off
               .card-action
-                button.btn.waves-effect.waves-light(type='submit')
-                  | Submit
+                button.btn.waves-effect.waves-light(type='submit') Submit
         .card#option2
-          | yo
+          .card-content
+            textarea
+              p hi
       div#content.col.m9
         .progress
           .indeterminate

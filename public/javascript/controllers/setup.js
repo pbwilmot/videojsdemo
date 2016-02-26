@@ -33,7 +33,7 @@ $('#verticle').change(function() {
   }
 });
 
-$('#type').change(function(e) {
+$('#type').change(function() {
   if ($('#type').val() === 'VIDEO') {
     $('#input-poster').show();
   } else {
@@ -43,11 +43,11 @@ $('#type').change(function(e) {
 });
 
 window.addEventListener('message', function(e) {
-  console.log('hi');
-  if (event.origin !== 'http://localhost:8080/test') {
+  // messages handled here for metrics
+  if (e.origin !== 'http://localhost:8080/test') {
     return;
   }
-  console.log(event.data);
+  console.log(e.data);
 }, false);
 
 // clear value if not dispay video
@@ -66,7 +66,7 @@ function replaceIframe(source) {
     .contents()
     .find('#iframe-replace')
     .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
-        
+
   $('#randomid')
     .contents()
     .find('#iframe-replace').load(function () {

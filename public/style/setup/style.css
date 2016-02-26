@@ -24,3 +24,11 @@ iframe {
 #input-poster {
   display: none;
 }
+
+.buzz-logo {
+  font-size: 2.1rem;
+}
+
+.nav-wrapper {
+  background-color: #EC492B;
+}
