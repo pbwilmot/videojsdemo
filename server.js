@@ -10,7 +10,7 @@ app.use('/static', express.static('public'));
 
 app.get('/', function(req, res) {
   if(req.query.type === 'VIDEO') {
-    res.render('videoindex');
+    res.render('videoindex', { poster: req.query.poster});
   } else {
     res.render('index');
   }
