@@ -24,8 +24,8 @@ app.get('/womenshealth', function(req, res) {
     res.sendFile(path.join(__dirname + '/views/womenshealth.html'));
 });
 
-app.get('/womenshealthpost', function(req, res) {
-  res.render('womenshealthpost', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+app.get('/female-lifestyle-post', function(req, res) {
+  res.render('female-lifestyle-post', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/tc', function(req, res) {
@@ -40,43 +40,32 @@ app.get('/test', function(req, res) {
   res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
-app.get('/test/post/:id', function(req, res) {
-  var route = "";
-  switch (req.params.id) {
-    case 'female-lifestyle':
-      route = 'womenshealthpost';
-      break;
-    case 'male-lifestyle':
-      route = 'tcpost';
-      break;
-    default:
-      return
-  };
-  res.render(route, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+app.get('/test/post/:verticle', function(req, res) {
+  res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/aom', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/aom.html'));
 });
 
-app.get('/aompost', function(req, res) {
-  res.sendFile(path.join(__dirname + '/views/aompost.html'));
+app.get('/male-lifestyle-post', function(req, res) {
+  res.render('male-lifestyle-post', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/cnn', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/cnn.html'));
 });
 
-app.get('/cnnpost', function(req, res) {
-  res.sendFile(path.join(__dirname + '/views/cnnpost.html'));
+app.get('/business-post', function(req, res) {
+  res.render('business-post', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/mt', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/mt.html'));
 });
 
-app.get('/mtpost', function(req, res) {
-  res.sendFile(path.join(__dirname + '/views/mtpost.html'));
+app.get('/auto-post', function(req, res) {
+  res.render('auto-post', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/kotaku', function(req, res) {
