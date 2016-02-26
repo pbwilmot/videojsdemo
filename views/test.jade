@@ -8,9 +8,16 @@ shtml
       .nav-wrapper
         a.brand-logo(href='#') Buzzstarter
     .row
-
+      
       #setup.container.col.m3
-        .card
+        .row
+          .col.s12
+            ul.tabs
+              li.tab.col.s6
+                a(href='#option1') Setup
+              li.tab.col.s6
+                a(href='#option2') Metrics
+        .card#option1
           .card-content
             form#setup-form
               .input-field.col.s12
@@ -38,27 +45,28 @@ shtml
                   option(value='VIDEO' name='type') Hosted Video
                 label CHANNEL
               .input-field.col.s12
-                | URL
-                input#src(name='src' type='text')
+                input#src(name='src', type='text')
+                label(for='src') URL
               #input-poster.input-field.col.s12
-                | POSTER
-                input#poster(name='poster' type='text')
+                input#poster(name='poster', type='text')
+                label(for='poster') Poster
               .input-field.col.s12
-                      | AUTO PLAY
-                      input#autoplaytrue(name='autoplay', type='radio' value="true")
-                      label(for='autoplaytrue') on
-                      input#autoplayfalse(name='autoplay', type='radio' value="false")
-                      label(for='autoplayfalse') off
-                    .input-field.col.s12
-                      | AUTO MUTE
-                      input#automutetrue(name='automute', type='radio' value="true")
-                      label(for='automutetrue') on
-                      input#automutefalse(name='automute', type='radio' value="false")
-                      label(for='automutefalse') off
+                | AUTO PLAY
+                input#autoplaytrue(name='autoplay', type='radio' value="true")
+                label(for='autoplaytrue') on
+                input#autoplayfalse(name='autoplay', type='radio' value="false")
+                label(for='autoplayfalse') off
+              .input-field.col.s12
+                | AUTO MUTE
+                input#automutetrue(name='automute', type='radio' value="true")
+                label(for='automutetrue') on
+                input#automutefalse(name='automute', type='radio' value="false")
+                label(for='automutefalse') off
               .card-action
                 button.btn.waves-effect.waves-light(type='submit')
                   | Submit
-
+        .card#option2
+          | yo
       div#content.col.m9
         .progress
           .indeterminate
@@ -66,3 +74,4 @@ shtml
     script(src='https://code.jquery.com/jquery-2.1.2.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
     script(src='static/javascript/controllers/setup.js')
+    script(src='static/javascript/callbacks.js')
