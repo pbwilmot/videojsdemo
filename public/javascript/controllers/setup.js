@@ -1,11 +1,5 @@
 $('select').material_select();
 
-$('.choose-type').on('click', function() {
-  $('.li-type').hide();
-  id = $(this).val();
-  $('#' + id.toLowerCase()).toggle();
-});
-
 $('#setup-form').submit(function(e) {
   e.preventDefault();
   verticle = $('#verticle').val();
@@ -13,15 +7,41 @@ $('#setup-form').submit(function(e) {
   query = $('#setup-form input').not('[value=""]').serialize();
   query += '&type=' + type;
   var parent, url;
+
   if (document.getElementById('randomid')) {
-    url = 'http://localhost:8080/?' + query;
-    parent = document.getElementById('randomid').contentWindow.document.getElementsByClassName('iframe-div');  
-  } else {
-    url = 'http://localhost:8080/test/post/' + verticle + '/?' + query;
-    parent = document.getElementById('content');
-  } 
-  addIFrame(parent, url);
+   var url = 'http://localhost:8080/?' + query;
+    replaceIframe(url)
+  }
+  
 });
+
+$('#verticle').change(function() {
+  verticle = $('#verticle').val();
+  url = 'http://localhost:8080/test/post/' + verticle;
+  parent = document.getElementById('content');
+  if ($('#randomid').contents().find('.iframe-new').length > 0) {
+    addIFrame(parent, url);
+    $('#randomid').load(function () {
+      query = $('#setup-form input').not('[value=""]').serialize();
+      type = $('#type').val();
+      query += '&type=' + type;
+      var url = 'http://localhost:8080/?' + query;
+      replaceIframe(url);  
+    });
+  } else {
+    addIFrame(parent, url);
+  }
+});
+
+function replaceIframe(source) {
+  height = $('#randomid').contents().find('#iframe-div').height();
+  width = $('#randomid').contents().find('#iframe-div').width();
+
+  $('#randomid')
+    .contents()
+    .find('#iframe-replace')
+    .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>")    
+};
 
 function addIFrame(parent, source, adSettings) {
   var iframe = document.createElement('iframe');
@@ -30,27 +50,17 @@ function addIFrame(parent, source, adSettings) {
   iframe.style.height = "100vh";
   iframe.id = "randomid";
   iframe.src = source;
-  if (parent.length) {
-    document.getElementById('randomid').contentWindow.document.getElementById('iframe-player').src = source;
+  if (document.getElementById('randomid')) {
+    parent.replaceChild(iframe, document.getElementById('randomid'))
   } else {
-    parent.appendChild(iframe); 
+    parent.appendChild(iframe);   
   }
-  $('.progress').show();
   
-  if ($('iframe').contents().find('iframe')) {
-    $('iframe').contents().find('iframe').load(function () {
-      $('.progress').css('display', 'none');
-    });
-  } else {
-    $('iframe').load(function () {
-      $('.progress').css('display', 'none');
-    });
-  };
-}
-
-$('.collapsible-header').on('click', function(e) {
-  $(this).find("[type=radio]").attr('checked', true);
-})
+  $('.progress').show();
+  $('#randomid').load(function () {
+    $('.progress').css('display', 'none');
+  });
+};
 
 $('#setup-form input[type=text').not($('#setup-form .select-dropdown')).keyup(function(e) {
   $('#setup-form input[type=text')
