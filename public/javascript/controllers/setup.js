@@ -9,10 +9,10 @@ $('#setup-form').submit(function(e) {
   var parent, url;
 
   if (document.getElementById('randomid')) {
-   var url = 'http://localhost:8080/?' + query;
-    replaceIframe(url)
+   url = 'http://localhost:8080/?' + query;
+   replaceIframe(url);
   }
-  
+
 });
 
 $('#verticle').change(function() {
@@ -26,12 +26,37 @@ $('#verticle').change(function() {
       type = $('#type').val();
       query += '&type=' + type;
       var url = 'http://localhost:8080/?' + query;
-      replaceIframe(url);  
+      replaceIframe(url);
     });
   } else {
     addIFrame(parent, url);
   }
 });
+
+$('#type').change(function() {
+  if ($('#type').val() === 'VIDEO') {
+    $('#input-poster').show();
+  } else {
+    $('#input-poster').hide();
+    $('#poster').val('');
+  }
+});
+
+window.addEventListener('message', function(e) {
+  // messages handled here for metrics
+  if (e.origin !== 'http://localhost:8080/test') {
+    return;
+  }
+  console.log(e.data);
+}, false);
+
+// clear value if not dispay video
+// window.postmessage listen for events that come form window.postmessage
+// string is first parameter, second is the domain being sent to (*)
+// each meessage fires an event
+// each event is going to a metcic
+// display the metcic a a line item
+// can use window.onMessage
 
 function replaceIframe(source) {
   height = $('#randomid').contents().find('#iframe-div').height();
@@ -41,16 +66,16 @@ function replaceIframe(source) {
     .contents()
     .find('#iframe-replace')
     .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
-    
+
   $('#randomid')
     .contents()
     .find('#iframe-replace').load(function () {
       $(this)
         .contents()
         .find('#BuzzAdDiv')
-        .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");    
+        .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
-};
+}
 
 function addIFrame(parent, source, adSettings) {
   var iframe = document.createElement('iframe');
@@ -60,20 +85,13 @@ function addIFrame(parent, source, adSettings) {
   iframe.id = "randomid";
   iframe.src = source;
   if (document.getElementById('randomid')) {
-    parent.replaceChild(iframe, document.getElementById('randomid'))
+    parent.replaceChild(iframe, document.getElementById('randomid'));
   } else {
-    parent.appendChild(iframe);   
+    parent.appendChild(iframe);
   }
-  
+
   $('.progress').show();
   $('#randomid').load(function () {
     $('.progress').css('display', 'none');
   });
-};
-
-$('#setup-form input[type=text').not($('#setup-form .select-dropdown')).keyup(function(e) {
-  $('#setup-form input[type=text')
-    .not(e.target)
-    .not($('#setup-form .select-dropdown'))
-    .val("");
-});
+}

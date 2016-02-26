@@ -6,18 +6,29 @@
   display: none;
 }
 
-body, html { 
+body, html {
   width:100% ;
   height:100% ;
   overflow:hidden ;
 }
 
-iframe { 
+iframe {
   width:100%;
   height:100%;
   border:none;
 }
-
 #content .progress {
   display: none;
+}
+
+#input-poster {
+  display: none;
+}
+
+.buzz-logo {
+  font-size: 2.1rem;
+}
+
+.nav-wrapper {
+  background-color: #EC492B;
 }
