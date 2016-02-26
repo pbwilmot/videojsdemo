@@ -155,6 +155,20 @@ function waitUntil(check,onComplete,delay,timeout) {
   },timeout);
 }
 
+function getTopLevelWindow() {
+    // debugger;
+    var currentWindow = window;
+    // var break = false;
+    while( currentWindow.parent != currentWindow ) {
+        currentWindow = currentWindow.parent;
+        if (typeof currentWindow.parent == 'undefined'){
+            // debugger;
+            return currentWindow.ownerDocument.defaultView;
+        }
+    }
+    return currentWindow;
+}
+var parentWindow = getTopLevelWindow();
 
 function loadjscssfile(filename, filetype) {
   console.log(filename);
@@ -208,32 +222,31 @@ function loadjscssfile(filename, filetype) {
     paused = false;
     pollTwitchPlayTime(true);
     if (twitchPlaytime > 0) {
-      parent.postMessage("twitch::resume", "*");
+      parentWindow.postMessage("twitch::resume", "*");
     } else {
-      parent.postMessage("twitch::playing", "*");
+      parentWindow.postMessage("twitch::playing", "*");
     }
   }
   function twitchPauseEventHandler() {
-    parent.postMessage("twitch::pause event handler::" + tplayer.getCurrentTime(), "*");
     paused = true;
-    parent.postMessage("twitch::paused", "*");
+    parentWindow.postMessage("twitch::paused", "*");
   }
   function twitchEndedEventHandler() {
-    parent.postMessage("twitch::ended", "*");
+    parentWindow.postMessage("twitch::ended", "*");
   }
   function twitchOnlineEventHandler() {
     console.log('twitch video/stream online');
   }
   function twitchOfflineEventHandler() {
-    parent.postMessage("twitch::error", "*");
+    parentWindow.postMessage("twitch::error", "*");
   }
   function twitchAdStartEventHandler() {
-    parent.postMessage("twitch::adstart", "*");
+    parentWindow.postMessage("twitch::adstart", "*");
     inPrerollAd = true;
     adTime = tplayer.getCurrentTime();
   }
   function twitchAdEndEventHandler() {
-    parent.postMessage("twitch::adend", "*");
+    parentWindow.postMessage("twitch::adend", "*");
     inPrerollAd = false;
     adTime += (tplayer.getCurrentTime() - adTime);
     pollTwitchPlayTime(false);
@@ -325,7 +338,7 @@ function loadjscssfile(filename, filetype) {
 
   function onPlayerError(event) {
     // TODO: error handling
-    parent.postMessage("yt::error" + event.data);
+    parentWindow.postMessage("yt::error" + event.data);
   }
 
   var rcvStates = {
@@ -337,19 +350,19 @@ function loadjscssfile(filename, filetype) {
   function pollGetCurrentTime() {
     var progress = player.getCurrentTime() / player.getDuration();
     if (progress >= 1) {
-      parent.postMessage("yt::complete", "*");
+      parentWindow.postMessage("yt::complete", "*");
       return;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
-      parent.postMessage("yt::thirdquartile", "*");
+      parentWindow.postMessage("yt::thirdquartile", "*");
       rcvStates.thirdquartile = true;
     }
     else if (progress >= 0.5 && !rcvStates.midpoint) {
-      parent.postMessage("yt::midpoint", "*");
+      parentWindow.postMessage("yt::midpoint", "*");
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parent.postMessage("yt::firstquartile", "*");
+      parentWindow.postMessage("yt::firstquartile", "*");
       rcvStates.firstquartile = true;
     }
 
@@ -369,40 +382,41 @@ function loadjscssfile(filename, filetype) {
     var windowTime = 30;
     var progress = twitchPlaytime / windowTime;
     if (progress >= 1 && !rcvStates.complete) {
-      parent.postMessage("twitch::complete", "*");
+      parentWindow.postMessage("twitch::complete", "*");
       rcvStates.complete = true;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
-      parent.postMessage("twitch::thirdquartile", "*");
+      parentWindow.postMessage("twitch::thirdquartile", "*");
       rcvStates.thirdquartile = true;
     }
     else if (progress >= 0.5 && !rcvStates.midpoint) {
-      parent.postMessage("twitch::midpoint", "*");
+      parentWindow.postMessage("twitch::midpoint", "*");
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parent.postMessage("twitch::firstquartile", "*");
+      parentWindow.postMessage("twitch::firstquartile", "*");
       rcvStates.firstquartile = true;
     }
 
     setTimeout(function(){pollTwitchPlayTime(false);}, 1000);
   }
+
   function onPlayerStateChange(event) {
     console.log(event.data);
     switch(event.data) {
       case YT.PlayerState.PLAYING:
         if (player.getCurrentTime() > 0) {
-          parent.postMessage("yt::resume", "*");
+          parentWindow.postMessage("yt::resume", "*");
         } else {
-          parent.postMessage("yt::playing", "*");
+          parentWindow.postMessage("yt::playing", "*");
         }
         pollGetCurrentTime();
         break;
       case YT.PlayerState.PAUSED:
-        parent.postMessage("yt::paused", "*");
+        parentWindow.postMessage("yt::paused", "*");
         break;
       case YT.PlayerState.ENDED:
-        parent.postMessage("yt::ended", "*");
+        parentWindow.postMessage("yt::ended", "*");
         break;
       default:
         console.log('unrecognized state');

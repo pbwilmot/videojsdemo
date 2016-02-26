@@ -1,10 +1,9 @@
 window.addEventListener("message", handleEvent, false);
-
 function eventJSON(rawEvent) {
 }
 
 var Event = (function() {
-  var _rawEvent, _btyp, _bcod, _bsrc, _bdat;
+  var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
   var _beaconURI = '//api.buzz.st/v1/track';
 
   function Event(rawEvent) {
@@ -74,7 +73,8 @@ return Event;
 })();
 
 function handleEvent(e){
-  var event = new Event(e.data);
-  console.log(event.toJSONString());
-  event.sendBeacon(function() {console.log('success');});
+  // var event = new Event(e.data);
+  // console.log(event.toJSONString());
+  console.log(e);
+  // event.sendBeacon(function() {console.log('success');});
 }
