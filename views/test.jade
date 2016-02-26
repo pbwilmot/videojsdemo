@@ -29,17 +29,17 @@ shtml
                   option(value='gaming') Gaming
                   option(value='multi-cultural') Multi-Cultural
                 label VERTICLE
-              
-              ul.collapsible(data-collapsible='accordion')
-                li
-                  .collapsible-header
-                    input#twitch-type.choose-type(name='type', type='radio' value="TWITCH")
-                    | TWITCH
-                  .collapsible-body
-                    .input-field.col.s12
-                      input#twitch(name='src' type='text')
-                      label(for='twitch') TWITCH USERNAME
-                    .input-field.col.s12
+              .input-field.col.s12
+                select#type(required)
+                  option(value='', disabled='', selected='') Choose your option
+                  option(value='TWITCH' name='type') Twitch
+                  option(value='YOUTUBE' name='type') YouTube
+                  option(value='VINE' name='type') Vine
+                label CHANNEL
+              .input-field.col.s12
+                | URL
+                input#src(name='src' type='text')
+              .input-field.col.s12
                       | AUTO PLAY
                       input#autoplaytrue(name='autoplay', type='radio' value="true")
                       label(for='autoplaytrue') on
@@ -51,30 +51,6 @@ shtml
                       label(for='automutetrue') on
                       input#automutefalse(name='automute', type='radio' value="false")
                       label(for='automutefalse') off
-                li
-                  .collapsible-header
-                    input#youtube-type.choose-type(name='type', type='radio' value="YOUTUBE")
-                    | YOUTUBE
-                  .collapsible-body
-                    .input-field
-                      //- input#youtube(name='src' type='text')
-                      label(for='youtube') YOUTUBE URL
-                    //- |             Auto Play
-                    //- input(type='radio', name='autoplay', value='Yes')
-                    //- | Yes
-                    //- input(type='radio', name='autoplay', value='No')
-                    //- |  No
-                li
-                  .collapsible-header
-                    | VINE
-                  .collapsible-body
-                    label(for='twitch') TWITCH USERNAME
-                    //- input#twitch(name='src')
-                    |             Auto Play
-                    input(type='radio', name='autoplay', value='Yes')
-                    | Yes
-                    input(type='radio', name='autoplay', value='No')
-                    |  No
               .card-action
                 button.btn.waves-effect.waves-light(type='submit')
                   | Submit
