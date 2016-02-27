@@ -113,7 +113,8 @@ function makeAd(adDiv, type, source, adSettings, options) {
       function() {
         return typeof Ads == "function";
       }, function() {
-        new Ads(source, adSettings.autoplay, adSettings.automute);
+        var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
+        // debugger;
       });
     break;
     // Fall through to youtube and add the iframe
@@ -212,8 +213,28 @@ function loadjscssfile(filename, filetype) {
     if (adSettings.autoplay) {
       tplayer.play();
     }
+    // debugger;
+    setHoverT(adDiv.id, tplayer);
   }
 
+  function setHover(elementId, ytplayer){
+    var element = window.document.getElementById(elementId);
+    element.onmouseenter = function(){ ytplayer.unMute(); };
+    element.onmouseleave = function(){ ytplayer.mute(); };  
+  }
+
+  // function setHoverIMA(elementId, imaplayer) {
+  //   var element = window.document.getElementById(elementId);
+  //   element.onmouseenter = function(){ imaplayer.muted = false; };
+  //   element.onmouseleave = function(){ imaplayer.muted = true; };    
+  // }
+
+  function setHoverT(elementId, twplayer){
+    // debugger;
+    var element = window.document.getElementById(elementId);
+    element.onmouseenter = function(){ twplayer.setMuted(false); };
+    element.onmouseleave = function(){ twplayer.setMuted(true); };  
+  }
 
   function twitchPlayEventHandler() {
     paused = false;
@@ -331,6 +352,7 @@ function loadjscssfile(filename, filetype) {
         'onError': onPlayerError
       }
     });
+    setHover(player.m.id, player);
   }
 
   function onPlayerError(event) {
