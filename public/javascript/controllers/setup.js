@@ -42,14 +42,6 @@ $('#type').change(function() {
   }
 });
 
-window.addEventListener('message', function(e) {
-  // messages handled here for metrics
-  if (e.origin !== 'http://localhost:8080/test') {
-    return;
-  }
-  console.log(e.data);
-}, false);
-
 // clear value if not dispay video
 // window.postmessage listen for events that come form window.postmessage
 // string is first parameter, second is the domain being sent to (*)
