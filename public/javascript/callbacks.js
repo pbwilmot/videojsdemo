@@ -65,9 +65,6 @@ var Event = (function() {
     };
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     req.send(this.toJSONString());
-
-    // qbabing/nicholas: print/post/send the message for demo only. parent
-    // can show events coming in, maintain their own counters
   };
 return Event;
 })();
@@ -77,7 +74,7 @@ function handleEvent(e){
   var type = event.toJSON().btyp.split('vast')[1];
   var metric = document.getElementById('event-' + type);
   if (metric) {
-    metric.style.display = 'block';
+    metric.className += ' event-fired';
   }
 
   // event.sendBeacon(function() {console.log('success');});

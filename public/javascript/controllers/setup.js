@@ -42,14 +42,6 @@ $('#type').change(function() {
   }
 });
 
-// clear value if not dispay video
-// window.postmessage listen for events that come form window.postmessage
-// string is first parameter, second is the domain being sent to (*)
-// each meessage fires an event
-// each event is going to a metcic
-// display the metcic a a line item
-// can use window.onMessage
-
 function replaceIframe(source) {
   height = $('#randomid').contents().find('#iframe-div').height();
   width = $('#randomid').contents().find('#iframe-div').width();

@@ -65,15 +65,20 @@ shtml
               .card-action
                 button.btn.waves-effect.waves-light(type='submit') Submit
         .card#option2
-          .card-content
-            p Events Fired
-            p#event-Playing.fired-event Playing
-            p#event-Paused.fired-event Pause
-            p#event-Firstquartile.fired-event First Quartile
-            p#event-Midpoint.fired-event Midpoint
-            p#event-Thirdquartile.fired-event Third Quartile
-            p#event-Ended.fired-event Ended
-            p#event-Complete.fired-event Complete
+          .card-content.center-align
+            h5.metrics-header Events Fired
+            p#event-Playing.event-non-fired Playing
+            p#event-Firstquartile.event-non-fired First Quartile
+            p#event-Midpoint.event-non-fired Midpoint
+            p#event-Thirdquartile.event-non-fired Third Quartile
+            p#event-Ended.event-non-fired Ended
+            p#event-Complete.event-non-fired Complete
+            hr
+            p#event-Paused.event-non-fired Pause
+            p#event-Resume.event-non-fired Resume
+            //- p#event-error.event-non-fired Twitch: Error
+            //- p#event-adstart.event-non-fired Twitch: Ad Start
+            //- p#event-adend.event-non-fired Twitch: Ad End
       div#content.col.m9
         .progress
           .indeterminate
