@@ -2,6 +2,7 @@ $('select').material_select();
 
 $('#setup-form').submit(function(e) {
   e.preventDefault();
+
   type = $('#type').val();
 
   if (validateSrc(type)) {
@@ -100,21 +101,34 @@ function validateSrc(type) {
   var url = $.trim($('#src').val());
   switch(type) {
     case 'YOUTUBE':
-      return validateYouTubeUrl(url)
+      return validateYouTubeUrl(url);
+      break;
+    case 'TWITCH':
+      return validateTwitchUrl(url);
       break;
   }
 }
 
 function validateYouTubeUrl(url) {
-  if (url != undefined || url != '') {
-    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    if ((match && match[2].length) == 11) {
-      return match[2]
-    } else if (url.length == 11) {
-      return url
-    } else {
-      return false
-    }
+  var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+  var match = url.match(regExp);
+
+  if ((match && match[2].length) == 11) {
+    return match[2];
+  } else if (url.length == 11) {
+    return url;
+  } else {
+    return false;
+  }
+}
+
+function validateTwitchUrl(url) {
+  var regEXP = /^.*(twitch\.tv)\/?([^#\&\?]*).*/
+  var match = url.match(regEXP);
+
+  if (match && match[1] === 'twitch.tv') {
+    return match[2];
+  } else {
+    return url;
   }
 }
