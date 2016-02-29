@@ -1,31 +1,31 @@
 var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   'use strict';
 
-var VINE_SDK_PATH = "https://platform.vine.co/static/scripts/embed.js";
-var YOUTUBE_API = "https://www.youtube.com/iframe_api";
-var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
-var VIDEO_API = "/static/javascript/videojsads.js";
+  var VINE_SDK_PATH = "https://platform.vine.co/static/scripts/embed.js";
+  var YOUTUBE_API = "https://www.youtube.com/iframe_api";
+  var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
+  var VIDEO_API = "/static/javascript/videojsads.js";
 
 
-var AD_TYPES = {
-  VIDEO: 'VIDEO',
-  YOUTUBE: 'YOUTUBE',
-  VINE: 'VINE',
-  TWITCH: 'TWITCH',
-};
+  var AD_TYPES = {
+    VIDEO: 'VIDEO',
+    YOUTUBE: 'YOUTUBE',
+    VINE: 'VINE',
+    TWITCH: 'TWITCH',
+  };
 
-var adDiv;
-var adSettings;
-var src;
+  var adDiv;
+  var adSettings;
+  var src;
 
-var BuzzAdManager = function(id, opts) {
-  adDiv = document.getElementById(id);
-  var options = (opts || QueryStringToJSON());
+  var BuzzAdManager = function(id, opts) {
+    adDiv = document.getElementById(id);
+    var options = (opts || QueryStringToJSON());
 
-  console.log(JSON.stringify(options));
-  adSettings = makeAdSettings(options);
-  console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
-  makeAd(adDiv, options.type, options.src, adSettings, options);
+    console.log(JSON.stringify(options));
+    adSettings = makeAdSettings(options);
+    console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
+    makeAd(adDiv, options.type, options.src, adSettings, options);
   // activateDiv(adDiv);
 };
 
@@ -85,27 +85,25 @@ function addIFrame(parent, source, adSettings) {
 function makeAd(adDiv, type, source, adSettings, options) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
-      loadjscssfile(YOUTUBE_API, "js");
-      addIFrame(adDiv, '', adSettings);
-      src = source;
-      return;
+    loadjscssfile(YOUTUBE_API, "js");
+    addIFrame(adDiv, '', adSettings);
+    src = source;
+    return;
     case AD_TYPES.VINE:
       // Load Vine SDK
       loadjscssfile(VINE_SDK_PATH, "js");
-
       // set vine audio
       var audio = "1";
       if (typeof options.mute === 'undefined' && adSettings.automute) {
         audio = "0";
       }
       source = updateQueryStringParams(source, "audio", audio);
-
       var autoplay = "1";
       if (!adSettings.autoplay) {
         autoplay = "0";
       }
       source = updateQueryStringParams(source, "autoplay", autoplay);
-    break;
+      break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
     loadjscssfile(VIDEO_API, "js");
@@ -115,20 +113,20 @@ function makeAd(adDiv, type, source, adSettings, options) {
       }, function() {
         var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
         if(adSettings.audiohover){
-            setHoverIMA(adDiv.id, ads.player);
+          setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
         }
       });
     break;
     // Fall through to youtube and add the iframe
     case AD_TYPES.TWITCH:
-      loadjscssfile(TWITCH_API,"js");
-      src = source;
-      waitUntil(
-        function() {
+    loadjscssfile(TWITCH_API,"js");
+    src = source;
+    waitUntil(
+      function() {
         return typeof Twitch == "object";},
         function() {loadTwitch(source);}
-      );
-      return;
+        );
+    return;
   }
   src = source;
   addIFrame(adDiv, source, adSettings);
@@ -137,8 +135,8 @@ function makeAd(adDiv, type, source, adSettings, options) {
 function waitUntil(check,onComplete,delay,timeout) {
   // if the check returns true, execute onComplete immediately
   if (check()) {
-      onComplete();
-      return;
+    onComplete();
+    return;
   }
 
   if (!delay) delay=100;
@@ -151,10 +149,10 @@ function waitUntil(check,onComplete,delay,timeout) {
       clearInterval(intervalPointer);
       if (timeoutPointer) clearTimeout(timeoutPointer);
       onComplete();
-  },delay);
+    },delay);
   // if after timeout milliseconds function doesn't return true, abort
   if (timeout) timeoutPointer=setTimeout(function () {
-      clearInterval(intervalPointer);
+    clearInterval(intervalPointer);
   },timeout);
 }
 
@@ -164,15 +162,15 @@ function getTopLevelWindow() {
         currentWindow = currentWindow.parent;
         if (typeof currentWindow.parent == 'undefined'){
             return currentWindow.ownerDocument.defaultView;
+          }
         }
-    }
-    return currentWindow;
-}
-var parentWindow = getTopLevelWindow();
+        return currentWindow;
+      }
+      var parentWindow = getTopLevelWindow();
 
-function loadjscssfile(filename, filetype) {
-  console.log(filename);
-  var fileref;
+      function loadjscssfile(filename, filetype) {
+        console.log(filename);
+        var fileref;
     if (filetype == "js") { //if filename is a external JavaScript file
       fileref = document.createElement('script');
       fileref.setAttribute("type", "text/javascript");
@@ -195,9 +193,9 @@ function loadjscssfile(filename, filetype) {
   var adTime = 0;
   function loadTwitch(channel){
     var options = {
-        autoplay: false,
-        muted: adSettings.automute,
-        channel: channel
+      autoplay: false,
+      muted: adSettings.automute,
+      channel: channel
     };
     tplayer = new Twitch.Player(adDiv, options);
     if (adDiv.children.length > 0) {
@@ -216,28 +214,29 @@ function loadjscssfile(filename, filetype) {
       tplayer.play();
     }
     if(adSettings.audiohover){
-      setHoverT(adDiv.id, tplayer);    
+      setHover(adDiv.id, tplayer, AD_TYPES.TWITCH);
     }
     
   }
 
-  function setHover(elementId, ytplayer){
+  function setHover(elementId, vplayer, playerType){
     var element = window.document.getElementById(elementId);
-    element.onmouseenter = function(){ ytplayer.unMute(); };
-    element.onmouseleave = function(){ ytplayer.mute(); };  
-  }
-  // var imaplayer;
-  function setHoverIMA(elementId, imaplayer) {
-    var element = window.document.getElementById(elementId);
-    element.onmouseenter = function(){ imaplayer.ima.getAdsManager().setVolume(1); };
-    element.onmouseleave = function(){ imaplayer.ima.getAdsManager().setVolume(0); };
-  }
-
-  function setHoverT(elementId, twplayer){
-    // debugger;
-    var element = window.document.getElementById(elementId);
-    element.onmouseenter = function(){ twplayer.setMuted(false); };
-    element.onmouseleave = function(){ twplayer.setMuted(true); };  
+    switch(playerType){
+      case AD_TYPES.YOUTUBE:
+      element.onmouseenter = function(){ vplayer.unMute(); };
+      element.onmouseleave = function(){ vplayer.mute(); };
+      break;
+      case AD_TYPES.VIDEO:
+      element.onmouseenter = function(){ vplayer.ima.getAdsManager().setVolume(1); };
+      element.onmouseleave = function(){ vplayer.ima.getAdsManager().setVolume(0); };
+      break;
+      case AD_TYPES.TWITCH:
+      element.onmouseenter = function(){ vplayer.setMuted(false); };
+      element.onmouseleave = function(){ vplayer.setMuted(true); };
+      break;
+      default:
+      console.log('unknown sethover for video type '+playerType);
+    }
   }
 
   function twitchPlayEventHandler() {
@@ -357,7 +356,7 @@ function loadjscssfile(filename, filetype) {
       }
     });
     if(adSettings.audiohover){
-        setHover(player.m.id, player);
+      setHover(player.m.id, player, AD_TYPES.YOUTUBE);
     }
     
   }
@@ -431,21 +430,21 @@ function loadjscssfile(filename, filetype) {
     console.log(event.data);
     switch(event.data) {
       case YT.PlayerState.PLAYING:
-        if (player.getCurrentTime() > 0) {
-          parentWindow.postMessage("yt::resume", "*");
-        } else {
-          parentWindow.postMessage("yt::playing", "*");
-        }
-        pollGetCurrentTime();
-        break;
+      if (player.getCurrentTime() > 0) {
+        parentWindow.postMessage("yt::resume", "*");
+      } else {
+        parentWindow.postMessage("yt::playing", "*");
+      }
+      pollGetCurrentTime();
+      break;
       case YT.PlayerState.PAUSED:
-        parentWindow.postMessage("yt::paused", "*");
-        break;
+      parentWindow.postMessage("yt::paused", "*");
+      break;
       case YT.PlayerState.ENDED:
-        parentWindow.postMessage("yt::ended", "*");
-        break;
+      parentWindow.postMessage("yt::ended", "*");
+      break;
       default:
-        console.log('unrecognized state');
+      console.log('unrecognized state');
     }
   }
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
