@@ -47,3 +47,20 @@ iframe {
 .card .card-content p.event-fired {
   color: #26a69a;
 }
+
+.btn-submit {
+  display: block;
+  margin: 20px auto 0 auto;
+}
+
+.tabs-container {
+  margin: 20px -0.75rem 0 -0.75rem;
+}
+
+.card .card-action {
+  padding: 0;
+}
+
+#setup-form {
+  margin-bottom: 0;
+}
