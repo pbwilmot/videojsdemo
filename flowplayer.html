@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Buzzstarter Embeded Flash Video Test Player</title>
+    <!-- optimize mobile versions -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//releases.flowplayer.org/6.0.5/skin/functional.css">
+    <!-- load the vast plugin stylesheet after the Flowplayer skin -->
+    <link rel="stylesheet" href="//releases.flowplayer.org/vast/flowplayer.org/1.0.1/vast.min.css" media="screen">
+    <!-- ... -->
+    <script src="//releases.flowplayer.org/6.0.5/flowplayer.min.js"></script>
+    <!-- load JavaScript assets after the Flowplayer library -->
+    <!-- IMA sdk -->
+    <script src="//s0.2mdn.net/instream/html5/ima3.js"></script>
+    <!-- Flowplayer vast plugin -->
+    <script src="//releases.flowplayer.org/vast/flowplayer.org/1.0.1/vast.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style/style.css" />
+</head>
+
+<body>
+  <header>Buzzstarter Embeded Flash Video</header>
+    <div id="content" style="width:640; margin:0 auto; display: block; background-color: black">
+      <div id="vast">
+      </div>
+    </div>
+    <div style="text-align: center">
+      <h3>Log</h3>
+      <div id="log"></div>
+    </div>
+    <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
+    <script>
+    window.onload = function() {
+
+        var log = function(e) {
+            var el = document.createElement("p"),
+                date = new Date(e.timeStamp / 1000);
+            el.innerHTML = e.type + " " + date.toString();
+            document.getElementById("log").appendChild(el);
+        };
+
+        flowplayer("#vast", {
+            splash: true,
+            bgcolor: "#333333",
+            ratio: 9 / 16,
+
+            // interactive media ads player config
+            ima: {
+                // debug
+                events: {
+                    onAdStarted: log,
+                    onAdClicked: log,
+                    onAdClosed: log,
+                    onAdSkipped: log,
+                    onAdPaused: log,
+                    onAdCompleted: log,
+                    onAdAllCompleted: log,
+                    onAdError: log
+                }
+            },
+
+            playlist: [{
+                ima: {
+                    ads: [{
+                        time: 0,
+                        adTag: "//b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23"
+                    }],
+                },
+
+                sources: [{
+                    type: "video/webm",
+                    src: "//stream.flowplayer.org/drive.webm"
+                }, {
+                    type: "video/mp4",
+                    src: "//stream.flowplayer.org/drive.mp4"
+                }, {
+                    type: "application/x-mpegurl",
+                    src: "//stream.flowplayer.org/drive.m3u8"
+                }]
+
+            }]
+        });
+
+    };
+    </script>
+</body>
+
+</html>
