@@ -3,17 +3,16 @@ $('select').material_select();
 $('#setup-form').submit(function(e) {
   e.preventDefault();
 
-  type = $('#type').val();
+  var type = $('#type').val();
 
   if (validateSrc(type)) {
-    verticle = $('#verticle').val();
     $('#src').val(validateSrc(type));
-    query = $('#setup-form input').not('[value=""]').serialize();
+    var query = $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
-    url = 'http://localhost:8080/?' + query;
+    var url = 'http://localhost:8080/?' + query;
     replaceIframe(url);
   } else {
-    console.log('not a valid url for ' + type);
+    alert('not a valid url for ' + type);
   }
 
 });
@@ -59,8 +58,8 @@ window.addEventListener('message', function(e) {
 // can use window.onMessage
 
 function replaceIframe(source) {
-  height = $('#randomid').contents().find('#iframe-div').height();
-  width = $('#randomid').contents().find('#iframe-div').width();
+  var height = $('#randomid').contents().find('#iframe-div').height();
+  var width = $('#randomid').contents().find('#iframe-div').width();
 
   $('#randomid')
     .contents()
@@ -106,6 +105,8 @@ function validateSrc(type) {
     case 'TWITCH':
       return validateTwitchUrl(url);
       break;
+    default:
+      return url;
   }
 }
 
