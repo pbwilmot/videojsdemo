@@ -39,4 +39,9 @@ app.get('/innovidDesktop', function(req, res) {
 app.get('/innovidmobile', function(req, res) {
 	res.sendFile(path.join(__dirname + '/innovid_mobile.html'));
 });
+
+app.get('/flow', function(req, res) {
+	res.sendFile(path.join(__dirname + '/flowplayer.html'));
+});
+
 app.listen(process.env.PORT || 8080);
