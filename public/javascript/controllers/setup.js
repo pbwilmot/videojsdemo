@@ -2,31 +2,30 @@ $('select').material_select();
 
 $('#setup-form').submit(function(e) {
   e.preventDefault();
-  verticle = $('#verticle').val();
-  type = $('#type').val();
-  query = $('#setup-form input').not('[value=""]').serialize();
-  query += '&type=' + type;
-  var parent, url;
 
-  if (document.getElementById('randomid')) {
-   url = 'http://localhost:8080/?' + query;
-   replaceIframe(url);
+  var type = $('#type').val();
+
+  if (validateSrc(type)) {
+    $('#src').val(validateSrc(type));
+    var query = $('#setup-form input').not('[value=""]').serialize();
+    query += '&type=' + type;
+    var url = 'http://localhost:8080/?' + query;
+    replaceIframe(url);
+  } else {
+    alert('not a valid url for ' + type);
   }
 
 });
 
 $('#verticle').change(function() {
-  verticle = $('#verticle').val();
-  url = 'http://localhost:8080/test/post/' + verticle;
-  parent = document.getElementById('content');
+  var verticle = $('#verticle').val();
+  var url = 'http://localhost:8080/test/post/' + verticle;
+  var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
+    var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
     addIFrame(parent, url);
     $('#randomid').load(function () {
-      query = $('#setup-form input').not('[value=""]').serialize();
-      type = $('#type').val();
-      query += '&type=' + type;
-      var url = 'http://localhost:8080/?' + query;
-      replaceIframe(url);
+      replaceIframe(innerSrc);
     });
   } else {
     addIFrame(parent, url);
@@ -43,8 +42,8 @@ $('#type').change(function() {
 });
 
 function replaceIframe(source) {
-  height = $('#randomid').contents().find('#iframe-div').height();
-  width = $('#randomid').contents().find('#iframe-div').width();
+  var height = $('#randomid').contents().find('#iframe-div').height();
+  var width = $('#randomid').contents().find('#iframe-div').width();
 
   $('#randomid')
     .contents()
@@ -78,4 +77,43 @@ function addIFrame(parent, source, adSettings) {
   $('#randomid').load(function () {
     $('.progress').css('display', 'none');
   });
+}
+
+
+function validateSrc(type) {
+  var url = $.trim($('#src').val());
+  switch(type) {
+    case 'YOUTUBE':
+      return validateYouTubeUrl(url);
+      break;
+    case 'TWITCH':
+      return validateTwitchUrl(url);
+      break;
+    default:
+      return url;
+  }
+}
+
+function validateYouTubeUrl(url) {
+  var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+  var match = url.match(regExp);
+
+  if ((match && match[2].length) == 11) {
+    return match[2];
+  } else if (url.length == 11) {
+    return url;
+  } else {
+    return false;
+  }
+}
+
+function validateTwitchUrl(url) {
+  var regEXP = /^.*(twitch\.tv)\/?([^#\&\?]*).*/
+  var match = url.match(regEXP);
+
+  if (match && match[1] === 'twitch.tv') {
+    return match[2];
+  } else {
+    return url;
+  }
 }
