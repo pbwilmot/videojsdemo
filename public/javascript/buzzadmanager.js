@@ -62,7 +62,7 @@ function makeAdSettings(options) {
   if (skipDuration >= 0) {
     // add <span id="close-iframe">x</span>
   }
-
+  rv.audiohover =  (options.audiohover === 'true')
   rv.autoplay = (options.autoplay === 'true');
   rv.automute = (options.automute === 'true');
   rv.autoclose = (options.autoclose === 'true');
@@ -213,8 +213,10 @@ function loadjscssfile(filename, filetype) {
     if (adSettings.autoplay) {
       tplayer.play();
     }
-    // debugger;
-    setHoverT(adDiv.id, tplayer);
+    if(adSettings.audiohover){
+      setHoverT(adDiv.id, tplayer);    
+    }
+    
   }
 
   function setHover(elementId, ytplayer){
@@ -352,7 +354,10 @@ function loadjscssfile(filename, filetype) {
         'onError': onPlayerError
       }
     });
-    setHover(player.m.id, player);
+    if(adSettings.audiohover){
+        setHover(player.m.id, player);
+    }
+    
   }
 
   function onPlayerError(event) {
