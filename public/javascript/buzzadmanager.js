@@ -114,7 +114,9 @@ function makeAd(adDiv, type, source, adSettings, options) {
         return typeof Ads == "function";
       }, function() {
         var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
-        // debugger;
+        if(adSettings.audiohover){
+            setHoverIMA(adDiv.id, ads.player);
+        }
       });
     break;
     // Fall through to youtube and add the iframe
@@ -224,12 +226,12 @@ function loadjscssfile(filename, filetype) {
     element.onmouseenter = function(){ ytplayer.unMute(); };
     element.onmouseleave = function(){ ytplayer.mute(); };  
   }
-
-  // function setHoverIMA(elementId, imaplayer) {
-  //   var element = window.document.getElementById(elementId);
-  //   element.onmouseenter = function(){ imaplayer.muted = false; };
-  //   element.onmouseleave = function(){ imaplayer.muted = true; };    
-  // }
+  // var imaplayer;
+  function setHoverIMA(elementId, imaplayer) {
+    var element = window.document.getElementById(elementId);
+    element.onmouseenter = function(){ imaplayer.ima.getAdsManager().setVolume(1); };
+    element.onmouseleave = function(){ imaplayer.ima.getAdsManager().setVolume(0); };
+  }
 
   function setHoverT(elementId, twplayer){
     // debugger;
