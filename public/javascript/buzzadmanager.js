@@ -81,6 +81,7 @@ function addIFrame(parent, source, adSettings) {
   iframe.src = source;
   parent.appendChild(iframe);
 }
+var imaplayer;
 
 function makeAd(adDiv, type, source, adSettings, options) {
   switch (type) {
@@ -112,6 +113,7 @@ function makeAd(adDiv, type, source, adSettings, options) {
         return typeof Ads == "function";
       }, function() {
         var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
+        imaplayer = ads.player;
         if(adSettings.audiohover){
           setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
         }
@@ -447,6 +449,90 @@ function getTopLevelWindow() {
       console.log('unrecognized state');
     }
   }
+
+  function playContent(){
+    switch(adSettings.type) {
+      case AD_TYPES.VIDEO:
+        imaplayer.ima.resumeAd();
+        break;
+      case AD_TYPES.YOUTUBE:
+        player.playVideo();
+        break;
+      case AD_TYPES.TWITCH:
+        tplayer.play();
+        break;
+      default:
+    }
+  }
+
+  function muteContent(){
+    switch(adSettings.type) {
+      case AD_TYPES.VIDEO:
+        imaplayer.ima.getAdsManager().setVolume(0);
+        break;
+      case AD_TYPES.YOUTUBE:
+        player.mute();
+        break;
+      case AD_TYPES.TWITCH:
+        tplayer.setMuted(true);
+        break;
+      default:
+    }
+  }
+
+
+  function unMuteContent(){
+    switch(adSettings.type) {
+      case AD_TYPES.VIDEO:
+        imaplayer.ima.getAdsManager().setVolume(1);
+        break;
+      case AD_TYPES.YOUTUBE:
+        player.unMute();
+        break;
+      case AD_TYPES.TWITCH:
+        tplayer.setMuted(false);
+        break;
+      default:
+    }
+  }
+
+
+  function pauseContent(){
+    switch(adSettings.type) {
+      case AD_TYPES.VIDEO:
+        imaplayer.ima.pauseAd();
+        break;
+      case AD_TYPES.YOUTUBE:
+        player.pauseVideo();
+        break;
+      case AD_TYPES.TWITCH:
+        tplayer.pause();
+        break;
+      default:
+    }
+  }
+
+  function remoteControlEventHandler(event){
+    adSettings.type
+    switch(event.detail.action) {
+      case 'play':
+        playContent();
+        break;
+      case 'pause':
+        pauseContent();
+        break;
+      case 'mute':
+        muteContent();
+        break;
+      case 'unmute':
+        unMuteContent();
+        break;
+      default:
+        break;
+    }
+  }
+
+  window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};
 }(window));

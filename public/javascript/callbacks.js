@@ -79,3 +79,8 @@ function handleEvent(e){
 
   // event.sendBeacon(function() {console.log('success');});
 }
+
+// supported actions: {play|pause|mute|unmute}
+function player(action){
+  window.dispatchEvent(new CustomEvent('remote-control', { detail: { "action" : action}}));
+}
