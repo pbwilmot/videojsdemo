@@ -32,3 +32,18 @@ iframe {
 .nav-wrapper {
   background-color: #EC492B;
 }
+
+.card .card-content p.event-non-fired {
+  color: gray;
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card .card-content p.event-non-fired:last-child {
+  margin-bottom: 0px;
+}
+
+.card .card-content p.event-fired {
+  color: #26a69a;
+}
