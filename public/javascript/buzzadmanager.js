@@ -156,13 +156,10 @@ function waitUntil(check,onComplete,delay,timeout) {
 }
 
 function getTopLevelWindow() {
-    // debugger;
     var currentWindow = window;
-    // var break = false;
     while( currentWindow.parent != currentWindow ) {
         currentWindow = currentWindow.parent;
         if (typeof currentWindow.parent == 'undefined'){
-            // debugger;
             return currentWindow.ownerDocument.defaultView;
         }
     }

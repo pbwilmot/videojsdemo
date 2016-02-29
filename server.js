@@ -20,10 +20,6 @@ app.get('/setup', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/setup.html'));
 });
 
-app.get('/jade', function(req, res) {
-  res.render('video', { query: req.query });
-});
-
 app.get('/test', function(req, res) {
   res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
