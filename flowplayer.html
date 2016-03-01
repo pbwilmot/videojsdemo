@@ -7,13 +7,13 @@
 
 <body>
     <div id="flow-container">
-        <header>Buzzstarter Embeded HTML5 Video</header>
+        <header><p>Buzzstarter Flash Video Player</p></header>
         <div id="flow-player-container">
             <a href="http://pseudo01.hddn.com/vod/demo.flowplayervod/flowplayer-700.flv" style="display:block;" id="player"></a>
         </div>
-        <div id="flow-player-console">
+<!--         <div id="flow-player-console">
             Welcome to the Buzzstarter mobile HTML5 VAST player
-        </div>
+        </div> -->
         <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
     </div>
     <script src="/lib/flowplayer-3.2.13.min.js"></script>
@@ -21,33 +21,33 @@
     window.onload = function() {
 
     };
-    var log = function(e) {
-        console.log(e);
-        var el = document.createElement("p"),
-            date = new Date(e.timeStamp / 1000);
+    // var log = function(e) {
+    //     console.log(e);
+    //     var el = document.createElement("p"),
+    //         date = new Date(e.timeStamp / 1000);
 
-        el.innerHTML = e.type + " " + date.toString();
-        document.getElementById("flow-player-console").appendChild(el);
-    };
+    //     el.innerHTML = e.type + " " + date.toString();
+    //     document.getElementById("flow-player-console").appendChild(el);
+    // };
     flowplayer("player", "/lib/flowplayer-3.2.18.swf", {
         plugins: {
             ima: {
                 url: "/lib/flowplayer.ima-3.2.7.swf"
             },
         },
-        ima: {
-            // debug
-            events: {
-                onAdStarted: log,
-                onAdClicked: log,
-                onAdClosed: log,
-                onAdSkipped: log,
-                onAdPaused: log,
-                onAdCompleted: log,
-                onAdAllCompleted: log,
-                onAdError: log
-            }
-        },
+        // ima: {
+        //     // debug
+        //     events: {
+        //         onAdStarted: log,
+        //         onAdClicked: log,
+        //         onAdClosed: log,
+        //         onAdSkipped: log,
+        //         onAdPaused: log,
+        //         onAdCompleted: log,
+        //         onAdAllCompleted: log,
+        //         onAdError: log
+        //     }
+        // },
         playlist: [{
             provider: 'ima',
             url: 'https://b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23'
