@@ -82,6 +82,5 @@ function handleEvent(e){
 
 // supported actions: {play|pause|mute|unmute}
 function player(action){
-  // debugger;
   window.dispatchEvent(new CustomEvent('remote-control', { detail: { "action" : action }}));
 }

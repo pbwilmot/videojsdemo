@@ -43,7 +43,6 @@ $('#type').change(function() {
 });
 
 function replaceIframe(source) {
-  var adType = source.split('&type=')[1];
   var height, width;
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     height = $('#randomid').contents().find('#iframe-replace').height();
@@ -103,11 +102,14 @@ function replaceIframe(source) {
     });
   }
   $('#randomid').contents().scroll(function() {
-    pauseOutOfView(adType);
+    if ($("input[name='playpause']:checked").val() === 'true') {
+      pauseOutOfView();
+    }
   });
   $('#randomid').contents().scroll(function() {
-    // resumeInView(adType);
-    $('#BuzzAdDiv').play();
+    if ($("input[name='playpause']:checked").val() === 'true') {
+      resumeInView();
+    }
   });
 }
 
@@ -120,15 +122,15 @@ function startInView() {
   }
 }
 
-function pauseOutOfView(adType) {
+function pauseOutOfView() {
   if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
-    player('pause', adType);
+    player('pause');
   }
 }
 
-function resumeInView(adType) {
-  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value > 0.50) {
-    player('play', adType);
+function resumeInView() {
+  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value >= 0.50) {
+    player('play');
   }
 }
 
