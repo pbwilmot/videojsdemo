@@ -41,10 +41,20 @@ $('#type').change(function() {
   }
 });
 
-function replaceIframe(source) {
-  var height = $('#randomid').contents().find('#iframe-div').height();
-  var width = $('#randomid').contents().find('#iframe-div').width();
+// transition: height 2s;
+// -moz-transition: height 2s;
+// -webkit-transition: height 2s;
+// -o-transition: height 2s;
 
+function replaceIframe(source) {
+  var height, width;
+  if ($('#randomid').contents().find('.iframe-new').length > 0) {
+    height = $('#randomid').contents().find('#iframe-replace').height();
+    width = $('#randomid').contents().find('#iframe-replace').width();
+  } else {
+    height = $('#randomid').contents().find('#iframe-div').height();
+    width = $('#randomid').contents().find('#iframe-div').width();
+  }
   $('#randomid')
     .contents()
     .find('#iframe-replace')
@@ -58,6 +68,26 @@ function replaceIframe(source) {
         .find('#BuzzAdDiv')
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
+
+    $('#randomid')
+      .contents()
+      .find('#iframe-div')
+      .css('position', 'relative')
+      .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 5px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none">x</button>');
+
+  $('#randomid')
+    .contents()
+    .find('#iframe-replace')
+    .load(function() {
+      $('#randomid')
+        .contents()
+        .find('#iframe-div')
+        .css('position', 'relative')
+        .find('#close-iframe')
+        .on('click', function() {
+          $('#randomid').contents().find('#iframe-replace').slideToggle();
+        });
+  });
 }
 
 function addIFrame(parent, source, adSettings) {

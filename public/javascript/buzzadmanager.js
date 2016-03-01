@@ -218,7 +218,7 @@ function getTopLevelWindow() {
     if(adSettings.audiohover){
       setHover(adDiv.id, tplayer, AD_TYPES.TWITCH);
     }
-    
+
   }
 
   function setHover(elementId, vplayer, playerType){
@@ -360,7 +360,7 @@ function getTopLevelWindow() {
     if(adSettings.audiohover){
       setHover(player.m.id, player, AD_TYPES.YOUTUBE);
     }
-    
+
   }
 
   function onPlayerError(event) {
