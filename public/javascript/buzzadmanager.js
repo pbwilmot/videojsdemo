@@ -62,6 +62,8 @@ function makeAdSettings(options) {
   if (skipDuration >= 0) {
     // add <span id="close-iframe">x</span>
   }
+  rv.bcod = options.bcod
+  rv.completionwindow = options.completionwindow
   rv.audiohover =  (options.audiohover === 'true')
   rv.autoplay = (options.autoplay === 'true');
   rv.automute = (options.automute === 'true');
@@ -116,6 +118,12 @@ function makeAd(adDiv, type, source, adSettings, options) {
         imaplayer = ads.player;
         if(adSettings.audiohover){
           setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
+        }
+        if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
+          waitUntil(
+            function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
+            function(){ pollImaPlaytime(); }
+          );
         }
       });
     break;
@@ -395,6 +403,102 @@ function getTopLevelWindow() {
 
     window.setTimeout(pollGetCurrentTime, 1000);
   }
+
+  var sentBeacon = false;
+  function pollImaPlaytime() {
+    var adm = imaplayer.ima.getAdsManager();
+    var remaining = adm.getRemainingTime();
+    if(adm.getCurrentAd() == null){
+      return;
+    }
+    var adlength = adm.getCurrentAd().getDuration();
+    var played = 0;
+    if (((adlength - remaining) > 0) && (remaining > 0)){
+      played = (adlength - remaining);
+    }
+    var timewindow = 30;
+    if (adSettings.completionwindow != null){
+      timewindow = adSettings.completionwindow;
+    }
+    if (played > timewindow && !sentBeacon ){
+        var beacon = new BeaconEvent("ima::completion_"+timewindow+"::"+adSettings.bcod+"::"+played);
+        sentBeacon = true;
+        beacon.sendBeacon(function(){
+      });
+    }
+
+    if( played < adlength ){
+      setTimeout(function(){ pollImaPlaytime();}, 1000);
+    }
+  }
+
+  var BeaconEvent = (function() {
+  var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
+  var _beaconURI = '//api.buzz.st/v1/track';
+
+  function BeaconEvent(rawEvent) {
+    _rawEvent = rawEvent;
+    var components = rawEvent.split("::");
+    if (components.length >= 2) {
+      _bsrc = components[0];
+      _btyp = components[1];
+      _bcod = components[2];
+      _bdat = components[3];
+    } else {
+      throw TypeError("can't parse event from raw event: " + rawEvent);
+    }
+  }
+
+  BeaconEvent.prototype.updateQueryParams = function(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+      return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+      return uri + separator + key + "=" + value;
+    }
+  };
+
+  BeaconEvent.prototype.toJSONString = function() {
+    return JSON.stringify(this.toJSON());
+  };
+
+  BeaconEvent.prototype.toJSON = function() {
+    return {
+      // temporary since beacon only accepts vast right now
+      "btyp": _btyp,
+      "bcod": _bcod,
+      "bsrc": _bsrc,
+      "bdat": _bdat
+    };
+  };
+
+  BeaconEvent.prototype.buildRequestURI = function() {
+    var jsonRepr = this.toJSON();
+    var rv = _beaconURI;
+    for (var k in jsonRepr) {
+      rv = this.updateQueryParams(rv, k, jsonRepr[k]);
+    }
+    return rv;
+  };
+
+  BeaconEvent.prototype.sendBeacon = function(callback) {
+    // async perform beacon GET /v1/track
+    var req = new XMLHttpRequest();
+    req.open('GET', this.buildRequestURI(), true);
+    req.onreadystatechange = function() {
+      // call callback upon success
+      if (typeof callback === 'function' && req.status == 201) {
+        callback();
+      }
+    };
+    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.send(this.toJSONString());
+  };
+return BeaconEvent;
+})();
+
 
   function pollTwitchPlayTime(restart){
     if (!restart){
