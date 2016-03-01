@@ -14,7 +14,7 @@ $('#setup-form').submit(function(e) {
   } else {
     alert('not a valid url for ' + type);
   }
-
+  $('.event-non-fired').removeClass('event-fired');
 });
 
 $('#verticle').change(function() {
@@ -27,6 +27,7 @@ $('#verticle').change(function() {
     $('#randomid').load(function () {
       replaceIframe(innerSrc);
     });
+    $('.event-non-fired').removeClass('event-fired');
   } else {
     addIFrame(parent, url);
   }
@@ -40,11 +41,6 @@ $('#type').change(function() {
     $('#poster').val('');
   }
 });
-
-// transition: height 2s;
-// -moz-transition: height 2s;
-// -webkit-transition: height 2s;
-// -o-transition: height 2s;
 
 function replaceIframe(source) {
   var height, width;
