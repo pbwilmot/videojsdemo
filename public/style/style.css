@@ -176,7 +176,7 @@ footer {
   background-size: 100% 100%;
 }
 
-#slider {
+#iframe-div {
   overflow: hidden;
   height: 364px;
   transition: height 2s;
