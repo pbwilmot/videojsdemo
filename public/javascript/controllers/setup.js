@@ -10,7 +10,7 @@ $('#setup-form').submit(function(e) {
     var query = $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
     var url = 'http://localhost:8080/?' + query;
-    replaceIframe(url);    
+    replaceIframe(url);
   } else {
     alert('not a valid url for ' + type);
   }
@@ -43,6 +43,7 @@ $('#type').change(function() {
 });
 
 function replaceIframe(source) {
+  var adType = source.split('&type=')[1];
   var height, width;
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     height = $('#randomid').contents().find('#iframe-replace').height();
@@ -100,7 +101,14 @@ function replaceIframe(source) {
     $('#randomid').contents().scroll(function() {
       startInView();
     });
-  }  
+  }
+  $('#randomid').contents().scroll(function() {
+    pauseOutOfView(adType);
+  });
+  $('#randomid').contents().scroll(function() {
+    // resumeInView(adType);
+    $('#BuzzAdDiv').play();
+  });
 }
 
 function startInView() {
@@ -112,7 +120,17 @@ function startInView() {
   }
 }
 
+function pauseOutOfView(adType) {
+  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
+    player('pause', adType);
+  }
+}
 
+function resumeInView(adType) {
+  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
+    player('play', adType);
+  }
+}
 
 function addIFrame(parent, source, adSettings) {
   var iframe = document.createElement('iframe');
