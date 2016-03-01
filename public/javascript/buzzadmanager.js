@@ -617,7 +617,8 @@ return BeaconEvent;
   }
 
   function remoteControlEventHandler(event){
-    adSettings.type
+    adSettings = {};
+    adSettings.type = event.detail.type;
     switch(event.detail.action) {
       case 'play':
         playContent();
