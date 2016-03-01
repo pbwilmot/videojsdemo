@@ -102,11 +102,12 @@ function replaceIframe(source) {
       startInView();
     });
   }
-  $('#randomid').contents().scroll(function(e) {
+  $('#randomid').contents().scroll(function() {
     pauseOutOfView(adType);
   });
-  $('#randomid').contents().scroll(function(e) {
-    resumeInView(adType);
+  $('#randomid').contents().scroll(function() {
+    // resumeInView(adType);
+    $('#BuzzAdDiv').play();
   });
 }
 
@@ -126,7 +127,7 @@ function pauseOutOfView(adType) {
 }
 
 function resumeInView(adType) {
-  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
+  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value > 0.50) {
     player('play', adType);
   }
 }
