@@ -5,6 +5,7 @@ var cors = require('cors')
 
 app.use(cors());
 app.use('/static', express.static('public'));
+app.use('/lib', express.static('lib'));
 
 app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname + '/index.html'));
