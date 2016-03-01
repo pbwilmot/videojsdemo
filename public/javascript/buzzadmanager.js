@@ -114,17 +114,22 @@ function makeAd(adDiv, type, source, adSettings, options) {
       function() {
         return typeof Ads == "function";
       }, function() {
-        var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
-        imaplayer = ads.player;
+        window.document.getElementById('play').addEventListener('click', function(){
+          var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
+          imaplayer = ads.player;
+
+
         if(adSettings.audiohover){
           setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
         }
-        if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
-          waitUntil(
-            function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
-            function(){ pollImaPlaytime(); }
+          if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
+            waitUntil(
+              function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
+              function(){ pollImaPlaytime(); }
           );
         }
+
+        });
       });
     break;
     // Fall through to youtube and add the iframe
@@ -635,7 +640,8 @@ return BeaconEvent;
         break;
     }
   }
-
+  window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); }
+  window.play = function() { playContent();}
   window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};
