@@ -10,7 +10,7 @@ $('#setup-form').submit(function(e) {
     var query = $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
     var url = 'http://localhost:8080/?' + query;
-    replaceIframe(url);
+    replaceIframe(url);    
   } else {
     alert('not a valid url for ' + type);
   }
@@ -51,6 +51,9 @@ function replaceIframe(source) {
     height = $('#randomid').contents().find('#iframe-div').height();
     width = $('#randomid').contents().find('#iframe-div').width();
   }
+
+  var verticle = $('#verticle').val();
+
   $('#randomid')
     .contents()
     .find('#iframe-replace')
@@ -84,7 +87,32 @@ function replaceIframe(source) {
           $('#randomid').contents().find('#iframe-replace').slideToggle();
         });
   });
+
+  if (verticle === 'male-lifestyle-post') {
+    $('#randomid')
+    .contents()
+    .find('#iframe-replace').load(function () {
+      $('#randomid')
+        .contents()
+        .find('#iframe-replace')
+        .slideToggle();
+    });
+    $('#randomid').contents().scroll(function() {
+      startInView();
+    });
+  }  
 }
+
+function startInView() {
+  if (viewability.vertical($('#randomid').contents().find('#overhere')[0]).value >= 0.75) {
+    $('#randomid')
+      .contents()
+      .find('#iframe-replace')
+      .slideDown();
+  }
+}
+
+
 
 function addIFrame(parent, source, adSettings) {
   var iframe = document.createElement('iframe');
