@@ -14,6 +14,7 @@ $('#setup-form').submit(function(e) {
   } else {
     alert('not a valid url for ' + type);
   }
+  $('.event-non-fired').removeClass('event-fired');
 });
 
 $('#verticle').change(function() {
@@ -105,9 +106,9 @@ function replaceIframe(source) {
 function startInView() {
   if (viewability.vertical($('#randomid').contents().find('#overhere')[0]).value >= 0.75) {
     $('#randomid')
-        .contents()
-        .find('#iframe-replace')
-        .slideDown();
+      .contents()
+      .find('#iframe-replace')
+      .slideDown();
   }
 }
 
