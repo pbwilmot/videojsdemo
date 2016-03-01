@@ -21,16 +21,21 @@ iframe {
   display: none;
 }
 
+#content {
+  margin-top: 5px;
+}
+
 #input-poster {
   display: none;
 }
 
 .buzz-logo {
   font-size: 2.1rem;
+  margin: 0 auto;
 }
 
 .nav-wrapper {
-  background-color: #EC492B;
+  background-color: white;
 }
 
 .card .card-content p.event-non-fired {
