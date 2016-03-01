@@ -421,7 +421,7 @@ function getTopLevelWindow() {
       timewindow = adSettings.completionwindow;
     }
     if (played > timewindow && !sentBeacon ){
-        var beacon = new BeaconEvent("ima::completion_"+timewindow+"::"+adSettings.bcod+"::"+played);
+        var beacon = new BeaconEvent("ima::complete"+timewindow+"::"+adSettings.bcod+"::"+played);
         sentBeacon = true;
         beacon.sendBeacon(function(){
       });
