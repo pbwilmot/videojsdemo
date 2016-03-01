@@ -29,6 +29,12 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   // activateDiv(adDiv);
 };
 
+window.mobilecheck = function() {
+  var check = false;
+  (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true})(navigator.userAgent||navigator.vendor||window.opera);
+  return check;
+}
+
 /**
  *
  */
@@ -110,23 +116,21 @@ function makeAd(adDiv, type, source, adSettings, options) {
     // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
     loadjscssfile(VIDEO_API, "js");
+
+    if(!mobilecheck()){
+      removeOverlay();
+    }
     waitUntil(
       function() {
         return typeof Ads == "function";
       }, function() {
-        window.document.getElementById('play').addEventListener('click', function(){
-          var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
-          imaplayer = ads.player;
-
-
-        if(adSettings.audiohover){
-          setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
-        }
-          if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
-            waitUntil(
-              function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
-              function(){ pollImaPlaytime(); }
-          );
+        if(mobilecheck()){
+          window.document.getElementById('play').addEventListener('click', function(){
+            loadIma(adDiv, type, source, adSettings, options);
+            removeOverlay();
+          });
+        } else {
+          loadIma(adDiv, type, source, adSettings, options);
         }
         parentWindow.addEventListener('remote-control', function(e){
           remoteControlEventHandler(e);
@@ -146,6 +150,35 @@ function makeAd(adDiv, type, source, adSettings, options) {
   }
   src = source;
   addIFrame(adDiv, source, adSettings);
+}
+
+function setOverlay(adDiv, options){
+  var img =  new Image();
+  img.id = 'play';
+  img.src = options.poster;
+  img.style = 'margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px; z-index:300000';
+  adDiv.appendChild(img);
+}
+
+function removeOverlay(){
+  var overlay = window.document.getElementById('play');
+  overlay.parentNode.removeChild(overlay);
+}
+
+function loadIma(adDiv, type, source, adSettings, options){
+  var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
+  imaplayer = ads.player;
+
+
+  if(adSettings.audiohover){
+    setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
+  }
+  if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
+    waitUntil(
+      function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
+      function(){ pollImaPlaytime(); }
+      );
+  }
 }
 
 function waitUntil(check,onComplete,delay,timeout) {
@@ -173,20 +206,20 @@ function waitUntil(check,onComplete,delay,timeout) {
 }
 
 function getTopLevelWindow() {
-    var currentWindow = window;
-    while( currentWindow.parent != currentWindow ) {
-        currentWindow = currentWindow.parent;
-        if (typeof currentWindow.parent == 'undefined'){
-            return currentWindow.ownerDocument.defaultView;
-          }
-        }
-        return currentWindow;
-      }
-      var parentWindow = getTopLevelWindow();
+  var currentWindow = window;
+  while( currentWindow.parent != currentWindow ) {
+    currentWindow = currentWindow.parent;
+    if (typeof currentWindow.parent == 'undefined'){
+      return currentWindow.ownerDocument.defaultView;
+    }
+  }
+  return currentWindow;
+}
+var parentWindow = getTopLevelWindow();
 
-      function loadjscssfile(filename, filetype) {
-        console.log(filename);
-        var fileref;
+function loadjscssfile(filename, filetype) {
+  console.log(filename);
+  var fileref;
     if (filetype == "js") { //if filename is a external JavaScript file
       fileref = document.createElement('script');
       fileref.setAttribute("type", "text/javascript");
@@ -432,9 +465,9 @@ function getTopLevelWindow() {
       timewindow = adSettings.completionwindow;
     }
     if (played > timewindow && !sentBeacon ){
-        var beacon = new BeaconEvent("ima::complete"+timewindow+"::"+adSettings.bcod+"::"+played);
-        sentBeacon = true;
-        beacon.sendBeacon(function(){
+      var beacon = new BeaconEvent("ima::complete"+timewindow+"::"+adSettings.bcod+"::"+played);
+      sentBeacon = true;
+      beacon.sendBeacon(function(){
       });
     }
 
@@ -444,39 +477,39 @@ function getTopLevelWindow() {
   }
 
   var BeaconEvent = (function() {
-  var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
-  var _beaconURI = '//api.buzz.st/v1/track';
+    var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
+    var _beaconURI = '//api.buzz.st/v1/track';
 
-  function BeaconEvent(rawEvent) {
-    _rawEvent = rawEvent;
-    var components = rawEvent.split("::");
-    if (components.length >= 2) {
-      _bsrc = components[0];
-      _btyp = components[1];
-      _bcod = components[2];
-      _bdat = components[3];
-    } else {
-      throw TypeError("can't parse event from raw event: " + rawEvent);
+    function BeaconEvent(rawEvent) {
+      _rawEvent = rawEvent;
+      var components = rawEvent.split("::");
+      if (components.length >= 2) {
+        _bsrc = components[0];
+        _btyp = components[1];
+        _bcod = components[2];
+        _bdat = components[3];
+      } else {
+        throw TypeError("can't parse event from raw event: " + rawEvent);
+      }
     }
-  }
 
-  BeaconEvent.prototype.updateQueryParams = function(uri, key, value) {
-    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-    if (uri.match(re)) {
-      return uri.replace(re, '$1' + key + "=" + value + '$2');
-    }
-    else {
-      return uri + separator + key + "=" + value;
-    }
-  };
+    BeaconEvent.prototype.updateQueryParams = function(uri, key, value) {
+      var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+      var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+      if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+      }
+      else {
+        return uri + separator + key + "=" + value;
+      }
+    };
 
-  BeaconEvent.prototype.toJSONString = function() {
-    return JSON.stringify(this.toJSON());
-  };
+    BeaconEvent.prototype.toJSONString = function() {
+      return JSON.stringify(this.toJSON());
+    };
 
-  BeaconEvent.prototype.toJSON = function() {
-    return {
+    BeaconEvent.prototype.toJSON = function() {
+      return {
       // temporary since beacon only accepts vast right now
       "btyp": _btyp,
       "bcod": _bcod,
@@ -507,15 +540,15 @@ function getTopLevelWindow() {
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     req.send(this.toJSONString());
   };
-return BeaconEvent;
+  return BeaconEvent;
 })();
 
 
-  function pollTwitchPlayTime(restart){
-    if (!restart){
-      twitchPlaytime = tplayer.getCurrentTime() + prevTwitchPlaytime - adTime;
-    }
-    if (paused || inPrerollAd) {
+function pollTwitchPlayTime(restart){
+  if (!restart){
+    twitchPlaytime = tplayer.getCurrentTime() + prevTwitchPlaytime - adTime;
+  }
+  if (paused || inPrerollAd) {
       // kill poll when paused, save playtime
       prevTwitchPlaytime = twitchPlaytime;
       return;
@@ -568,14 +601,14 @@ return BeaconEvent;
   function playContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.resumeAd();
-        break;
+      imaplayer.ima.resumeAd();
+      break;
       case AD_TYPES.YOUTUBE:
-        player.playVideo();
-        break;
+      player.playVideo();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.play();
-        break;
+      tplayer.play();
+      break;
       default:
     }
   }
@@ -583,14 +616,14 @@ return BeaconEvent;
   function muteContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.getAdsManager().setVolume(0);
-        break;
+      imaplayer.ima.getAdsManager().setVolume(0);
+      break;
       case AD_TYPES.YOUTUBE:
-        player.mute();
-        break;
+      player.mute();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.setMuted(true);
-        break;
+      tplayer.setMuted(true);
+      break;
       default:
     }
   }
@@ -599,14 +632,14 @@ return BeaconEvent;
   function unMuteContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.getAdsManager().setVolume(1);
-        break;
+      imaplayer.ima.getAdsManager().setVolume(1);
+      break;
       case AD_TYPES.YOUTUBE:
-        player.unMute();
-        break;
+      player.unMute();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.setMuted(false);
-        break;
+      tplayer.setMuted(false);
+      break;
       default:
     }
   }
@@ -615,14 +648,14 @@ return BeaconEvent;
   function pauseContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.pauseAd();
-        break;
+      imaplayer.ima.pauseAd();
+      break;
       case AD_TYPES.YOUTUBE:
-        player.pauseVideo();
-        break;
+      player.pauseVideo();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.pause();
-        break;
+      tplayer.pause();
+      break;
       default:
     }
   }
@@ -630,23 +663,23 @@ return BeaconEvent;
   function remoteControlEventHandler(event){
     switch(event.detail.action) {
       case 'play':
-        playContent();
-        break;
+      playContent();
+      break;
       case 'pause':
-        pauseContent();
-        break;
+      pauseContent();
+      break;
       case 'mute':
-        muteContent();
-        break;
+      muteContent();
+      break;
       case 'unmute':
-        unMuteContent();
-        break;
+      unMuteContent();
+      break;
       default:
-        break;
+      break;
     }
   }
   window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); }
-  window.play = function() { playContent();}
+  window.play = function() { playContent(); }
   window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};
