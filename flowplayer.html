@@ -29,7 +29,7 @@
     //     el.innerHTML = e.type + " " + date.toString();
     //     document.getElementById("flow-player-console").appendChild(el);
     // };
-    flowplayer("player", "/lib/flowplayer-3.2.18.swf", {
+    var player = flowplayer("player", "/lib/flowplayer-3.2.18.swf", {
         plugins: {
             ima: {
                 url: "/lib/flowplayer.ima-3.2.7.swf"
@@ -50,7 +50,11 @@
         // },
         playlist: [{
             provider: 'ima',
-            url: 'https://b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23'
+            url: 'https://b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23',
+            onCuepoint: [[1000, 2000, 3000, 4000, 5000, 60000], function(clip, p) {
+                console.log('clip : ' + JSON.stringify(clip) + ' p : ' + p);
+            }]
+
         }, {
             url: 'http://pseudo01.hddn.com/vod/demo.flowplayervod/Extremists.flv'
         }]
