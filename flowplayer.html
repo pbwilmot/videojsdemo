@@ -1,97 +1,60 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Buzzstarter Embeded Flash Video Test Player</title>
-    <!-- optimize mobile versions -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="//releases.flowplayer.org/6.0.5/skin/functional.css">
-    <!-- load the vast plugin stylesheet after the Flowplayer skin -->
-    <link rel="stylesheet" href="//releases.flowplayer.org/vast/flowplayer.org/1.0.1/vast.min.css" media="screen">
-    <!-- ... -->
-    <script src="//releases.flowplayer.org/6.0.5/flowplayer.min.js"></script>
-    <!-- load JavaScript assets after the Flowplayer library -->
-    <!-- IMA sdk -->
-    <script src="//s0.2mdn.net/instream/html5/ima3.js"></script>
-    <!-- Flowplayer vast plugin -->
-    <script src="//releases.flowplayer.org/vast/flowplayer.org/1.0.1/vast.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style/style.css" />
+    <title>Buzzstarter Embeded HTML5 Video Test Player</title>
 </head>
 
 <body>
-    <div id="vast">
-        <a class="fp-prev" title="previous">&lt;</a>
-        <a class="fp-next" title="next">&gt;</a>
+    <div id="flow-container">
+        <header>Buzzstarter Embeded HTML5 Video</header>
+        <div id="flow-player-container">
+            <a href="http://pseudo01.hddn.com/vod/demo.flowplayervod/flowplayer-700.flv" style="display:block;" id="player"></a>
+        </div>
+        <div id="flow-player-console">
+            Welcome to the Buzzstarter mobile HTML5 VAST player
+        </div>
+        <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
     </div>
-    <div class="info">
-        <p>1. DFP trueview pre-roll, DFP overlay 10 seconds in</p>
-        <p>2. DFP AdRules trial</p>
-    </div>
-    <h3>Log</h3>
-    <div id="log"></div>
+    <script src="/lib/flowplayer-3.2.13.min.js"></script>
     <script>
     window.onload = function() {
 
-        var log = function(e) {
-            var el = document.createElement("p"),
-                date = new Date(e.timeStamp / 1000);
-
-            el.innerHTML = e.type + " " + date.toString();
-            document.getElementById("log").appendChild(el);
-        };
-
-
-        flowplayer("#vast", {
-            splash: true,
-            bgcolor: "#333333",
-            ratio: 9 / 16,
-
-            // interactive media ads player config
-            ima: {
-                // debug
-                events: {
-                    onAdStarted: log,
-                    onAdClicked: log,
-                    onAdClosed: log,
-                    onAdSkipped: log,
-                    onAdPaused: log,
-                    onAdCompleted: log,
-                    onAdAllCompleted: log,
-                    onAdError: log
-                }
-            },
-
-            playlist: [{
-                // interactive media ads 1st clip config
-                ima: {
-                    ads: [{
-                        time: 0,
-                        adTag: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/48717572/fp-preroll-skippable&ciu_szs&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&description_url=https%3A%2F%2Fflowplayer.org&correlator=[timestamp]"
-                    }, {
-                        time: 10,
-                        adTag: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/48717572/fp-overlay&ciu_szs&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=[referrer_url]&description_url=https%3A%2F%2Fflowplayer.org&correlator=[timestamp]"
-                    }],
-
-                },
-
-                sources: [{
-                    type: "video/mp4",
-                    src: "static/output.mp4"
-                }]
-
-            }, {
-                // interactive media ads 2nd clip config
-                ima: {
-                    adRules: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/15018773/everything2&ciu_szs=300x250,468x60,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&cmsid=133&vid=10XWSh7W4so&ad_rule=1"
-                },
-
-                sources: [{
-                    type: "video/mp4",
-                    src: "static/output.mp4"
-                }]
-            }]
-        });
-
     };
+    var log = function(e) {
+        console.log(e);
+        var el = document.createElement("p"),
+            date = new Date(e.timeStamp / 1000);
+
+        el.innerHTML = e.type + " " + date.toString();
+        document.getElementById("flow-player-console").appendChild(el);
+    };
+    flowplayer("player", "/lib/flowplayer-3.2.18.swf", {
+        plugins: {
+            ima: {
+                url: "/lib/flowplayer.ima-3.2.7.swf"
+            },
+        },
+        ima: {
+            // debug
+            events: {
+                onAdStarted: log,
+                onAdClicked: log,
+                onAdClosed: log,
+                onAdSkipped: log,
+                onAdPaused: log,
+                onAdCompleted: log,
+                onAdAllCompleted: log,
+                onAdError: log
+            }
+        },
+        playlist: [{
+            provider: 'ima',
+            url: 'https://b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23'
+        }, {
+            url: 'http://pseudo01.hddn.com/vod/demo.flowplayervod/Extremists.flv'
+        }]
+    });
     </script>
 </body>
 

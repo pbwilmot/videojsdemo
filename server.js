@@ -7,6 +7,7 @@ app.set('view engine', 'jade');
 
 app.use(cors());
 app.use('/static', express.static('public'));
+app.use('/lib', express.static('lib'));
 
 app.get('/', function(req, res) {
   if(req.query.type === 'VIDEO') {
