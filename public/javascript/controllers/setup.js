@@ -10,7 +10,7 @@ $('#setup-form').submit(function(e) {
     var query = $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
     var url = 'http://localhost:8080/?' + query;
-    replaceIframe(url);    
+    replaceIframe(url);
   } else {
     alert('not a valid url for ' + type);
   }
@@ -100,7 +100,17 @@ function replaceIframe(source) {
     $('#randomid').contents().scroll(function() {
       startInView();
     });
-  }  
+  }
+  $('#randomid').contents().scroll(function() {
+    if ($("input[name='playpause']:checked").val() === 'true') {
+      pauseOutOfView();
+    }
+  });
+  $('#randomid').contents().scroll(function() {
+    if ($("input[name='playpause']:checked").val() === 'true') {
+      resumeInView();
+    }
+  });
 }
 
 function startInView() {
@@ -112,7 +122,17 @@ function startInView() {
   }
 }
 
+function pauseOutOfView() {
+  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
+    player('pause');
+  }
+}
 
+function resumeInView() {
+  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value >= 0.50) {
+    player('play');
+  }
+}
 
 function addIFrame(parent, source, adSettings) {
   var iframe = document.createElement('iframe');

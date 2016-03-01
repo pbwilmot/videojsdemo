@@ -125,6 +125,9 @@ function makeAd(adDiv, type, source, adSettings, options) {
             function(){ pollImaPlaytime(); }
           );
         }
+        parentWindow.addEventListener('remote-control', function(e){
+          remoteControlEventHandler(e);
+        }.bind(this), false);
       });
     break;
     // Fall through to youtube and add the iframe
@@ -226,7 +229,9 @@ function getTopLevelWindow() {
     if(adSettings.audiohover){
       setHover(adDiv.id, tplayer, AD_TYPES.TWITCH);
     }
-
+    parentWindow.addEventListener('remote-control', function(e){
+      remoteControlEventHandler(e);
+    }.bind(this), false);
   }
 
   function setHover(elementId, vplayer, playerType){
@@ -368,6 +373,9 @@ function getTopLevelWindow() {
     if(adSettings.audiohover){
       setHover(player.m.id, player, AD_TYPES.YOUTUBE);
     }
+    parentWindow.addEventListener('remote-control', function(e){
+      remoteControlEventHandler(e);
+    }.bind(this), false);
 
   }
 
@@ -617,7 +625,6 @@ return BeaconEvent;
   }
 
   function remoteControlEventHandler(event){
-    adSettings.type
     switch(event.detail.action) {
       case 'play':
         playContent();
@@ -636,7 +643,6 @@ return BeaconEvent;
     }
   }
 
-  window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};
 }(window));

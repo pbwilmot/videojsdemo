@@ -77,6 +77,13 @@ shtml
                       label(for='audiohovertrue') on
                       input#audiohoverfalse(name='audiohover', type='radio' value="false")
                       label(for='audiohoverfalse') off
+                  .row
+                    .input-field.col.s12 PLAY / PAUSE ON VIEWABILITY
+                      br
+                      input#playpausetrue(name='playpause', type='radio' value="true")
+                      label(for='playpausetrue') on
+                      input#playpausefalse(name='playpause', type='radio' value="false")
+                      label(for='playpausefalse') off
                   .card-action
                     button.btn.waves-effect.waves-light.btn-submit(type='submit') Submit
           .col.s12
@@ -104,3 +111,5 @@ shtml
     script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
     script(src='/static/javascript/controllers/setup.js')
     script(src='/static/javascript/callbacks.js')
+    script(src='/static/javascript/buzzadmanager.js')
+    
