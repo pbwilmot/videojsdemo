@@ -1,28 +1,18 @@
 <html>
-
-<head>
-    <link rel="stylesheet" type="text/css" href="/static/style/style.css" />
-    <title>Buzzstarter Embeded HTML5 Video Test Player</title>
-</head>
-
+<head></head>
 <body>
-    <div id="flow-container">
-        <header><p>Buzzstarter Flash Video Player</p></header>
-        <div id="flow-player-container">
-            <a href="static/blank.flv" style="display:block;" id="player"></a>
-        </div>
-<!--         <div id="flow-player-console">
-            Welcome to the Buzzstarter mobile HTML5 VAST player
-        </div> -->
-        <footer>Copyright (C) 2016 Buzzstarter Inc.</footer>
+  <div id="flow-container">
+    <div id="flow-player-container">
+      <a href="static/blank.flv" style="display:block;" id="player"></a>
     </div>
-    <script src="/lib/flowplayer-3.2.13.min.js"></script>
-    <script>
+  </div>
+  <script src="/lib/flowplayer-3.2.13.min.js"></script>
+  <script>
     var BeaconEvent = (function() {
-    var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
-    var _beaconURI = '//api.buzz.st/v1/track';
+      var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
+      var _beaconURI = '//api.buzz.st/v1/track';
 
-    function BeaconEvent(rawEvent) {
+      function BeaconEvent(rawEvent) {
         _rawEvent = rawEvent;
         var components = rawEvent.split("::");
         if (components.length >= 2) {
@@ -82,48 +72,46 @@
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         req.send(this.toJSONString());
       };
-    return BeaconEvent;
+      return BeaconEvent;
     })();
 
-    var bcod = "L51bm1eHv8Mp";
+    var bcod = "0ROLpOAhQWg4";
     var completionWindow = 60;
 
     var counter = 0;
     var beacon = false;
     var player = flowplayer("player", "/lib/flowplayer-3.2.18.swf", {
-
-        plugins: {
-            controls: null,
-            ima: {
-                url: "/lib/flowplayer.ima-3.2.7.swf"
-            },
+      plugins: {
+        controls: null,
+        ima: {
+          url: "/lib/flowplayer.ima-3.2.7.swf"
         },
-        playlist: [{
-            provider: 'ima',
-            url: '//b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23',
-            onCuepoint: [[2000], 
-            function(clip, cuepoint) { 
-                counter += cuepoint;
-                if(counter >= completionWindow*1000 && !beacon){
-                    console.log("fl::comp"+completionWindow+"::"+bcod+"::");
-                    // var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
-                    // beaconEvent.sendBeacon(function(){});
+      },
+      playlist: [{
+        provider: 'ima',
+        url: '//b.measuread.com/c2/10181341/vast/c3-c3-1455893410741.xml?c3=9478926&c4=2182016&c5=128816107&DCM_ID=N8485.291800MAGNETICMEDIAONLINE/B9478926.128816107&duration=00:05:23',
+        onCuepoint: [[2000], 
+        function(clip, cuepoint) { 
+          counter += cuepoint;
+          if(counter >= completionWindow*1000 && !beacon){
+                    // console.log("fl::comp"+completionWindow+"::"+bcod+"::");
+                    var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
+                    beaconEvent.sendBeacon(function(){});
                     beacon = true;
-                }
-            }]
-        }]
-    });
+                  }
+                }]
+              }]
+            });
     player.onStart(function(){
-        console.log("fl::start::"+bcod+"::");
-        // var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
-        // beaconEvent.sendBeacon(function(){});
-    });
+        // console.log("fl::start::"+bcod+"::");
+        var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
+        beaconEvent.sendBeacon(function(){});
+      });
     player.onFinish(function(){
-        console.log("fl::complete::"+bcod+"::");
-        // var beaconEvent = new BeaconEvent("fl::complete::"+bcod+"::");
-        // beaconEvent.sendBeacon(function(){});
-    });
+        // console.log("fl::complete::"+bcod+"::");
+        var beaconEvent = new BeaconEvent("fl::complete::"+bcod+"::");
+        beaconEvent.sendBeacon(function(){});
+      });
     </script>
-</body>
-
-</html>
+  </body>
+  </html>
