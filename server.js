@@ -39,7 +39,7 @@ app.get('/innovidmobile', function(req, res) {
 	res.sendFile(path.join(__dirname + '/innovid_mobile.html'));
 });
 
-app.get('/flow', function(req, res) {
+app.get('/demo/toyota', function(req, res) {
 	res.sendFile(path.join(__dirname + '/flowplayer.html'));
 });
 
