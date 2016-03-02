@@ -12,6 +12,8 @@ app.use('/lib', express.static('lib'));
 app.get('/', function(req, res) {
   if(req.query.type === 'VIDEO') {
     res.render('videoindex', { poster: req.query.poster});
+  } else if (req.query.type === 'FLASH') {
+  	res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
   } else {
     res.render('index');
   }
