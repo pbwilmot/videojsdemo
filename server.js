@@ -49,15 +49,12 @@ app.get('/flow1', function(req, res) {
 	res.sendFile(path.join(__dirname + '/flowplayer1.html'));
 });
 
-
 app.get('/flow2', function(req, res) {
 	res.sendFile(path.join(__dirname + '/flowplayer2.html'));
 });
 
-
 app.get('/flow3', function(req, res) {
 	res.sendFile(path.join(__dirname + '/flowplayer3.html'));
 });
-
 
 app.listen(process.env.PORT || 8080);
