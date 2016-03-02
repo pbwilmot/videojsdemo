@@ -85,6 +85,7 @@ function replaceIframe(source) {
         .find('#close-iframe')
         .on('click', function() {
           $('#randomid').contents().find('#iframe-replace').slideToggle();
+          player('pause');
         });
   });
 
