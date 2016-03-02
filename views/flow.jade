@@ -10,8 +10,5 @@ html
     script(src='static/javascript/buzzflash.js')
     script.
       document.addEventListener("DOMContentLoaded",function() {
-        var bcod = "#{bcod}";
-        var completionWindow = #{completionWindow};
-        var source = "#{src}"
-        BuzzFlash.initPlayer('player', source, bcod, completionWindow);
+        BuzzFlash.initPlayer('player', "#{bcod}" );
       });

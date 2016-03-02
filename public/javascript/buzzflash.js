@@ -1,6 +1,10 @@
 var BuzzFlash = (function(window) {
-  var initPlayer = function (domtarget, source,  bcod, completionWindow){
+  var initPlayer = function (domtarget, bcod){
+
+
     var options = QueryStringToJSON();
+    var source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
+    var completionWindow = options.completionWindow;
     var beacon = false;
     var counter = 0;
     var player = flowplayer(domtarget, "/lib/flowplayer-3.2.18.swf", {
@@ -16,7 +20,7 @@ var BuzzFlash = (function(window) {
         onCuepoint: [[2000], 
         function(clip, cuepoint) { 
           counter += cuepoint;
-          if(counter >= completionWindow*1000 && !beacon){
+          if(completionWindow != null && counter >= completionWindow*1000 && !beacon){
             var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
             beaconEvent.sendBeacon(function(){});
             thirdpartyGet(options.bill);
