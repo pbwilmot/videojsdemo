@@ -1,10 +1,11 @@
 var BuzzFlash = (function(window) {
+
+  var options, tracking, source, completionWindow;
   var initPlayer = function (domtarget, bcod){
-
-
-    var options = QueryStringToJSON();
-    var source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
-    var completionWindow = options.completionWindow;
+    options = QueryStringToJSON();
+    tracking = (options.tracking || 'xhr');
+    source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
+    completionWindow = (options.completionWindow || 60);
     var beacon = false;
     var counter = 0;
     var player = flowplayer(domtarget, "/lib/flowplayer-3.2.18.swf", {
@@ -15,6 +16,7 @@ var BuzzFlash = (function(window) {
         },
       },
       playlist: [{
+        autoPlay: false,
         provider: 'ima',
         url: source,
         onCuepoint: [[2000], 
@@ -48,16 +50,38 @@ var BuzzFlash = (function(window) {
     var result = {};
     pairs.forEach(function(pair) {
       pair = pair.split('=');
-      result[pair[0]] = decodeURIComponent(pair[1] || '');
+      if(pair.length >= 1 && pair[1].length > 0){
+        result[pair[0]] = decodeURIComponent(pair[1] || '');
+      }
     });
     return JSON.parse(JSON.stringify(result));
   }
 
   function thirdpartyGet(uri) {
+
     if(uri != null){
-      var req = new XMLHttpRequest();
-      req.open('GET', uri , true);
-      req.send();
+      switch(tracking) {
+        case 'xhr':
+          var req = new XMLHttpRequest();
+          req.open('GET', uri , true);
+          req.send();
+          break;
+        case 'iframe':
+          var iframe = document.createElement('iframe');
+          iframe.src = uri;
+          iframe.width = 1;
+          iframe.height = 1;
+          document.body.appendChild(iframe);
+          break;
+        case 'pixel':
+          var img = document.createElement('img');
+          img.src = uri;
+          img.width = 1;
+          img.height = 1;
+          document.body.appendChild(img);
+          break;
+        default:
+      }
     }
   }
 
