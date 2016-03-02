@@ -510,7 +510,7 @@ return BeaconEvent;
   function triggerBeacon(eventString, bcod){
     var fullEvent = eventString+"::"+bcod+"::";
     var beacon = new BeaconEvent(fullEvent);
-    beacon.sendBeacon(function(){ console.log("sending:" + fullEvent); });
+    beacon.sendBeacon(function(){});
   }
 
   function pollTwitchPlayTime(restart){
