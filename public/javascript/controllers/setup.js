@@ -9,7 +9,7 @@ $('#setup-form').submit(function(e) {
     $('#src').val(validateSrc(type));
     var query = $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
-    var url = 'http://localhost:8080/?' + query;
+    var url = '/?' + query;
     replaceIframe(url);
   } else {
     alert('not a valid url for ' + type);
@@ -19,7 +19,7 @@ $('#setup-form').submit(function(e) {
 
 $('#verticle').change(function() {
   var verticle = $('#verticle').val();
-  var url = 'http://localhost:8080/test/post/' + verticle;
+  var url = '/test/post/' + verticle;
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
