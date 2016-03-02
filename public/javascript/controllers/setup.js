@@ -1,5 +1,8 @@
 $('select').material_select();
 
+$('#top-image').hide();
+$('#in-image').hide();
+
 $('#setup-form').submit(function(e) {
   e.preventDefault();
   var type = $('#type').val();
@@ -64,10 +67,48 @@ $('#type').change(function() {
 });
 
 function replaceIframe(source) {
+  var type = $( "input[name='readtype']:checked" ).val();
+
+  if (type === 'in-read' && $('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#top-read').contents().find('iframe').is(':visible')) {
+    $('#randomid')
+      .contents()
+      .find('#top-read')
+      .toggle();
+
+    if (!$('#randomid').contents().find('#top-read').find('img').length > 0) {
+      $('#randomid')
+      .contents()
+      .find('#top-image')
+      .toggle();
+
+      if ($('#randomid').contents().find('#in-image').is(':visible')) {
+          $('#randomid').contents().find('#in-image').toggle();
+       }
+    }
+
+  } else if (type === 'top-read' && $('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#in-read').contents().find('iframe').is(':visible')) {
+    $('#randomid')
+      .contents()
+      .find('#in-read')
+      .toggle();
+
+    if (!$('#randomid').contents().find('#in-read').find('img').length > 0) {
+      $('#randomid')
+        .contents()
+        .find('#in-image').toggle();
+
+       if ($('#randomid').contents().find('#top-image').is(':visible')) {
+          $('#randomid').contents().find('#top-image').toggle();
+       }
+      }
+
+  }
+
+
   var height, width;
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
-    height = $('#randomid').contents().find('#iframe-replace').height();
-    width = $('#randomid').contents().find('#iframe-replace').width();
+    height = $('#randomid').contents().find('#' + type).height();
+    width = $('#randomid').contents().find('#' + type).width();
   } else {
     height = $('#randomid').contents().find('#iframe-div').height();
     width = $('#randomid').contents().find('#iframe-div').width();
@@ -77,12 +118,12 @@ function replaceIframe(source) {
 
   $('#randomid')
     .contents()
-    .find('#iframe-replace')
-    .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
+    .find('#' + type)
+    .replaceWith("<iframe class='iframe-new' id='" + type + "' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
 
   $('#randomid')
     .contents()
-    .find('#iframe-replace').load(function () {
+    .find('#' + type).load(function () {
       $(this)
         .contents()
         .find('#BuzzAdDiv')
@@ -99,7 +140,7 @@ function replaceIframe(source) {
 
   $('#randomid')
     .contents()
-    .find('#iframe-replace')
+    .find('#' + type)
     .load(function() {
       $('#randomid')
         .contents()
@@ -107,44 +148,31 @@ function replaceIframe(source) {
         .css('position', 'relative')
         .find('#close-iframe')
         .on('click', function() {
-          $('#randomid').contents().find('#iframe-replace').slideToggle(1000);
+          $('#randomid').contents().find('#' + type).slideToggle(1000);
           player('pause');
           $(this).remove();
         });
   });
 
-  if (verticle === 'male-lifestyle-post') {
-    $('#randomid')
-    .contents()
-    .find('#iframe-replace').load(function () {
-      $('#randomid')
-        .contents()
-        .find('#iframe-replace')
-        .slideToggle();
+  var closeIframe = $('#randomid').contents().find('#iframe-div').find('#close-iframe');
+    $('#randomid').contents().scroll(function() {
+      if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
+        pauseOutOfView();
+      }
     });
     $('#randomid').contents().scroll(function() {
-      startInView();
+      if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
+        resumeInView();
+      }
     });
-  }
-  var closeIframe = $('#randomid').contents().find('#iframe-div').find('#close-iframe');
-  $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-      pauseOutOfView();
-    }
-  });
-  $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-      resumeInView();
-    }
-  });
 }
 
 function startInView() {
   if (viewability.vertical($('#randomid').contents().find('#overhere')[0]).value >= 0.75) {
     $('#randomid')
       .contents()
-      .find('#iframe-replace')
-      .slideDown(1000);
+      .find('#' + type)
+      .slideDown();
   }
 }
 

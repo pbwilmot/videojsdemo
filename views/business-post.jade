@@ -396,9 +396,10 @@ html(xmlns='http://www.w3.org/1999/xhtml')
               #storytext
                 #js-ie-storytop.ie--storytop
                   figure#ie_dottop
-                    div#iframe-div
-                        div#iframe-replace
-                            img(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-780x439.jpg', width='780', height='439', alt='rock auction', border='0')
+                  img#top-image(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-780x439.jpg', width='780', height='439', alt='rock auction', border='0', style='display: none;')
+                  div#iframe-div
+                      div#top-read
+                          img(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-780x439.jpg', width='780', height='439', alt='rock auction', border='0')
                     figcaption.caption
                       | The IRS is auctioning memorabilia seized from a Kansas tax dodger, including a devil portrait of Marilyn Manson and a jacket reportedly worn by the late Brandon Lee in "The Crow."
                 h2
@@ -426,6 +427,10 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                   | Adam Cohen, a collector of movie memorabilia who was researching a documentary about Lee, said it's difficult to identify the jacket that Lee wore when he was killed, or to confirm whether he even wore a jacket.
                 p
                   | "That actual footage from when he died has never seen the light of day," said Cohen.
+                img#in-image(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-780x439.jpg', width='780', height='439', alt='rock auction', border='0', style='display: none;')
+                div#iframe-div
+                    div#in-read
+                        img(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-780x439.jpg', width='780', height='439', alt='rock auction', border='0')  
                 #storyFooter
                 .clearfix
                 .storytimestamp
