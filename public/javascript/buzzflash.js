@@ -1,6 +1,6 @@
-var BuzzFlash = (function() {
-
+var BuzzFlash = (function(window) {
   var initPlayer = function (domtarget, source,  bcod, completionWindow){
+    var options = QueryStringToJSON();
     var beacon = false;
     var counter = 0;
     var player = flowplayer(domtarget, "/lib/flowplayer-3.2.18.swf", {
@@ -17,9 +17,9 @@ var BuzzFlash = (function() {
         function(clip, cuepoint) { 
           counter += cuepoint;
           if(counter >= completionWindow*1000 && !beacon){
-            console.log("fl::comp"+completionWindow+"::"+bcod+"::");
-            // var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
-            // beaconEvent.sendBeacon(function(){});
+            var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
+            beaconEvent.sendBeacon(function(){});
+            thirdpartyGet(options.bill);
             beacon = true;
           }
         }]
@@ -27,18 +27,36 @@ var BuzzFlash = (function() {
     });
 
     player.onStart(function(){
-      console.log("fl::start::"+bcod+"::");
-        // var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
-        // beaconEvent.sendBeacon(function(){});
-      });
+      var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
+      beaconEvent.sendBeacon(function(){});
+      thirdpartyGet(options.start);
+    });
     player.onFinish(function(){
-      console.log("fl::complete::"+bcod+"::");
-        // var beaconEvent = new BeaconEvent("fl::complete::"+bcod+"::");
-        // beaconEvent.sendBeacon(function(){});
-      });
+      var beaconEvent = new BeaconEvent("fl::complete::"+bcod+"::");
+      beaconEvent.sendBeacon(function(){});
+      thirdpartyGet(options.end);
+    });
 
   };
 
+  function QueryStringToJSON() {
+    var pairs = location.search.slice(1).split('&');
+    var result = {};
+    pairs.forEach(function(pair) {
+      pair = pair.split('=');
+      result[pair[0]] = decodeURIComponent(pair[1] || '');
+    });
+    return JSON.parse(JSON.stringify(result));
+  }
+
+  function thirdpartyGet(uri) {
+    if(uri != null){
+      var req = new XMLHttpRequest();
+      req.open('GET', uri , true);
+      req.send();
+    }
+  }
+
   return { 'initPlayer': initPlayer};
 
-})();
+})(window);
