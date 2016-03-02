@@ -1,10 +1,11 @@
 var BuzzFlash = (function(window) {
 
-  var options, tracking, source, completionWindow;
+  var options, tracking, source, completionWindow, autoplay;
   var initPlayer = function (domtarget, bcod){
     options = QueryStringToJSON();
     tracking = (options.tracking || 'xhr');
     source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
+    autoplay = options.autoplay === 'true';
     completionWindow = (options.completionWindow || 60);
     var beacon = false;
     var counter = 0;
@@ -16,7 +17,7 @@ var BuzzFlash = (function(window) {
         },
       },
       playlist: [{
-        autoPlay: false,
+        autoPlay: autoplay,
         provider: 'ima',
         url: source,
         onCuepoint: [[2000], 
