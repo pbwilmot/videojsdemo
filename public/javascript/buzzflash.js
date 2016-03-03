@@ -32,13 +32,38 @@ var BuzzFlash = (function(window) {
     ]
   };
 
-  function replacebcod(bcod){
+  const paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
+  const av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
 
+  function getThirdpartyUri(org, repl){
+    var bucket = dictionary[org];
+    if(!bucket){
+      return null;
+    }
+
+    for(i = 0; i < bucket.length; i++){
+      if(bucket[i].bcod == repl){
+        switch(bucket[i].weight){
+          case 1:
+            return av_uri;
+            break;
+          case 2:
+            return paid_uri;
+            break;
+          default:
+            return null;
+        }
+      }
+    }
+    return null;
+  }
+
+  function replacebcod(bcod){
     if (!dictionary[bcod]){
       return bcod;
     }
 
-    var = arr = dictionary[bcod];
+    var arr = dictionary[bcod];
     var rn = Math.floor(Math.random()*12);
     var c = 0;
     for(i = 0; i < arr.length; i++){
@@ -51,8 +76,10 @@ var BuzzFlash = (function(window) {
   }
 
   var options, tracking, source, completionWindow, autoplay;
-  var initPlayer = function (domtarget, bcod){
+  var orgbcod;
 
+  var initPlayer = function (domtarget, bcod){
+    orgbcod = bcod;
     bcod = replacebcod(bcod);
 
     options = QueryStringToJSON();
@@ -89,6 +116,7 @@ var BuzzFlash = (function(window) {
     player.onStart(function(){
       var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
       beaconEvent.sendBeacon(function(){});
+      sendXHR(getThirdpartyUri(orgbcod, bcod));
       thirdpartyGet(options.start);
     });
     player.onFinish(function(){
@@ -116,27 +144,39 @@ var BuzzFlash = (function(window) {
     if(uri != null){
       switch(tracking) {
         case 'xhr':
-          var req = new XMLHttpRequest();
-          req.open('GET', uri , true);
-          req.send();
+          sendXHR(uri);
           break;
         case 'iframe':
-          var iframe = document.createElement('iframe');
-          iframe.src = uri;
-          iframe.width = 1;
-          iframe.height = 1;
-          document.body.appendChild(iframe);
+          sendIframe(uri);
           break;
         case 'pixel':
-          var img = document.createElement('img');
-          img.src = uri;
-          img.width = 1;
-          img.height = 1;
-          document.body.appendChild(img);
+          sendPixel(uri);
           break;
         default:
       }
     }
+  }
+
+  function sendXHR(uri){
+    var req = new XMLHttpRequest();
+    req.open('GET', uri , true);
+    req.send();
+  }
+
+  function sendIframe(uri){
+    var iframe = document.createElement('iframe');
+    iframe.src = uri;
+    iframe.width = 1;
+    iframe.height = 1;
+    document.body.appendChild(iframe);
+  }
+
+  function sendPixel(uri){
+    var img = document.createElement('img');
+    img.src = uri;
+    img.width = 1;
+    img.height = 1;
+    document.body.appendChild(img);
   }
 
   return { 'initPlayer': initPlayer};
