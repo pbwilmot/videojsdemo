@@ -1,34 +1,34 @@
 var BuzzFlash = (function(window) {
   const dictionary = {
     "82WxOWdT7ZRR": [
-    {bcod: "JlJnbNZiNkQ74", weight: 1},
-    {bcod: "eL9EJn7hAMvGx", weight: 2},
-    {bcod: "qR99qJaTmkLB", weight: 2},
-    {bcod: "L71PZgetmWmkj", weight: 2},
-    {bcod: "gbQaVX0t2qq2", weight: 2},
-    {bcod: "mwJdroRfyBL01", weight: 1},
-    {bcod: "Vnv3GryU5EZ4Q", weight: 1},
-    {bcod: "EdWeyPLcNZAgN", weight: 1}
+    {bcod: "82WxOWdT2ZAg5", weight: 1},
+    {bcod: "M21bX1qTRN3G7", weight: 2},
+    {bcod: "Qe1b41lhPX5EG", weight: 2},
+    {bcod: "O21bA17TlVVvB", weight: 2},
+    {bcod: "omdZldMsPOZ2q", weight: 2},
+    {bcod: "2rw8Gw2Fap50g", weight: 1},
+    {bcod: "Dq1bm19ukL487", weight: 1},
+    {bcod: "kmrGqrWskALrn", weight: 1}
     ],
     "M21bX1qTgRLaW": [
-    {bcod: "QZQAbwMHbwEJ0", weight: 1},
-    {bcod: "4vg7AyGSL0l3x", weight: 2},
-    {bcod: "DXMMeLZhMW48G", weight: 2},
-    {bcod: "dDdxBQWcGjPdZ", weight: 2},
-    {bcod: "ybkN1ratyeLnM", weight: 2},
-    {bcod: "LkD1Q9EU2BlQg", weight: 1},
-    {bcod: "dJNAwg4UGbeAW", weight: 1},
-    {bcod: "rkwmg45SJdMao", weight: 1}
+    {bcod: "5NLJBLRcQnEaA", weight: 1},
+    {bcod: "Vr1bd1XFr5qMR", weight: 2},
+    {bcod: "NB1bX1kh2eZaq", weight: 2},
+    {bcod: "v7dMxdmfXjmLy", weight: 2},
+    {bcod: "ypdwEd0TwjOO", weight: 2},
+    {bcod: "BD1bJ1gcvDlQ", weight: 1},
+    {bcod: "mmdX7dWsy0Wrl", weight: 1},
+    {bcod: "2rw8Gw2FW2EVe", weight: 1}
     ],
     "X7Av9AjfdEr5J": [
-    {bcod: "Anm5bp7SDmDyl", weight: 1},
-    {bcod: "PpLvwZDHGEXDQ", weight: 2},
-    {bcod: "WoNNnV8TM9pDW", weight: 2},
-    {bcod: "apdx2QjiVmaq8", weight: 2},
-    {bcod: "3ewPDjqfpM08k", weight: 2},
-    {bcod: "0B2O3DnHkRlVW", weight: 1},
-    {bcod: "08yVvR3tlD3w", weight: 1},
-    {bcod: "Z5wEWLMTj3Xj3", weight: 1}
+    {bcod: "7N89O8dcOD97", weight: 1},
+    {bcod: "Dq1bm19uJGqP", weight: 2},
+    {bcod: "rodNGdMfJQbJy", weight: 2},
+    {bcod: "BD1bJ1gckjpVe", weight: 2},
+    {bcod: "X7Av9Ajf9bl0", weight: 2},
+    {bcod: "AG1bv1df5B0L", weight: 1},
+    {bcod: "Dq1bm19uPJrg", weight: 1},
+    {bcod: "Wk1b91atGqWy3", weight: 1}
     ]
   };
 
