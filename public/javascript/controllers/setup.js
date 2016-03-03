@@ -9,7 +9,7 @@ $('#setup-form').submit(function(e) {
     $('#src').val(validateSrc(type));
     var query = $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
-    var url = 'http://localhost:8080/?' + query;
+    var url = '/?' + query;
     replaceIframe(url);
   } else {
     alert('not a valid url for ' + type);
@@ -19,7 +19,7 @@ $('#setup-form').submit(function(e) {
 
 $('#verticle').change(function() {
   var verticle = $('#verticle').val();
-  var url = 'http://localhost:8080/test/post/' + verticle;
+  var url = '/test/post/' + verticle;
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
@@ -72,7 +72,7 @@ function replaceIframe(source) {
       .contents()
       .find('#iframe-div')
       .css('position', 'relative')
-      .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 5px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none">x</button>');
+      .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
 
   $('#randomid')
     .contents()
@@ -84,7 +84,9 @@ function replaceIframe(source) {
         .css('position', 'relative')
         .find('#close-iframe')
         .on('click', function() {
-          $('#randomid').contents().find('#iframe-replace').slideToggle();
+          $('#randomid').contents().find('#iframe-replace').slideToggle(1000);
+          player('pause');
+          $(this).remove();
         });
   });
 
@@ -101,13 +103,14 @@ function replaceIframe(source) {
       startInView();
     });
   }
+  var closeIframe = $('#randomid').contents().find('#iframe-div').find('#close-iframe');
   $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true') {
+    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
       pauseOutOfView();
     }
   });
   $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true') {
+    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
       resumeInView();
     }
   });
@@ -118,7 +121,7 @@ function startInView() {
     $('#randomid')
       .contents()
       .find('#iframe-replace')
-      .slideDown();
+      .slideDown(1000);
   }
 }
 

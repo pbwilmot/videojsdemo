@@ -9,7 +9,10 @@
 body, html {
   width:100% ;
   height:100% ;
-  overflow:hidden ;
+}
+
+.row.top-row {
+  margin-bottom: 0;
 }
 
 iframe {
