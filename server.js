@@ -40,7 +40,9 @@ app.get('/innovidDesktop', function(req, res) {
 });
 
 app.get('/innovidmobile', function(req, res) {
-	res.sendFile(path.join(__dirname + '/innovid_mobile.html'));
+	// res.sendFile(path.join(__dirname + '/innovid_mobile.html'));
+
+  res.render('iframe', { poster: req.query.poster});
 });
 
 app.get('/demo/toyota', function(req, res) {
