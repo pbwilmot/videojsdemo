@@ -32,8 +32,8 @@ var BuzzFlash = (function(window) {
     ]
   };
 
-  const paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
-  const av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
+  const paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=&id=&a=";
+  const av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=&id=&a=";
 
   function getThirdpartyUri(org, repl){
     var bucket = dictionary[org];
