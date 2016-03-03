@@ -2,24 +2,45 @@ $('select').material_select();
 
 $('#setup-form').submit(function(e) {
   e.preventDefault();
-
   var type = $('#type').val();
-
+  var adType = $('#ad-type').val();
+  var url, verticle;
   if (validateSrc(type)) {
     $('#src').val(validateSrc(type));
-    var query = $('#setup-form input').not('[value=""]').serialize();
+    var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
-    var url = '/?' + query;
-    replaceIframe(url);
+    var parent = document.getElementById('content');
+    if (adType === 'sponsored') {
+      verticle = $('#verticle').val() + '-post';
+      url = '/test/post/' + verticle;
+    } else {
+      verticle = $('#verticle').val();
+      url = '/test/' + verticle;
+    }
+    if ($('#randomid').contents().find('.iframe-new').length > 0) {
+        replaceIframe(query);
+    } else {
+      addIFrame(parent, url);
+      $('#randomid').load(function () {
+        replaceIframe(query);
+      });
+    }
   } else {
     alert('not a valid url for ' + type);
   }
   $('.event-non-fired').removeClass('event-fired');
 });
 
+
 $('#verticle').change(function() {
-  var verticle = $('#verticle').val();
-  var url = '/test/post/' + verticle;
+  var adType = $('#ad-type').val();
+  if (adType === 'sponsored') {
+    verticle = $('#verticle').val() + '-post';
+    url = '/test/post/' + verticle;
+  } else {
+    verticle = $('#verticle').val();
+    url = '/test/' + verticle;
+  }
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
@@ -27,10 +48,10 @@ $('#verticle').change(function() {
     $('#randomid').load(function () {
       replaceIframe(innerSrc);
     });
-    $('.event-non-fired').removeClass('event-fired');
   } else {
     addIFrame(parent, url);
   }
+  $('.event-non-fired').removeClass('event-fired');
 });
 
 $('#type').change(function() {
@@ -155,6 +176,21 @@ function addIFrame(parent, source, adSettings) {
   $('.progress').show();
   $('#randomid').load(function () {
     $('.progress').css('display', 'none');
+     $('#randomid').contents().find('body').contents().find('#testing').click(function() {
+      var verticle = $('#verticle').val() + '-post';
+      var url = '/test/post/' + verticle;
+      var parent = document.getElementById('content');
+      if ($('#randomid').contents().find('.iframe-new').length > 0) {
+        var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
+        addIFrame(parent, url);
+        $('#randomid').load(function () {
+          replaceIframe(innerSrc);
+        });
+        $('.event-non-fired').removeClass('event-fired');
+      } else {
+        addIFrame(parent, url);
+      }
+    });
   });
 }
 
@@ -164,10 +200,8 @@ function validateSrc(type) {
   switch(type) {
     case 'YOUTUBE':
       return validateYouTubeUrl(url);
-      break;
     case 'TWITCH':
       return validateTwitchUrl(url);
-      break;
     default:
       return url;
   }
@@ -187,7 +221,7 @@ function validateYouTubeUrl(url) {
 }
 
 function validateTwitchUrl(url) {
-  var regEXP = /^.*(twitch\.tv)\/?([^#\&\?]*).*/
+  var regEXP = /^.*(twitch\.tv)\/?([^#\&\?]*).*/;
   var match = url.match(regEXP);
 
   if (match && match[1] === 'twitch.tv') {

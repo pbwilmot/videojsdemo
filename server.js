@@ -24,12 +24,20 @@ app.get('/test', function(req, res) {
   res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
+app.get('/test/:verticle', function(req, res) {
+  res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+});
+
 app.get('/test/post/:verticle', function(req, res) {
   res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/crossdomain.xml', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
+});
+
+app.get('/kotaku', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/kotaku.html'));
 });
 
 app.listen(process.env.PORT || 8080);
