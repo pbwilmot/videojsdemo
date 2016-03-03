@@ -397,7 +397,7 @@ function getTopLevelWindow() {
       return;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
-      parentWindow.postMessage("yt::thirdquartile", "*");
+      parentWindow.postMessage("yt::thirdquart", "*");
       rcvStates.thirdquartile = true;
     }
     else if (progress >= 0.5 && !rcvStates.midpoint) {
@@ -405,7 +405,7 @@ function getTopLevelWindow() {
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parentWindow.postMessage("yt::firstquartile", "*");
+      parentWindow.postMessage("yt::firstquart", "*");
       rcvStates.firstquartile = true;
     }
 
@@ -507,6 +507,11 @@ function getTopLevelWindow() {
 return BeaconEvent;
 })();
 
+  function triggerBeacon(eventString, bcod){
+    var fullEvent = eventString+"::"+bcod+"::";
+    var beacon = new BeaconEvent(fullEvent);
+    beacon.sendBeacon(function(){});
+  }
 
   function pollTwitchPlayTime(restart){
     if (!restart){
@@ -522,18 +527,22 @@ return BeaconEvent;
     var progress = twitchPlaytime / windowTime;
     if (progress >= 1 && !rcvStates.complete) {
       parentWindow.postMessage("twitch::complete", "*");
+      triggerBeacon("twitch::complete", adSettings.bcod);
       rcvStates.complete = true;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
       parentWindow.postMessage("twitch::thirdquartile", "*");
+      triggerBeacon("twitch::thirdquart", adSettings.bcod);
       rcvStates.thirdquartile = true;
     }
     else if (progress >= 0.5 && !rcvStates.midpoint) {
       parentWindow.postMessage("twitch::midpoint", "*");
+      triggerBeacon("twitch::midpoint", adSettings.bcod);
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parentWindow.postMessage("twitch::firstquartile", "*");
+      parentWindow.postMessage("twitch::firstquart", "*");
+      triggerBeacon("twitch::firstquart", adSettings.bcod);
       rcvStates.firstquartile = true;
     }
 
@@ -546,16 +555,20 @@ return BeaconEvent;
       case YT.PlayerState.PLAYING:
       if (player.getCurrentTime() > 0) {
         parentWindow.postMessage("yt::resume", "*");
+        triggerBeacon("yt::resume", adSettings.bcod);
       } else {
         parentWindow.postMessage("yt::playing", "*");
+        triggerBeacon("yt::playing", adSettings.bcod);
       }
       pollGetCurrentTime();
       break;
       case YT.PlayerState.PAUSED:
       parentWindow.postMessage("yt::paused", "*");
+      triggerBeacon("yt::paused", adSettings.bcod);
       break;
       case YT.PlayerState.ENDED:
       parentWindow.postMessage("yt::ended", "*");
+      triggerBeacon("yt::ended", adSettings.bcod);
       break;
       default:
       console.log('unrecognized state');
