@@ -22,9 +22,13 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
     adDiv = document.getElementById(id);
     var options = (opts || QueryStringToJSON());
 
-    console.log(JSON.stringify(options));
+    // console.log(JSON.stringify(options));
     adSettings = makeAdSettings(options);
-    console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
+    if(options.hideclose === 'true'){
+      var closeButton = document.getElementById("close-iframe");
+      closeButton.parentNode.removeChild(closeButton);
+    }
+    // console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
     makeAd(adDiv, options.type, options.src, adSettings, options);
   // activateDiv(adDiv);
 };
