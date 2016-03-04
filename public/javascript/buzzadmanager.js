@@ -22,12 +22,15 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var BuzzAdManager = function(id, mobile) {
     adDiv = document.getElementById(id);
     var options = QueryStringToJSON();
-    var isMobile = mobile;
+    isMobile = mobile;
     // console.log(JSON.stringify(options));
     adSettings = makeAdSettings(options);
-    if(options.hideclose === 'true'){
-      // var closeButton = document.getElementById("close-iframe");
-      // closeButton.parentNode.removeChild(closeButton);
+    if(options.hideclose == 'true' && !isMobile){
+      debugger;
+      var closeButton = document.createElement('span');
+      closeButton.id = 'close-iframe';
+      closeButton.style = 'color:white;position: absolute;top: 0;right: 10;z-index: 100;cursor: pointer';
+      adDiv.appendChild(closeButton);
     }
     // console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
     makeAd(adDiv, options.type, options.src, adSettings, options);
@@ -121,10 +124,9 @@ function makeAd(adDiv, type, source, adSettings, options) {
       function() {
         return typeof Ads == "function";
       }, function() {
-        if(true){
-          window.document.getElementById('play').addEventListener('click', function(){
+        if(isMobile){
+          window.document.getElementById('mobile-play-overlay').addEventListener('click', function(){
             loadIma(adDiv, type, source, adSettings, options);
-            // debugger;
             removeOverlay();
           });
         } else {
@@ -159,7 +161,7 @@ function setOverlay(adDiv, options){
 }
 
 function removeOverlay(){
-  var overlay = window.document.getElementById('play');
+  var overlay = window.document.getElementById('mobile-play-overlay');
   overlay.parentNode.removeChild(overlay);
 }
 

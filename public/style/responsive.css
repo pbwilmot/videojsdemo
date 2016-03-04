@@ -1,0 +1,29 @@
+
+/*iphone6/6s*/
+@media all and (device-width: 375px) and (device-height: 667px) and (orientation:landscape){
+  .embed-frame {
+    height: 1px;
+    min-height: 38%;
+    *height: 38%;
+    width: 1px;
+    min-width: 100%;
+    *width: 100%;
+  }
+}
+/*iphone6/6s*/
+@media all and (device-width: 375px) and (device-height: 667px) and (orientation:portrait) {
+  .embed-frame {
+  	width: 1px;
+    min-width: 100%;
+    *width: 100%;
+    height: 56.25%;
+  }
+}
+
+
+@media not all and (device-width: 375px) {
+  .embed-frame {
+    width:100vw;
+    height: calc(100vw*(360/640));
+  }
+}

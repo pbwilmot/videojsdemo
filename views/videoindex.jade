@@ -7,7 +7,6 @@ html
     link(rel='stylesheet', href='/static/style/videojs.ima.css')
   body(style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px')
     #BuzzAdDiv
-      span#close-iframe x
       video#content_video.video-js.vjs-big-play-centered.vjs-default-skin(poster='#{poster}', controls='', preload='auto', style='width:100%; height:100vh')
         source(src='//da2hw5uyqeo5b.cloudfront.net/blank.mp4', type='video/mp4')
     script(src='//vjs.zencdn.net/5.3/video.min.js')
@@ -16,4 +15,4 @@ html
     script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ima.js')
     script(src='/static/javascript/buzzadmanager.js')
     script(type='text/javascript').
-      BUZZADMANAGER.BuzzAdManager('BuzzAdDiv');
+      BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false);
