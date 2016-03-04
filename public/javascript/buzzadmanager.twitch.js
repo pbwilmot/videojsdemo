@@ -3,7 +3,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
 
   var VINE_SDK_PATH = "https://platform.vine.co/static/scripts/embed.js";
   var YOUTUBE_API = "https://www.youtube.com/iframe_api";
-  var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
+  var TWITCH_API = "//player.twitch.tv/js/embed/v1.js";
   var VIDEO_API = "/static/javascript/videojsads.js";
 
 
