@@ -1,7 +1,7 @@
 $('select').material_select();
 
-$('#top-image').hide();
-$('#in-image').hide();
+$('#top-read-image').hide();
+$('#in-read-image').hide();
 
 $('#setup-form').submit(function(e) {
   e.preventDefault();
@@ -69,41 +69,45 @@ $('#type').change(function() {
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
 
-  if (type === 'in-read' && $('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#top-read').contents().find('iframe').is(':visible')) {
-    $('#randomid')
-      .contents()
-      .find('#top-read')
-      .toggle();
+  if (type === 'in-read' && $('#randomid').contents().find('.iframe-new').length > 0) {
+
+    if  ($('#randomid').contents().find('#top-read').css('display') != 'none') {
+      $('#randomid')
+        .contents()
+        .find('#top-read')
+        .toggle();
+    }
 
     if (!$('#randomid').contents().find('#top-read').find('img').length > 0) {
       $('#randomid')
       .contents()
-      .find('#top-image')
+      .find('#top-read-image')
       .toggle();
 
-      if ($('#randomid').contents().find('#in-image').is(':visible')) {
-          $('#randomid').contents().find('#in-image').toggle();
+      if ($('#randomid').contents().find('#in-read-image').is(':visible')) {
+          $('#randomid').contents().find('#in-read-image').toggle();
        }
     }
 
-  } else if (type === 'top-read' && $('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#in-read').contents().find('iframe').is(':visible')) {
-    $('#randomid')
-      .contents()
-      .find('#in-read')
-      .toggle();
+  } else if (type === 'top-read' && $('#randomid').contents().find('.iframe-new').length > 0) {
+
+    if ($('#randomid').contents().find('#in-read').css('display') != 'none') {
+      $('#randomid')
+        .contents()
+        .find('#in-read')
+        .toggle();
+    }
 
     if (!$('#randomid').contents().find('#in-read').find('img').length > 0) {
       $('#randomid')
         .contents()
-        .find('#in-image').toggle();
+        .find('#in-read-image').toggle();
 
-       if ($('#randomid').contents().find('#top-image').is(':visible')) {
-          $('#randomid').contents().find('#top-image').toggle();
+       if ($('#randomid').contents().find('#top-read-image').is(':visible')) {
+          $('#randomid').contents().find('#top-read-image').toggle();
        }
       }
-
   }
-
 
   var height, width;
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
@@ -130,13 +134,12 @@ function replaceIframe(source) {
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
 
-  if ($('#randomid').contents().find('#close-iframe').length < 1) {
-     $('#randomid')
-    .contents()
-    .find('#iframe-div')
-    .css('position', 'relative')
-    .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
-  }
+    $('#randomid')
+      .contents()
+      .find('#' + type)
+      .parent()
+      .css('position', 'relative')
+      .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
 
   $('#randomid')
     .contents()
@@ -144,7 +147,8 @@ function replaceIframe(source) {
     .load(function() {
       $('#randomid')
         .contents()
-        .find('#iframe-div')
+        .find('#' + type)
+        .parent()
         .css('position', 'relative')
         .find('#close-iframe')
         .on('click', function() {
@@ -154,7 +158,7 @@ function replaceIframe(source) {
         });
   });
 
-  var closeIframe = $('#randomid').contents().find('#iframe-div').find('#close-iframe');
+  var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
     $('#randomid').contents().scroll(function() {
       if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
         pauseOutOfView();
@@ -177,13 +181,13 @@ function startInView() {
 }
 
 function pauseOutOfView() {
-  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
+  if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value <= 0.50) {
     player('pause');
   }
 }
 
 function resumeInView() {
-  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value >= 0.50) {
+  if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value >= 0.50) {
     player('play');
   }
 }
