@@ -1,44 +1,69 @@
 var BuzzFlash = (function(window) {
   const dictionary = {
     "82WxOWdT7ZRR": [
-    {bcod: "JlJnbNZiNkQ74", weight: 1},
-    {bcod: "eL9EJn7hAMvGx", weight: 2},
-    {bcod: "qR99qJaTmkLB", weight: 2},
-    {bcod: "L71PZgetmWmkj", weight: 2},
-    {bcod: "gbQaVX0t2qq2", weight: 2},
-    {bcod: "mwJdroRfyBL01", weight: 1},
-    {bcod: "Vnv3GryU5EZ4Q", weight: 1},
-    {bcod: "EdWeyPLcNZAgN", weight: 1}
+    {bcod: "82WxOWdT2ZAg5", weight: 1},
+    {bcod: "M21bX1qTRN3G7", weight: 2},
+    {bcod: "Qe1b41lhPX5EG", weight: 2},
+    {bcod: "O21bA17TlVVvB", weight: 2},
+    {bcod: "omdZldMsPOZ2q", weight: 2},
+    {bcod: "2rw8Gw2Fap50g", weight: 1},
+    {bcod: "Dq1bm19ukL487", weight: 1},
+    {bcod: "kmrGqrWskALrn", weight: 1}
     ],
     "M21bX1qTgRLaW": [
-    {bcod: "QZQAbwMHbwEJ0", weight: 1},
-    {bcod: "4vg7AyGSL0l3x", weight: 2},
-    {bcod: "DXMMeLZhMW48G", weight: 2},
-    {bcod: "dDdxBQWcGjPdZ", weight: 2},
-    {bcod: "ybkN1ratyeLnM", weight: 2},
-    {bcod: "LkD1Q9EU2BlQg", weight: 1},
-    {bcod: "dJNAwg4UGbeAW", weight: 1},
-    {bcod: "rkwmg45SJdMao", weight: 1}
+    {bcod: "5NLJBLRcQnEaA", weight: 1},
+    {bcod: "Vr1bd1XFr5qMR", weight: 2},
+    {bcod: "NB1bX1kh2eZaq", weight: 2},
+    {bcod: "v7dMxdmfXjmLy", weight: 2},
+    {bcod: "ypdwEd0TwjOO", weight: 2},
+    {bcod: "BD1bJ1gcvDlQ", weight: 1},
+    {bcod: "mmdX7dWsy0Wrl", weight: 1},
+    {bcod: "2rw8Gw2FW2EVe", weight: 1}
     ],
     "X7Av9AjfdEr5J": [
-    {bcod: "Anm5bp7SDmDyl", weight: 1},
-    {bcod: "PpLvwZDHGEXDQ", weight: 2},
-    {bcod: "WoNNnV8TM9pDW", weight: 2},
-    {bcod: "apdx2QjiVmaq8", weight: 2},
-    {bcod: "3ewPDjqfpM08k", weight: 2},
-    {bcod: "0B2O3DnHkRlVW", weight: 1},
-    {bcod: "08yVvR3tlD3w", weight: 1},
-    {bcod: "Z5wEWLMTj3Xj3", weight: 1}
+    {bcod: "7N89O8dcOD97", weight: 1},
+    {bcod: "Dq1bm19uJGqP", weight: 2},
+    {bcod: "rodNGdMfJQbJy", weight: 2},
+    {bcod: "BD1bJ1gckjpVe", weight: 2},
+    {bcod: "X7Av9Ajf9bl0", weight: 2},
+    {bcod: "AG1bv1df5B0L", weight: 1},
+    {bcod: "Dq1bm19uPJrg", weight: 1},
+    {bcod: "Wk1b91atGqWy3", weight: 1}
     ]
   };
 
-  function replacebcod(bcod){
+  const paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
+  const av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
 
+  function getThirdpartyUri(org, repl){
+    var bucket = dictionary[org];
+    if(!bucket){
+      return null;
+    }
+
+    for(i = 0; i < bucket.length; i++){
+      if(bucket[i].bcod == repl){
+        switch(bucket[i].weight){
+          case 1:
+            return av_uri;
+            break;
+          case 2:
+            return paid_uri;
+            break;
+          default:
+            return null;
+        }
+      }
+    }
+    return null;
+  }
+
+  function replacebcod(bcod){
     if (!dictionary[bcod]){
       return bcod;
     }
 
-    var = arr = dictionary[bcod];
+    var arr = dictionary[bcod];
     var rn = Math.floor(Math.random()*12);
     var c = 0;
     for(i = 0; i < arr.length; i++){
@@ -51,8 +76,10 @@ var BuzzFlash = (function(window) {
   }
 
   var options, tracking, source, completionWindow, autoplay;
-  var initPlayer = function (domtarget, bcod){
+  var orgbcod;
 
+  var initPlayer = function (domtarget, bcod){
+    orgbcod = bcod;
     bcod = replacebcod(bcod);
 
     options = QueryStringToJSON();
@@ -89,6 +116,7 @@ var BuzzFlash = (function(window) {
     player.onStart(function(){
       var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
       beaconEvent.sendBeacon(function(){});
+      sendXHR(getThirdpartyUri(orgbcod, bcod));
       thirdpartyGet(options.start);
     });
     player.onFinish(function(){
@@ -116,27 +144,39 @@ var BuzzFlash = (function(window) {
     if(uri != null){
       switch(tracking) {
         case 'xhr':
-          var req = new XMLHttpRequest();
-          req.open('GET', uri , true);
-          req.send();
+          sendXHR(uri);
           break;
         case 'iframe':
-          var iframe = document.createElement('iframe');
-          iframe.src = uri;
-          iframe.width = 1;
-          iframe.height = 1;
-          document.body.appendChild(iframe);
+          sendIframe(uri);
           break;
         case 'pixel':
-          var img = document.createElement('img');
-          img.src = uri;
-          img.width = 1;
-          img.height = 1;
-          document.body.appendChild(img);
+          sendPixel(uri);
           break;
         default:
       }
     }
+  }
+
+  function sendXHR(uri){
+    var req = new XMLHttpRequest();
+    req.open('GET', uri , true);
+    req.send();
+  }
+
+  function sendIframe(uri){
+    var iframe = document.createElement('iframe');
+    iframe.src = uri;
+    iframe.width = 1;
+    iframe.height = 1;
+    document.body.appendChild(iframe);
+  }
+
+  function sendPixel(uri){
+    var img = document.createElement('img');
+    img.src = uri;
+    img.width = 1;
+    img.height = 1;
+    document.body.appendChild(img);
   }
 
   return { 'initPlayer': initPlayer};

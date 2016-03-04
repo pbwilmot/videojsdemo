@@ -10,12 +10,16 @@ app.use('/static', express.static('public'));
 app.use('/lib', express.static('lib'));
 
 app.get('/', function(req, res) {
-  if(req.query.type === 'VIDEO') {
-    res.render('videoindex', { poster: req.query.poster});
-  } else if (req.query.type === 'FLASH') {
-  	res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
+  if(req.query.test === 'twitch'){
+      res.render('twitch');
   } else {
-    res.render('index');
+    if(req.query.type === 'VIDEO') {
+      res.render('videoindex', { poster: req.query.poster});
+    } else if (req.query.type === 'FLASH') {
+      res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
+    } else {
+      res.render('index');
+    }
   }
 });
 
