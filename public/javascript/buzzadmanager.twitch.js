@@ -455,7 +455,7 @@ function getTopLevelWindow() {
 
   var BeaconEvent = (function() {
   var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
-  var _beaconURI = '//gor.buzz.st/v1/ping';
+  var _beaconURI = '//gor.buzz.st/v1/track';
 
   function BeaconEvent(rawEvent) {
     _rawEvent = rawEvent;
