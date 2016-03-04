@@ -68,11 +68,13 @@ function replaceIframe(source) {
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
 
-    $('#randomid')
-      .contents()
-      .find('#iframe-div')
-      .css('position', 'relative')
-      .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
+  if ($('#randomid').contents().find('#close-iframe').length < 1) {
+     $('#randomid')
+    .contents()
+    .find('#iframe-div')
+    .css('position', 'relative')
+    .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
+  }
 
   $('#randomid')
     .contents()
