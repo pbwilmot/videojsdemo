@@ -17,17 +17,26 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var adDiv;
   var adSettings;
   var src;
+  var isMobile = false;
 
-  var BuzzAdManager = function(id, opts) {
+  var BuzzAdManager = function(id, mobile) {
     adDiv = document.getElementById(id);
-    var options = (opts || QueryStringToJSON());
-
-    console.log(JSON.stringify(options));
+    var options = QueryStringToJSON();
+    isMobile = mobile;
+    // console.log(JSON.stringify(options));
     adSettings = makeAdSettings(options);
-    console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
+    if(options.hideclose == 'true' && !isMobile){
+      debugger;
+      var closeButton = document.createElement('span');
+      closeButton.id = 'close-iframe';
+      closeButton.style = 'color:white;position: absolute;top: 0;right: 10;z-index: 100;cursor: pointer';
+      adDiv.appendChild(closeButton);
+    }
+    // console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
     makeAd(adDiv, options.type, options.src, adSettings, options);
   // activateDiv(adDiv);
 };
+
 
 /**
  *
@@ -110,20 +119,18 @@ function makeAd(adDiv, type, source, adSettings, options) {
     // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
     loadjscssfile(VIDEO_API, "js");
+
     waitUntil(
       function() {
         return typeof Ads == "function";
       }, function() {
-        var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
-        imaplayer = ads.player;
-        if(adSettings.audiohover){
-          setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
-        }
-        if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
-          waitUntil(
-            function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
-            function(){ pollImaPlaytime(); }
-          );
+        if(isMobile){
+          window.document.getElementById('mobile-play-overlay').addEventListener('click', function(){
+            loadIma(adDiv, type, source, adSettings, options);
+            removeOverlay();
+          });
+        } else {
+          loadIma(adDiv, type, source, adSettings, options);
         }
         parentWindow.addEventListener('remote-control', function(e){
           remoteControlEventHandler(e);
@@ -143,6 +150,35 @@ function makeAd(adDiv, type, source, adSettings, options) {
   }
   src = source;
   addIFrame(adDiv, source, adSettings);
+}
+
+function setOverlay(adDiv, options){
+  var img =  new Image();
+  img.id = 'play';
+  img.src = options.poster;
+  img.style = 'margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px; z-index:300000';
+  adDiv.appendChild(img);
+}
+
+function removeOverlay(){
+  var overlay = window.document.getElementById('mobile-play-overlay');
+  overlay.parentNode.removeChild(overlay);
+}
+
+function loadIma(adDiv, type, source, adSettings, options){
+  var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
+  imaplayer = ads.player;
+
+
+  if(adSettings.audiohover){
+    setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
+  }
+  if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
+    waitUntil(
+      function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
+      function(){ pollImaPlaytime(); }
+      );
+  }
 }
 
 function waitUntil(check,onComplete,delay,timeout) {
@@ -170,20 +206,20 @@ function waitUntil(check,onComplete,delay,timeout) {
 }
 
 function getTopLevelWindow() {
-    var currentWindow = window;
-    while( currentWindow.parent != currentWindow ) {
-        currentWindow = currentWindow.parent;
-        if (typeof currentWindow.parent == 'undefined'){
-            return currentWindow.ownerDocument.defaultView;
-          }
-        }
-        return currentWindow;
-      }
-      var parentWindow = getTopLevelWindow();
+  var currentWindow = window;
+  while( currentWindow.parent != currentWindow ) {
+    currentWindow = currentWindow.parent;
+    if (typeof currentWindow.parent == 'undefined'){
+      return currentWindow.ownerDocument.defaultView;
+    }
+  }
+  return currentWindow;
+}
+var parentWindow = getTopLevelWindow();
 
-      function loadjscssfile(filename, filetype) {
-        console.log(filename);
-        var fileref;
+function loadjscssfile(filename, filetype) {
+  console.log(filename);
+  var fileref;
     if (filetype == "js") { //if filename is a external JavaScript file
       fileref = document.createElement('script');
       fileref.setAttribute("type", "text/javascript");
@@ -429,9 +465,9 @@ function getTopLevelWindow() {
       timewindow = adSettings.completionwindow;
     }
     if (played > timewindow && !sentBeacon ){
-        var beacon = new BeaconEvent("ima::complete"+timewindow+"::"+adSettings.bcod+"::"+played);
-        sentBeacon = true;
-        beacon.sendBeacon(function(){
+      var beacon = new BeaconEvent("ima::complete"+timewindow+"::"+adSettings.bcod+"::"+played);
+      sentBeacon = true;
+      beacon.sendBeacon(function(){
       });
     }
 
@@ -441,39 +477,39 @@ function getTopLevelWindow() {
   }
 
   var BeaconEvent = (function() {
-  var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
-  var _beaconURI = '//api.buzz.st/v1/track';
+    var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
+    var _beaconURI = '//api.buzz.st/v1/track';
 
-  function BeaconEvent(rawEvent) {
-    _rawEvent = rawEvent;
-    var components = rawEvent.split("::");
-    if (components.length >= 2) {
-      _bsrc = components[0];
-      _btyp = components[1];
-      _bcod = components[2];
-      _bdat = components[3];
-    } else {
-      throw TypeError("can't parse event from raw event: " + rawEvent);
+    function BeaconEvent(rawEvent) {
+      _rawEvent = rawEvent;
+      var components = rawEvent.split("::");
+      if (components.length >= 2) {
+        _bsrc = components[0];
+        _btyp = components[1];
+        _bcod = components[2];
+        _bdat = components[3];
+      } else {
+        throw TypeError("can't parse event from raw event: " + rawEvent);
+      }
     }
-  }
 
-  BeaconEvent.prototype.updateQueryParams = function(uri, key, value) {
-    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-    if (uri.match(re)) {
-      return uri.replace(re, '$1' + key + "=" + value + '$2');
-    }
-    else {
-      return uri + separator + key + "=" + value;
-    }
-  };
+    BeaconEvent.prototype.updateQueryParams = function(uri, key, value) {
+      var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+      var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+      if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+      }
+      else {
+        return uri + separator + key + "=" + value;
+      }
+    };
 
-  BeaconEvent.prototype.toJSONString = function() {
-    return JSON.stringify(this.toJSON());
-  };
+    BeaconEvent.prototype.toJSONString = function() {
+      return JSON.stringify(this.toJSON());
+    };
 
-  BeaconEvent.prototype.toJSON = function() {
-    return {
+    BeaconEvent.prototype.toJSON = function() {
+      return {
       // temporary since beacon only accepts vast right now
       "btyp": _btyp,
       "bcod": _bcod,
@@ -504,7 +540,7 @@ function getTopLevelWindow() {
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     req.send(this.toJSONString());
   };
-return BeaconEvent;
+  return BeaconEvent;
 })();
 
   function triggerBeacon(eventString, bcod){
@@ -513,11 +549,11 @@ return BeaconEvent;
     beacon.sendBeacon(function(){});
   }
 
-  function pollTwitchPlayTime(restart){
-    if (!restart){
-      twitchPlaytime = tplayer.getCurrentTime() + prevTwitchPlaytime - adTime;
-    }
-    if (paused || inPrerollAd) {
+function pollTwitchPlayTime(restart){
+  if (!restart){
+    twitchPlaytime = tplayer.getCurrentTime() + prevTwitchPlaytime - adTime;
+  }
+  if (paused || inPrerollAd) {
       // kill poll when paused, save playtime
       prevTwitchPlaytime = twitchPlaytime;
       return;
@@ -578,14 +614,14 @@ return BeaconEvent;
   function playContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.resumeAd();
-        break;
+      imaplayer.ima.resumeAd();
+      break;
       case AD_TYPES.YOUTUBE:
-        player.playVideo();
-        break;
+      player.playVideo();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.play();
-        break;
+      tplayer.play();
+      break;
       default:
     }
   }
@@ -593,14 +629,14 @@ return BeaconEvent;
   function muteContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.getAdsManager().setVolume(0);
-        break;
+      imaplayer.ima.getAdsManager().setVolume(0);
+      break;
       case AD_TYPES.YOUTUBE:
-        player.mute();
-        break;
+      player.mute();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.setMuted(true);
-        break;
+      tplayer.setMuted(true);
+      break;
       default:
     }
   }
@@ -609,14 +645,14 @@ return BeaconEvent;
   function unMuteContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.getAdsManager().setVolume(1);
-        break;
+      imaplayer.ima.getAdsManager().setVolume(1);
+      break;
       case AD_TYPES.YOUTUBE:
-        player.unMute();
-        break;
+      player.unMute();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.setMuted(false);
-        break;
+      tplayer.setMuted(false);
+      break;
       default:
     }
   }
@@ -625,14 +661,14 @@ return BeaconEvent;
   function pauseContent(){
     switch(adSettings.type) {
       case AD_TYPES.VIDEO:
-        imaplayer.ima.pauseAd();
-        break;
+      imaplayer.ima.pauseAd();
+      break;
       case AD_TYPES.YOUTUBE:
-        player.pauseVideo();
-        break;
+      player.pauseVideo();
+      break;
       case AD_TYPES.TWITCH:
-        tplayer.pause();
-        break;
+      tplayer.pause();
+      break;
       default:
     }
   }
@@ -640,22 +676,24 @@ return BeaconEvent;
   function remoteControlEventHandler(event){
     switch(event.detail.action) {
       case 'play':
-        playContent();
-        break;
+      playContent();
+      break;
       case 'pause':
-        pauseContent();
-        break;
+      pauseContent();
+      break;
       case 'mute':
-        muteContent();
-        break;
+      muteContent();
+      break;
       case 'unmute':
-        unMuteContent();
-        break;
+      unMuteContent();
+      break;
       default:
-        break;
+      break;
     }
   }
-
+  window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); }
+  window.play = function() { playContent(); }
+  window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};
 }(window));
