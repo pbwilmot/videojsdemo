@@ -58,12 +58,12 @@ Ads.prototype.SAMPLE_AD_TAG = '//svastx.moatads.com/buzzstartervpaid67711111384/
 
 Ads.prototype.init = function() {
   console.log('init called');
-  this.player.ima.initializeAdDisplayContainer();
   if (this.adTag.value === '') {
     this.log('Error: no ad tag specified.  Using default tag');
   }
   this.player.ima.setContent(null, this.adTag || this.SAMPLE_AD_TAG, true);
   this.player.ima.requestAds();
+  this.player.ima.initializeAdDisplayContainer();
   this.player.play();
 };
 
