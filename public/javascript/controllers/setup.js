@@ -19,7 +19,7 @@ $('#setup-form').submit(function(e) {
 
 $('#verticle').change(function() {
   var verticle = $('#verticle').val();
-  var url = '/test/post/' + verticle;
+  var url = '/mediakit/post/' + verticle;
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');

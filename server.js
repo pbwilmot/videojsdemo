@@ -20,11 +20,11 @@ app.get('/setup', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/setup.html'));
 });
 
-app.get('/test', function(req, res) {
+app.get('/mediakit', function(req, res) {
   res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
-app.get('/test/post/:verticle', function(req, res) {
+app.get('/mediakit/post/:verticle', function(req, res) {
   res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
