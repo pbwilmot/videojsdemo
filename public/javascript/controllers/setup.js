@@ -176,7 +176,7 @@ function addIFrame(parent, source, adSettings) {
   $('.progress').show();
   $('#randomid').load(function () {
     $('.progress').css('display', 'none');
-     $('#randomid').contents().find('body').contents().find('#testing').click(function() {
+     $('#randomid').contents().find('body').contents().find('.native-ad').click(function() {
       var verticle = $('#verticle').val() + '-post';
       var url = '/test/post/' + verticle;
       var parent = document.getElementById('content');
