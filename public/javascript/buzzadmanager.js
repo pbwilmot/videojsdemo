@@ -407,7 +407,7 @@ function loadjscssfile(filename, filetype) {
       }
     });
     if(adSettings.audiohover){
-      setHover(player.m.id, player, AD_TYPES.YOUTUBE);
+      setHover(player.l.id, player, AD_TYPES.YOUTUBE);
     }
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
