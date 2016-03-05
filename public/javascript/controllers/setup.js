@@ -68,47 +68,23 @@ $('#type').change(function() {
 
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
+  if ($('#randomid').contents().find('.iframe-new').length > 0) {
+    var verticle = $('#verticle').val();
+    var url = '/test/post/' + verticle;
+    var parent = document.getElementById('content');
+    var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
+    addIFrame(parent, url);
 
-  if (type === 'in-read' && $('#randomid').contents().find('.iframe-new').length > 0) {
+    $('#randomid').load(function () {
+      loadIframe(source, type);
+    });
 
-    if  ($('#randomid').contents().find('#top-read').css('display') != 'none') {
-      $('#randomid')
-        .contents()
-        .find('#top-read')
-        .toggle();
-    }
-
-    if (!$('#randomid').contents().find('#top-read').find('img').length > 0) {
-      $('#randomid')
-      .contents()
-      .find('#top-read-image')
-      .toggle();
-
-      if ($('#randomid').contents().find('#in-read-image').is(':visible')) {
-          $('#randomid').contents().find('#in-read-image').toggle();
-       }
-    }
-
-  } else if (type === 'top-read' && $('#randomid').contents().find('.iframe-new').length > 0) {
-
-    if ($('#randomid').contents().find('#in-read').css('display') != 'none') {
-      $('#randomid')
-        .contents()
-        .find('#in-read')
-        .toggle();
-    }
-
-    if (!$('#randomid').contents().find('#in-read').find('img').length > 0) {
-      $('#randomid')
-        .contents()
-        .find('#in-read-image').toggle();
-
-       if ($('#randomid').contents().find('#top-read-image').is(':visible')) {
-          $('#randomid').contents().find('#top-read-image').toggle();
-       }
-      }
+  } else {
+    loadIframe(source, type);
   }
+}
 
+function loadIframe(source, type) {
   var height, width;
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     height = $('#randomid').contents().find('#' + type).height();
@@ -157,18 +133,17 @@ function replaceIframe(source) {
           $(this).remove();
         });
   });
-
   var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
-    $('#randomid').contents().scroll(function() {
-      if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-        pauseOutOfView();
-      }
-    });
-    $('#randomid').contents().scroll(function() {
-      if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-        resumeInView();
-      }
-    });
+  $('#randomid').contents().scroll(function() {
+    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
+      pauseOutOfView(type);
+    }
+  });
+  $('#randomid').contents().scroll(function() {
+    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
+      resumeInView(type);
+    }
+  });
 }
 
 function startInView() {
@@ -180,13 +155,13 @@ function startInView() {
   }
 }
 
-function pauseOutOfView() {
+function pauseOutOfView(type) {
   if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value <= 0.50) {
     player('pause');
   }
 }
 
-function resumeInView() {
+function resumeInView(type) {
   if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value >= 0.50) {
     player('play');
   }
