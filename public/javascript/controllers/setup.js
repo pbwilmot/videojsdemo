@@ -15,10 +15,10 @@ $('#setup-form').submit(function(e) {
     var parent = document.getElementById('content');
     if (adType === 'sponsored') {
       verticle = $('#verticle').val() + '-post';
-      url = '/test/post/' + verticle;
+      url = '/mediakit/post/' + verticle;
     } else {
       verticle = $('#verticle').val();
-      url = '/test/' + verticle;
+      url = '/mediakit/' + verticle;
     }
     if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native' && url.indexOf('-post') > -1 ) {
         replaceIframe(query);
@@ -39,10 +39,10 @@ $('#verticle').change(function() {
   var adType = $('#ad-type').val();
   if (adType === 'sponsored') {
     verticle = $('#verticle').val() + '-post';
-    url = '/test/post/' + verticle;
+    url = '/mediakit/post/' + verticle;
   } else {
     verticle = $('#verticle').val();
-    url = '/test/' + verticle;
+    url = '/mediakit/' + verticle;
   }
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
@@ -73,12 +73,12 @@ function replaceIframe(source) {
     var adType = $('#ad-type').val();
     if (adType === 'sponsored') {
       verticle = $('#verticle').val() + '-post';
-      url = '/test/post/' + verticle;
+      url = '/mediakit/post/' + verticle;
     } else {
       verticle = $('#verticle').val();
-      url = '/test/' + verticle;
+      url = '/mediakit/' + verticle;
     }
-    var url = '/test/post/' + verticle;
+    var url = '/mediakit/post/' + verticle;
     var parent = document.getElementById('content');
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
     addIFrame(parent, url);
@@ -190,7 +190,7 @@ function addIFrame(parent, source, adSettings) {
     $('.progress').css('display', 'none');
      $('#randomid').contents().find('body').contents().find('.native-ad').click(function() {
       var verticle = $('#verticle').val() + '-post';
-      var url = '/test/post/' + verticle;
+      var url = '/mediakit/post/' + verticle;
       var parent = document.getElementById('content');
       if ($('#randomid').contents().find('.iframe-new').length > 0) {
         var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
