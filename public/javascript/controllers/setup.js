@@ -68,7 +68,7 @@ $('#type').change(function() {
 
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
-  if ($('#randomid').contents().find('.iframe-new').length > 0) {
+  if ($('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#' + type).find('img').length >= 1) {
     var verticle = $('#verticle').val();
     var url = '/test/post/' + verticle;
     var parent = document.getElementById('content');
@@ -110,12 +110,13 @@ function loadIframe(source, type) {
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
 
-    $('#randomid')
-      .contents()
-      .find('#' + type)
-      .parent()
-      .css('position', 'relative')
-      .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
+    if ($('#randomid').contents().find('#close-iframe').length < 1) {
+      $('#randomid')
+        .contents()
+        .find('#iframe-div')
+        .css('position', 'relative')
+        .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
+    }
 
   $('#randomid')
     .contents()
@@ -128,10 +129,10 @@ function loadIframe(source, type) {
         .css('position', 'relative')
         .find('#close-iframe')
         .on('click', function() {
-          $('#randomid').contents().find('#' + type).slideToggle(1000);
+          $('#randomid').contents().find('#' + type).slideUp(1000);
           player('pause');
           $(this).remove();
-        });
+      });
   });
   var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
   $('#randomid').contents().scroll(function() {
