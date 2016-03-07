@@ -93,6 +93,13 @@ shtml
                       label(for='playpausetrue') on
                       input#playpausefalse(name='playpause', type='radio' value="false")
                       label(for='playpausefalse') off
+                  .row
+                    .input-field.col.s12 PLACEMENT
+                      br
+                      input#in-read(name='readtype', type='radio' value="in-read")
+                      label(for='in-read') MID
+                      input#top-read(name='readtype', type='radio' value="top-read")
+                      label(for='top-read') TOP
                   .card-action
                     button.btn.waves-effect.waves-light.btn-submit(type='submit') Submit
           .col.s12

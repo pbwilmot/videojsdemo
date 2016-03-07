@@ -1,5 +1,8 @@
 $('select').material_select();
 
+$('#top-read-image').hide();
+$('#in-read-image').hide();
+
 $('#setup-form').submit(function(e) {
   e.preventDefault();
   var type = $('#type').val();
@@ -17,7 +20,7 @@ $('#setup-form').submit(function(e) {
       verticle = $('#verticle').val();
       url = '/test/' + verticle;
     }
-    if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native') {
+    if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native' && url.indexOf('-post') > -1 ) {
         replaceIframe(query);
     } else {
       addIFrame(parent, url);
@@ -64,77 +67,86 @@ $('#type').change(function() {
 });
 
 function replaceIframe(source) {
-  var height, width;
-  if ($('#randomid').contents().find('.iframe-new').length > 0) {
-    height = $('#randomid').contents().find('#iframe-replace').height();
-    width = $('#randomid').contents().find('#iframe-replace').width();
+  var type = $( "input[name='readtype']:checked" ).val();
+  if ($('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#' + type).find('img').length >= 1) {
+    var verticle;
+    var adType = $('#ad-type').val();
+    if (adType === 'sponsored') {
+      verticle = $('#verticle').val() + '-post';
+      url = '/test/post/' + verticle;
+    } else {
+      verticle = $('#verticle').val();
+      url = '/test/' + verticle;
+    }
+    var url = '/test/post/' + verticle;
+    var parent = document.getElementById('content');
+    var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
+    addIFrame(parent, url);
+
+    $('#randomid').load(function () {
+      loadIframe(source, type);
+    });
+
   } else {
-    height = $('#randomid').contents().find('#iframe-div').height();
-    width = $('#randomid').contents().find('#iframe-div').width();
+    loadIframe(source, type);
   }
+}
+
+function loadIframe(source, type) {
+  var height, width;
+  height = $('#randomid').contents().find('#' + type).height();
+  width = $('#randomid').contents().find('#' + type).width();
 
   var verticle = $('#verticle').val();
 
   $('#randomid')
     .contents()
-    .find('#iframe-replace')
-    .replaceWith("<iframe class='iframe-new' id='iframe-replace' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
+    .find('#' + type)
+    .replaceWith("<iframe class='iframe-new' id='" + type + "' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
 
   $('#randomid')
     .contents()
-    .find('#iframe-replace').load(function () {
+    .find('#' + type).load(function () {
       $(this)
         .contents()
         .find('#BuzzAdDiv')
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
 
-  if ($('#randomid').contents().find('#close-iframe').length < 1) {
-     $('#randomid')
-    .contents()
-    .find('#iframe-div')
-    .css('position', 'relative')
-    .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
-  }
+    if ($('#randomid').contents().find('#close-iframe').length < 1) {
+      $('#randomid')
+        .contents()
+        .find('#' + type)
+        .parent()
+        .css('position', 'relative')
+        .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
+    }
 
   $('#randomid')
     .contents()
-    .find('#iframe-replace')
+    .find('#' + type)
     .load(function() {
       $('#randomid')
         .contents()
-        .find('#iframe-div')
+        .find('#' + type)
+        .parent()
         .css('position', 'relative')
         .find('#close-iframe')
         .on('click', function() {
-          $('#randomid').contents().find('#iframe-replace').slideToggle(1000);
+          $('#randomid').contents().find('#' + type).slideUp(1000);
           player('pause');
           $(this).remove();
-        });
+      });
   });
-
-  if (verticle === 'male-lifestyle-post') {
-    $('#randomid')
-    .contents()
-    .find('#iframe-replace').load(function () {
-      $('#randomid')
-        .contents()
-        .find('#iframe-replace')
-        .slideToggle();
-    });
-    $('#randomid').contents().scroll(function() {
-      startInView();
-    });
-  }
-  var closeIframe = $('#randomid').contents().find('#iframe-div').find('#close-iframe');
+  var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
   $('#randomid').contents().scroll(function() {
     if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-      pauseOutOfView();
+      pauseOutOfView(type);
     }
   });
   $('#randomid').contents().scroll(function() {
     if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-      resumeInView();
+      resumeInView(type);
     }
   });
 }
@@ -143,19 +155,19 @@ function startInView() {
   if (viewability.vertical($('#randomid').contents().find('#overhere')[0]).value >= 0.75) {
     $('#randomid')
       .contents()
-      .find('#iframe-replace')
-      .slideDown(1000);
+      .find('#' + type)
+      .slideDown();
   }
 }
 
-function pauseOutOfView() {
-  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value <= 0.50) {
+function pauseOutOfView(type) {
+  if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value <= 0.50) {
     player('pause');
   }
 }
 
-function resumeInView() {
-  if (viewability.vertical($('#randomid').contents().find('#iframe-div')[0]).value >= 0.50) {
+function resumeInView(type) {
+  if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value >= 0.50) {
     player('play');
   }
 }
@@ -196,7 +208,7 @@ function addIFrame(parent, source, adSettings) {
           addIFrame(parent, url);
           $('#randomid').load(function () {
             replaceIframe(query);
-          });  
+          });
         } else {
           alert('not a valid url for ' + type);
         }
