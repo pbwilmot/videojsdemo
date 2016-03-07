@@ -17,7 +17,7 @@ $('#setup-form').submit(function(e) {
       verticle = $('#verticle').val();
       url = '/test/' + verticle;
     }
-    if ($('#randomid').contents().find('.iframe-new').length > 0) {
+    if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native') {
         replaceIframe(query);
     } else {
       addIFrame(parent, url);
@@ -188,12 +188,23 @@ function addIFrame(parent, source, adSettings) {
         });
         $('.event-non-fired').removeClass('event-fired');
       } else {
-        addIFrame(parent, url);
+        var type = $('#type').val();
+        if (validateSrc(type)) {
+          $('#src').val(validateSrc(type));
+          var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
+          query += '&type=' + type;
+          addIFrame(parent, url);
+          $('#randomid').load(function () {
+            replaceIframe(query);
+          });  
+        } else {
+          alert('not a valid url for ' + type);
+        }
       }
+      $('.event-non-fired').removeClass('event-fired');
     });
   });
 }
-
 
 function validateSrc(type) {
   var url = $.trim($('#src').val());
