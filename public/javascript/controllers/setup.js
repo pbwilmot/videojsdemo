@@ -94,13 +94,8 @@ function replaceIframe(source) {
 
 function loadIframe(source, type) {
   var height, width;
-  if ($('#randomid').contents().find('.iframe-new').length > 0) {
-    height = $('#randomid').contents().find('#' + type).height();
-    width = $('#randomid').contents().find('#' + type).width();
-  } else {
-    height = $('#randomid').contents().find('#iframe-div').height();
-    width = $('#randomid').contents().find('#iframe-div').width();
-  }
+  height = $('#randomid').contents().find('#' + type).height();
+  width = $('#randomid').contents().find('#' + type).width();
 
   var verticle = $('#verticle').val();
 
@@ -121,7 +116,8 @@ function loadIframe(source, type) {
     if ($('#randomid').contents().find('#close-iframe').length < 1) {
       $('#randomid')
         .contents()
-        .find('#iframe-div')
+        .find('#' + type)
+        .parent()
         .css('position', 'relative')
         .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
     }
