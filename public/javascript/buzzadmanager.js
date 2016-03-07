@@ -397,7 +397,7 @@ function getTopLevelWindow() {
       return;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
-      parentWindow.postMessage("yt::thirdquart", "*");
+      parentWindow.postMessage("yt::thirdquartile", "*");
       rcvStates.thirdquartile = true;
     }
     else if (progress >= 0.5 && !rcvStates.midpoint) {
@@ -405,7 +405,7 @@ function getTopLevelWindow() {
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parentWindow.postMessage("yt::firstquart", "*");
+      parentWindow.postMessage("yt::firstquartile", "*");
       rcvStates.firstquartile = true;
     }
 
@@ -541,7 +541,7 @@ return BeaconEvent;
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parentWindow.postMessage("twitch::firstquart", "*");
+      parentWindow.postMessage("twitch::firstquartile", "*");
       triggerBeacon("twitch::firstquart", adSettings.bcod);
       rcvStates.firstquartile = true;
     }
