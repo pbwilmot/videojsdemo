@@ -20,7 +20,7 @@ $('#setup-form').submit(function(e) {
       verticle = $('#verticle').val();
       url = '/test/' + verticle;
     }
-    if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native') {
+    if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native' && url.indexOf('-post') > -1 ) {
         replaceIframe(query);
     } else {
       addIFrame(parent, url);
@@ -69,7 +69,15 @@ $('#type').change(function() {
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
   if ($('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#' + type).find('img').length >= 1) {
-    var verticle = $('#verticle').val();
+    var verticle;
+    var adType = $('#ad-type').val();
+    if (adType === 'sponsored') {
+      verticle = $('#verticle').val() + '-post';
+      url = '/test/post/' + verticle;
+    } else {
+      verticle = $('#verticle').val();
+      url = '/test/' + verticle;
+    }
     var url = '/test/post/' + verticle;
     var parent = document.getElementById('content');
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
@@ -204,7 +212,7 @@ function addIFrame(parent, source, adSettings) {
           addIFrame(parent, url);
           $('#randomid').load(function () {
             replaceIframe(query);
-          });  
+          });
         } else {
           alert('not a valid url for ' + type);
         }
