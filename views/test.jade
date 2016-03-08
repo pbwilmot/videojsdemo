@@ -1,8 +1,9 @@
 shtml
   head
-    link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css")
+    link(rel='stylesheet', href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css")
     link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
     link(rel='stylesheet', href='/static/style/setup/style.css')
+    link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800', type='text/css')
   body
     .navbar-fixed
       nav
@@ -26,7 +27,7 @@ shtml
                 form#setup-form
                   .row
                     .input-field.col.s12
-                      select#verticle(required)
+                      select#vertical(required)
                         option(value='', disabled, selected) Choose your option
                         option(value='male-lifestyle') Male Lifestyle
                         option(value='female-lifestyle') Female Lifestyle
@@ -40,7 +41,7 @@ shtml
                         //- option(value='auto') Auto
                         option(value='gaming') Gaming
                         //- option(value='multi-cultural') Multi-Cultural
-                      label VERTICLE
+                      label VERTICAL
                   .row
                     .input-field.col.s12
                       select#ad-type(required)
@@ -68,38 +69,38 @@ shtml
                   .row
                     .input-field.col.s12 AUTO PLAY
                       br
-                      input#autoplaytrue(name='autoplay', type='radio' value="true")
+                      input#autoplaytrue(name='autoplay', class='with-gap' type='radio' value="true")
                       label(for='autoplaytrue') on
-                      input#autoplayfalse(name='autoplay', type='radio' value="false")
-                      label(for='autoplayfalse') off
+                      input#autoplayfalse(name='autoplay', class='with-gap' type='radio' value="false")
+                      label(for='autoplayfalse' class='align-items') off
                   .row
                     .input-field.col.s12 AUTO MUTE
                       br
-                      input#automutetrue(name='automute', type='radio' value="true")
+                      input#automutetrue(name='automute', class='with-gap' type='radio' value="true")
                       label(for='automutetrue') on
-                      input#automutefalse(name='automute', type='radio' value="false")
-                      label(for='automutefalse') off
+                      input#automutefalse(name='automute', class='with-gap' type='radio' value="false")
+                      label(for='automutefalse' class='align-items') off
                   .row
                     .input-field.col.s12 PLAY AUDIO ON HOVER
                       br
-                      input#audiohovertrue(name='audiohover', type='radio' value="true")
+                      input#audiohovertrue(name='audiohover', class='with-gap' type='radio' value="true")
                       label(for='audiohovertrue') on
-                      input#audiohoverfalse(name='audiohover', type='radio' value="false")
-                      label(for='audiohoverfalse') off
+                      input#audiohoverfalse(name='audiohover', class='with-gap' type='radio' value="false")
+                      label(for='audiohoverfalse' class='align-items') off
                   .row
                     .input-field.col.s12 PLAY / PAUSE ON VIEWABILITY
                       br
-                      input#playpausetrue(name='playpause', type='radio' value="true")
+                      input#playpausetrue(name='playpause', class='with-gap' type='radio' value="true")
                       label(for='playpausetrue') on
-                      input#playpausefalse(name='playpause', type='radio' value="false")
-                      label(for='playpausefalse') off
+                      input#playpausefalse(name='playpause', class='with-gap' type='radio' value="false")
+                      label(for='playpausefalse' class='align-items') off
                   .row
                     .input-field.col.s12 PLACEMENT
                       br
-                      input#in-read(name='readtype', type='radio' value="in-read")
-                      label(for='in-read') MID
-                      input#top-read(name='readtype', type='radio' value="top-read")
-                      label(for='top-read') TOP
+                      input#in-read(name='readtype', class='with-gap' type='radio' value="in-read")
+                      label(for='in-read') mid
+                      input#top-read(name='readtype', class='with-gap' type='radio' value="top-read")
+                      label(for='top-read') top
                   .card-action
                     button.btn.waves-effect.waves-light.btn-submit(type='submit') Submit
           .col.s12
@@ -118,8 +119,15 @@ shtml
                 //- p#event-adstart.event-non-fired Twitch: Ad Start
                 //- p#event-adend.event-non-fired Twitch: Ad End
       div#content.col.m9
-        .progress
-          .indeterminate
+        .progress-overlay
+          .preloader-wrapper.big.active
+            .spinner-layer.spinner-red-only
+              .circle-clipper.left
+                .circle
+              .gap-patch
+                .circle
+              .circle-clipper.right
+                .circle
 
     script(src='//cdn.jsdelivr.net/viewability/latest/viewability.min.js')
     script(src='//code.jquery.com/jquery-2.1.2.min.js')

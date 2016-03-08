@@ -50,12 +50,12 @@ app.get('/mediakit', function(req, res) {
   res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
-app.get('/mediakit/:verticle', function(req, res) {
-  res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+app.get('/mediakit/:vertical', function(req, res) {
+  res.render(req.params.vertical, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
-app.get('/mediakit/post/:verticle', function(req, res) {
-  res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+app.get('/mediakit/post/:vertical', function(req, res) {
+  res.render(req.params.vertical, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/innovidmobile', function(req, res) {
