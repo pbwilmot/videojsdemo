@@ -27,3 +27,13 @@
     height: calc(100vw*(360/640));
   }
 }
+
+@media all and (min-device-width: 640px) {
+  .embed-frame {
+    width: 640px;
+    height: 360px;
+    position: absolute;
+    left: calc(50vw - 320px);
+    top: 5vh;
+  }
+}

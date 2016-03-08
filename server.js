@@ -38,6 +38,10 @@ app.get('/', function(req, res) {
   }
 });
 
+app.get('/demo', function(req,res){
+  res.render('dyn-iframe' , { type: req.query.type, bcod: req.query.bcod });
+})
+
 app.get('/setup', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/setup.html'));
 });
