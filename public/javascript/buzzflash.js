@@ -1,40 +1,61 @@
 var BuzzFlash = (function(window) {
   const dictionary = {
     "82WxOWdT7ZRR": [
-    {bcod: "82WxOWdT2ZAg5", weight: 1},
-    {bcod: "M21bX1qTRN3G7", weight: 2},
-    {bcod: "Qe1b41lhPX5EG", weight: 2},
-    {bcod: "O21bA17TlVVvB", weight: 2},
-    {bcod: "omdZldMsPOZ2q", weight: 2},
-    {bcod: "2rw8Gw2Fap50g", weight: 1},
-    {bcod: "Dq1bm19ukL487", weight: 1},
-    {bcod: "kmrGqrWskALrn", weight: 1}
+    {bcod: "82WxOWdT2ZAg5", weight: 2},
+    {bcod: "M21bX1qTRN3G7", weight: 1},
+    {bcod: "Qe1b41lhPX5EG", weight: 1},
+    {bcod: "O21bA17TlVVvB", weight: 1},
+    {bcod: "omdZldMsPOZ2q", weight: 1},
+    {bcod: "2rw8Gw2Fap50g", weight: 2},
+    {bcod: "Dq1bm19ukL487", weight: 2},
+    {bcod: "kmrGqrWskALrn", weight: 2},
+    {bcod: "7XoV3NoU5Zn09", weight: 36},
+    {bcod: "VebyxG9fWglpk", weight: 12}
     ],
     "M21bX1qTgRLaW": [
-    {bcod: "5NLJBLRcQnEaA", weight: 1},
-    {bcod: "Vr1bd1XFr5qMR", weight: 2},
-    {bcod: "NB1bX1kh2eZaq", weight: 2},
-    {bcod: "v7dMxdmfXjmLy", weight: 2},
-    {bcod: "ypdwEd0TwjOO", weight: 2},
-    {bcod: "BD1bJ1gcvDlQ", weight: 1},
-    {bcod: "mmdX7dWsy0Wrl", weight: 1},
-    {bcod: "2rw8Gw2FW2EVe", weight: 1}
+    {bcod: "5NLJBLRcQnEaA", weight: 2},
+    {bcod: "Vr1bd1XFr5qMR", weight: 1},
+    {bcod: "NB1bX1kh2eZaq", weight: 1},
+    {bcod: "v7dMxdmfXjmLy", weight: 1},
+    {bcod: "ypdwEd0TwjOO", weight: 1},
+    {bcod: "BD1bJ1gcvDlQ", weight: 2},
+    {bcod: "mmdX7dWsy0Wrl", weight: 2},
+    {bcod: "2rw8Gw2FW2EVe", weight: 2},
+    {bcod: "1rb29Bbu4WZw8", weight: 36},
+    {bcod: "EDbQ5oNsAmlZ", weight: 12}
     ],
     "X7Av9AjfdEr5J": [
-    {bcod: "7N89O8dcOD97", weight: 1},
-    {bcod: "Dq1bm19uJGqP", weight: 2},
-    {bcod: "rodNGdMfJQbJy", weight: 2},
-    {bcod: "BD1bJ1gckjpVe", weight: 2},
-    {bcod: "X7Av9Ajf9bl0", weight: 2},
-    {bcod: "AG1bv1df5B0L", weight: 1},
-    {bcod: "Dq1bm19uPJrg", weight: 1},
-    {bcod: "Wk1b91atGqWy3", weight: 1}
+    {bcod: "7N89O8dcOD97", weight: 2},
+    {bcod: "Dq1bm19uJGqP", weight: 1},
+    {bcod: "rodNGdMfJQbJy", weight: 1},
+    {bcod: "BD1bJ1gckjpVe", weight: 1},
+    {bcod: "X7Av9Ajf9bl0", weight: 1},
+    {bcod: "AG1bv1df5B0L", weight: 2},
+    {bcod: "Dq1bm19uPJrg", weight: 2},
+    {bcod: "Wk1b91atGqWy3", weight: 2},
+    {bcod: "bVyOAgyIvjW2", weight: 36},
+    {bcod: "o7ZpgbNT50vMV", weight: 12}
     ]
   };
 
   const paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=&id=&a=";
   const av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=&id=&a=";
 
+
+  function getTotalWeight(pubtag){
+    var tagList = dictionary[pubtag];
+
+    if(!tagList){
+      return 0;
+    }
+
+    var weight = tagList.map(function(obj){return obj.weight;}).reduce(function(previousValue, currentValue, currentIndex, array) {
+      return previousValue + currentValue;
+    });
+
+    return weight;
+
+  }
   function getThirdpartyUri(org, repl){
     var bucket = dictionary[org];
     if(!bucket){
@@ -63,8 +84,10 @@ var BuzzFlash = (function(window) {
       return bcod;
     }
 
+    var w = getTotalWeight(bcod);
+
     var arr = dictionary[bcod];
-    var rn = Math.floor(Math.random()*12);
+    var rn = Math.floor(Math.random()*w);
     var c = 0;
     for(i = 0; i < arr.length; i++){
       c += arr[i].weight;
