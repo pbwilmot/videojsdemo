@@ -26,7 +26,6 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
     // console.log(JSON.stringify(options));
     adSettings = makeAdSettings(options);
     if(options.hideclose == 'true' && !isMobile){
-      debugger;
       var closeButton = document.createElement('span');
       closeButton.id = 'close-iframe';
       closeButton.style = 'color:white;position: absolute;top: 0;right: 10;z-index: 100;cursor: pointer';
@@ -71,9 +70,9 @@ function makeAdSettings(options) {
   if (skipDuration >= 0) {
     // add <span id="close-iframe">x</span>
   }
-  rv.bcod = options.bcod
-  rv.completionwindow = options.completionwindow
-  rv.audiohover =  (options.audiohover === 'true')
+  rv.bcod = options.bcod;
+  rv.completionwindow = options.completionwindow;
+  rv.audiohover =  (options.audiohover === 'true');
   rv.autoplay = (options.autoplay === 'true');
   rv.automute = (options.automute === 'true');
   rv.autoclose = (options.autoclose === 'true');
@@ -173,9 +172,9 @@ function loadIma(adDiv, type, source, adSettings, options){
   if(adSettings.audiohover){
     setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
   }
-  if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
+  if(adSettings.completionwindow && adSettings.bcod){
     waitUntil(
-      function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
+      function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && imaplayer.ima.getAdsManager().getCurrentAd(); },
       function(){ pollImaPlaytime(); }
       );
   }
@@ -452,7 +451,7 @@ function loadjscssfile(filename, filetype) {
   function pollImaPlaytime() {
     var adm = imaplayer.ima.getAdsManager();
     var remaining = adm.getRemainingTime();
-    if(adm.getCurrentAd() == null){
+    if(!adm.getCurrentAd()){
       return;
     }
     var adlength = adm.getCurrentAd().getDuration();
@@ -461,7 +460,7 @@ function loadjscssfile(filename, filetype) {
       played = (adlength - remaining);
     }
     var timewindow = 30;
-    if (adSettings.completionwindow != null){
+    if (adSettings.completionwindow){
       timewindow = adSettings.completionwindow;
     }
     if (played > timewindow && !sentBeacon ){
@@ -691,8 +690,8 @@ function pollTwitchPlayTime(restart){
       break;
     }
   }
-  window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); }
-  window.play = function() { playContent(); }
+  window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); };
+  window.play = function() { playContent(); };
   window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};
