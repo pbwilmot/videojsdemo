@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 
 app.get('/demo', function(req,res){
   res.render('dyn-iframe' , { type: req.query.type, bcod: req.query.bcod });
-})
+});
 
 app.get('/setup', function(req, res) {
   res.sendFile(path.join(__dirname + '/views/setup.html'));
@@ -53,11 +53,6 @@ app.get('/test', function(req, res) {
 app.get('/test/post/:verticle', function(req, res) {
   res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
-
-app.get('/crossdomain.xml', function(req, res) {
-  res.sendFile(path.join(__dirname + '/views/crossdomain.xml'));
-});
-
 
 app.get('/innovidmobile', function(req, res) {
   res.render('iframe', { poster: req.query.poster});
