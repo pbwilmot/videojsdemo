@@ -33,6 +33,30 @@ footer {
   margin-top: 20px;
 }
 
+#flow-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 640px;
+}
+
+#flow-player-container {
+  width: 640px;
+  height: 360px;
+}
+
+#flow-player-console {
+  font-family: courier, monospace;
+  font-size: 12px;
+  margin-top: 20px;
+  height: 200px;
+  width: 630px;
+  padding: 5px;
+  border: 1px #ccc solid;
+  overflow-y: scroll;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #ima-sample-container {
   margin-left: auto;
   margin-right: auto;
@@ -40,7 +64,7 @@ footer {
 }
 
 #ima-sample-placeholder {
-  background-image: url("posters/android.png");
+  /*background-image: url("posters/android.png");*/
   width: 640px;
   height: 360px;
 }

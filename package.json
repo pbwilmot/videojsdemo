@@ -11,7 +11,9 @@
     "videojs-ima": "^0.4.0",
     "viewability": "^1.2.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jshint": "^2.9.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
