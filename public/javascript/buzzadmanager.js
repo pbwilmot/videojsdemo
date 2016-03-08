@@ -31,9 +31,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
       closeButton.style = 'color:white;position: absolute;top: 0;right: 10;z-index: 100;cursor: pointer';
       adDiv.appendChild(closeButton);
     }
-    // console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
     makeAd(adDiv, options.type, options.src, adSettings, options);
-  // activateDiv(adDiv);
 };
 
 
@@ -323,56 +321,6 @@ function loadjscssfile(filename, filetype) {
     pollTwitchPlayTime(false);
   }
 
-
-/*
-  function activateDiv(adDiv) {
-    var closeFrame = document.getElementById('close-iframe');
-    var toggleSlider = document.getElementById('toggle-slider');
-    var slider = document.getElementById('slider');
-    var closeBtn = document.getElementById('toggle-close');
-    var contentVideo = document.getElementById('content_video');
-    var adMuted = false;
-
-    toggleSlider.addEventListener('click', function(){
-      showHide();
-    });
-
-    closeFrame.addEventListener('click', function() {
-      showHide();
-    });
-
-    closeBtn.addEventListener('click', function() {
-      toggleCloseBtn();
-    });
-
-    function showHide() {
-      if (slider) {
-        if (slider.style.height === '0px') {
-          slider.style.height = 364;
-        } else {
-          slider.style.height = 0;
-        }
-      }
-    }
-
-    function toggleCloseBtn() {
-      if (closeFrame.style.display === 'none') {
-        closeFrame.style.display = 'block';
-      } else {
-        closeFrame.style.display = 'none';
-      }
-    }
-
-    window.addEventListener('scroll', function() {
-      startInView();
-    });
-
-    function startInView() {
-      if (viewability.vertical(document.getElementById('slider')).value <= 0.50) {
-      }
-    }
-  }
-  */
   function BuzzIFrameLoaded(iframe, adSettings) {
     console.log('IFrame Loaded : ' + JSON.stringify(adSettings));
     var type = AD_TYPES.VINE;
