@@ -66,6 +66,13 @@ shtml
                     .input-field.col.s12
                       input#poster(name='poster', type='text' placeholder='Enter Your Poster Image')
                       label(for='poster') Poster
+                  .row#input-viewability
+                    .input-field.col.s12
+                      select#viewabilityPercent
+                        option(value='', disabled='', selected='') Choose your option
+                        option(value='50' name='viewabilityPercent') 50%
+                        option(value='100' name='viewabilityPercent') 100%
+                      label VIEWABILITY STANDARD
                   .row
                     .input-field.col.s12 AUTO PLAY
                       br
