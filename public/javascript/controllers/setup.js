@@ -7,18 +7,18 @@ $('#setup-form').submit(function(e) {
   e.preventDefault();
   var type = $('#type').val();
   var adType = $('#ad-type').val();
-  var url, verticle;
+  var url, vertical;
   if (validateSrc(type)) {
     $('#src').val(validateSrc(type));
     var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
     query += '&type=' + type;
     var parent = document.getElementById('content');
     if (adType === 'sponsored') {
-      verticle = $('#verticle').val() + '-post';
-      url = '/mediakit/post/' + verticle;
+      vertical = $('#vertical').val() + '-post';
+      url = '/mediakit/post/' + vertical;
     } else {
-      verticle = $('#verticle').val();
-      url = '/mediakit/' + verticle;
+      vertical = $('#vertical').val();
+      url = '/mediakit/' + vertical;
     }
     if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native' && url.indexOf('-post') > -1 ) {
         replaceIframe(query);
@@ -35,14 +35,14 @@ $('#setup-form').submit(function(e) {
 });
 
 
-$('#verticle').change(function() {
+$('#vertical').change(function() {
   var adType = $('#ad-type').val();
   if (adType === 'sponsored') {
-    verticle = $('#verticle').val() + '-post';
-    url = '/mediakit/post/' + verticle;
+    vertical = $('#vertical').val() + '-post';
+    url = '/mediakit/post/' + vertical;
   } else {
-    verticle = $('#verticle').val();
-    url = '/mediakit/' + verticle;
+    vertical = $('#vertical').val();
+    url = '/mediakit/' + vertical;
   }
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
@@ -69,16 +69,16 @@ $('#type').change(function() {
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
   if ($('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#' + type).find('img').length >= 1) {
-    var verticle;
+    var vertical;
     var adType = $('#ad-type').val();
     if (adType === 'sponsored') {
-      verticle = $('#verticle').val() + '-post';
-      url = '/mediakit/post/' + verticle;
+      vertical = $('#vertical').val() + '-post';
+      url = '/mediakit/post/' + vertical;
     } else {
-      verticle = $('#verticle').val();
-      url = '/mediakit/' + verticle;
+      vertical = $('#vertical').val();
+      url = '/mediakit/' + vertical;
     }
-    var url = '/mediakit/post/' + verticle;
+    var url = '/mediakit/post/' + vertical;
     var parent = document.getElementById('content');
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
     addIFrame(parent, url);
@@ -97,7 +97,7 @@ function loadIframe(source, type) {
   height = $('#randomid').contents().find('#' + type).height();
   width = $('#randomid').contents().find('#' + type).width();
 
-  var verticle = $('#verticle').val();
+  var vertical = $('#vertical').val();
 
   $('#randomid')
     .contents()
@@ -119,7 +119,7 @@ function loadIframe(source, type) {
         .find('#' + type)
         .parent()
         .css('position', 'relative')
-        .append('<button id="close-iframe" style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: white; border: none; font-size: 20px; box-shadow: none; padding: 0">x</button>');
+        .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 10px; background-color: transparent; color: white; border: none; font-size: 1.75em; box-shadow: none; padding: 0">x</button>');
     }
 
   $('#randomid')
@@ -185,12 +185,12 @@ function addIFrame(parent, source, adSettings) {
     parent.appendChild(iframe);
   }
 
-  $('.progress').show();
+  $('.progress-overlay').show();
   $('#randomid').load(function () {
-    $('.progress').css('display', 'none');
+    $('.progress-overlay').css('display', 'none');
      $('#randomid').contents().find('body').contents().find('.native-ad').click(function() {
-      var verticle = $('#verticle').val() + '-post';
-      var url = '/mediakit/post/' + verticle;
+      var vertical = $('#vertical').val() + '-post';
+      var url = '/mediakit/post/' + vertical;
       var parent = document.getElementById('content');
       if ($('#randomid').contents().find('.iframe-new').length > 0) {
         var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');

@@ -70,8 +70,6 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebSite', prefix='o
     link(rel='https://github.com/WP-API/WP-API', href='//www.artofmanliness.com/wp-json')
     style#shiftnav-dynamic-css(type='text/css').
       #shiftnav-toggle-main{background:#87240f;color:#ffffff;}@media only screen and (min-width:1001px){#shiftnav-toggle-main,.shiftnav-toggle-mobile{display:none;}.shiftnav-wrap{padding-top:0!important;}body.shiftnav-disable-shift-body{padding-top:0!important;}}#shiftnav-toggle-main{background:#87240f;}.shiftnav-menu li.menu-item{background:#87240f!important;}.shiftnav-menu{background:#4c0f0d;}.shiftnav-menu li.menu-item>.shiftnav-target{border-bottom:1px solid #330000;border-top:none;}.shiftnav-target{color:#ffffff!important;}.shiftnav{background:#4c0f0d;}.shiftnav .fa{color:#ffffff;}
-    style.
-      a#demo-link > h2 {color: red !important;}
     link(rel='shortcut icon', sizes='196x196', href='//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-196x196.png')
     link(rel='apple-touch-icon-precomposed', sizes='152x152', href='//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-152x152.png')
     link(rel='apple-touch-icon-precomposed', sizes='144x144', href='//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-144x144.png')
@@ -79,6 +77,7 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebSite', prefix='o
     link(rel='apple-touch-icon-precomposed', sizes='114x114', href='//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-114x114.png')
     link(rel='apple-touch-icon-precomposed', sizes='76x76', href='//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-76x76.png')
     link(rel='apple-touch-icon-precomposed', sizes='72x72', href='//content.artofmanliness.com/uploads//cubiq-add-to-home/application-icon-41476-72x72.png')
+    link(type='text/css', rel='stylesheet', href='/static/style/setup/style.css')
   body#builder-layout-4b2a668839866.home.blog.builder-responsive.builder-template-home.builder-view-home.builder-view-post-54662
     script(type='text/javascript').
       //<![CDATA[
@@ -1339,12 +1338,13 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebSite', prefix='o
                                 header
                                   strong
                                     a(href='#') Manly Skills
-                                  a#demo-link(href='#' class='native-ad')
-                                    .center.thumb_container
-                                      img.lazy.th.wp-post-image.center-col-img(data-original='https://content.artofmanliness.com/uploads//2014/05/Tactical-Dressing-3-538x280.jpg', style='display: none;' class='native-ad')
-                                      noscript
-                                        img.th.wp-post-image.center-col-img(src='//content.artofmanliness.com/uploads//2014/05/Tactical-Dressing-3-538x280.jpg' class='native-ad')
-                                    h2.post-title The Tactical Order of Dressing: An Illustrated Guide
+                                  .native-ad-wrapper
+                                    a#demo-link(href='#' class='native-ad')
+                                      .center.thumb_container
+                                        img.lazy.th.wp-post-image.center-col-img(src='/static/aom-native.jpg', style='display: none;' class='native-ad')
+                                        noscript
+                                          img.th.wp-post-image.center-col-img(src='/static/aom-native.jpg' class='native-ad')
+                                      h2.post-title The Tactical Order of Dressing: An Illustrated Guide
                                 footer
                               article.cat-article
                                 header
