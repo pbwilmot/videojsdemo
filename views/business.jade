@@ -23,6 +23,7 @@ html
     meta(property='fb:page_id', content='139321929435426')
     meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    link(type='text/css', rel='stylesheet', href='/static/style/setup/style.css')
     style.
       @font-face {
       font-family: "CNN";
@@ -579,16 +580,20 @@ html
             </p>
             </div>
             </div>
+      //- a.module-header(href='#')
+      //-           | More news
+      //-           i.fa.fa-arrow-right
       section.container
         ul.row.two-equal-columns.js-river(data-vr-zone='River')
           li.column(data-vr-contentbox='')
-            article.summary.hero
+            article.summary.hero.native-ad-wrapper
+              h6.boxHeading.module-header.module-header-sponsored Sponsored
               a(href='#' class='native-ad')
                 figure.river-image-container
-                  img(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-540x304.jpg', width='540', height='304', alt="Brandon Lee's jacket from 'The Crow' is up for auction", border='0' class='native-ad')
+                  img(src='http://i2.cdn.turner.com/money/dam/assets/160224132747-rock-auction-540x304.jpg', width='526', height='304', alt="Brandon Lee's jacket from 'The Crow' is up for auction", border='0' class='native-ad')
                 .summary-hed.river-summary(style='color: #0064A9')  Brandon Lee's jacket from 'The Crow' is up for auction 
           li.column(data-vr-contentbox='')
-            article.summary.hero.js-surge-grid
+            article.summary.hero.js-surge-grid(style='border: 7px solid transparent')
               a(href='#')
                 figure.river-image-container.river-surge
                   img(src='http://i2.cdn.turner.com/money/dam/assets/160224084919-google-robot-atlas-540x304.png', width='540', height='304', alt="Google's new robot is now even more human", border='0')
