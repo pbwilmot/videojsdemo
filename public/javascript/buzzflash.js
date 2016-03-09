@@ -1,5 +1,5 @@
 var BuzzFlash = (function(window) {
-  const dictionary = {
+  var dictionary = {
     "82WxOWdT7ZRR": [
     {bcod: "82WxOWdT2ZAg5", weight: 2},
     {bcod: "M21bX1qTRN3G7", weight: 1},
@@ -38,8 +38,8 @@ var BuzzFlash = (function(window) {
     ]
   };
 
-  const paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
-  const av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
+  var paid_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11192&c=105340&b=116758&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
+  var av_uri = "https://magnetic.domdex.com/ahtm?mp=2&n=11193&c=105341&b=116759&sz=88x31&s=${REFERER_URL_ENC}&id=${AUCTION_ID}&a=${PRICE_PAID}";
 
 
   function getTotalWeight(pubtag){
