@@ -33,7 +33,7 @@ iframe {
   position: relative;
 }
 
-#input-poster {
+#input-poster, #input-viewability {
   display: none;
 }
 
@@ -112,8 +112,6 @@ iframe {
 
 .native-ad-wrapper {
   border: 7px groove #EC492B;
-  /*background-color: rgb(239, 239, 239);*/
-  /*background-color: rgba(0,0,0,0.1);*/
 }
 
 .module-header-sponsored {
