@@ -68,7 +68,13 @@ var BuzzFlash = (function(window) {
           case 1:
             return av_uri;
             break;
-          case 2:
+          case 4:
+            return av_uri;
+            break;
+          case 13:
+            return paid_uri;
+            break;
+          case 52:
             return paid_uri;
             break;
           default:
