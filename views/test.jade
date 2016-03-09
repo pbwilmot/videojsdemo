@@ -73,12 +73,12 @@ shtml
                         option(value='50' name='viewabilityPercent') 50%
                         option(value='100' name='viewabilityPercent') 100%
                       label VIEWABILITY STANDARD
-                  .row
+                  .row#input-auto-play
                     .input-field.col.s12 AUTO PLAY
                       br
                       input#autoplaytrue(name='autoplay', class='with-gap' type='radio' value="true")
                       label(for='autoplaytrue') on
-                      input#autoplayfalse(name='autoplay', class='with-gap' type='radio' value="false")
+                      input#autoplayfalse(name='autoplay', class='with-gap' type='radio' value="false" checked)
                       label(for='autoplayfalse' class='align-items') off
                   .row
                     .input-field.col.s12 AUTO MUTE
