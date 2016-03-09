@@ -3,10 +3,10 @@ html
 	head
 	body(style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px')
 		#BuzzAdDiv
-		script(src='static/javascript/buzztracker.js')
-		script(src='static/javascript/buzzadmanager.js')
+		script(src='/static/javascript/buzzbeacon.js')
+		script(src='/static/javascript/buzztracker.js')
+		script(src='/static/javascript/buzzadmanager.js')
 		script(type='text/javascript').
 			document.addEventListener("DOMContentLoaded",function() {
-						var tracker = new BuzzTracker('#{tracking}');
-						BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', tracker, false);
+						BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false, !{options} );
 					});
