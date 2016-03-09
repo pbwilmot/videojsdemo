@@ -36,19 +36,17 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
       adDiv.appendChild(closeButton);
     }
 
-    // loadjscssfile(TRACKER, 'js');
-    // waitUntil(
-    //   function(){ return (typeof BuzzTracker == 'object'); },
-    //   function(){
-    //     debugger;
-    //     pubtracker = new BuzzTracker(adSettings.pubtracking);
-    //     // advtracker = new BuzzTracker(adSettings.advtracking);
-    //   }
-    // );
     makeAd(adDiv, options.type, options.src, adSettings, options);
 };
 
-
+function toggleClickout(){
+  var clickOutDiv = document.createElement('a');
+  clickOutDiv.id = "click-out";
+  clickOutDiv.style = "color: white; background-color: transparent; z-index: 1; width: 100%; height: 80%; position: absolute;top: 0;left: 0px";
+  clickOutDiv.href = adSettings.clickouturl;
+  clickOutDiv.target = "_blank";
+  adDiv.appendChild(clickOutDiv);
+}
 /**
  *
  */
@@ -90,10 +88,15 @@ function makeAdSettings(options) {
   rv.autoclose = (options.autoclose === 'true');
   rv.impressionpixel = (options.impressionpixel === 'true');
   rv.type = options.type;
+
   rv.pubtracking = (options.pubtracking || 'xhr');
   rv.pub_start = options.pub_start;
   rv.pub_bill = options.pub_bill;
   rv.pub_end = options.pub_end;
+  rv.clickout = (options.clickout === 'true');
+  if(options.trackercode){
+    rv.clickouturl = "http://buzz.st/r/"+options.trackercode;
+  }
   return rv;
 }
 
@@ -322,6 +325,9 @@ function loadjscssfile(filename, filetype) {
       debugger;
       pubTrackEvent(adSettings.pub_start);
       parentWindow.postMessage("twitch::playing", "*");
+      if(adSettings.clickout){
+        toggleClickout();
+      }
     }
   }
   function twitchPauseEventHandler() {
@@ -387,7 +393,6 @@ function loadjscssfile(filename, filetype) {
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
     }.bind(this), false);
-
   }
 
   function onPlayerError(event) {
@@ -534,7 +539,7 @@ function pollTwitchPlayTime(restart){
       return;
     }
 
-    var windowTime = 30;
+    var windowTime = ( adSettings.completionwindow || 30);
     var progress = twitchPlaytime / windowTime;
     if (progress >= 1 && !rcvStates.complete) {
       parentWindow.postMessage("twitch::complete", "*");
@@ -580,8 +585,8 @@ function pollTwitchPlayTime(restart){
       triggerBeacon("yt::paused", adSettings.bcod);
       break;
       case YT.PlayerState.ENDED:
-      parentWindow.postMessage("yt::ended", "*");
-      triggerBeacon("yt::ended", adSettings.bcod);
+      parentWindow.postMessage("yt::complete", "*");
+      triggerBeacon("yt::complete", adSettings.bcod);
       break;
       default:
       console.log('unrecognized state');
@@ -667,6 +672,10 @@ function pollTwitchPlayTime(restart){
       default:
       break;
     }
+  }
+
+  function playerControl(action){
+    window.dispatchEvent(new CustomEvent('remote-control', { detail: { "action" : action }}));
   }
   window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); };
   window.play = function() { playContent(); };
