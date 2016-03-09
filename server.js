@@ -27,13 +27,13 @@ app.get('/', function(req, res) {
         if(isCallerMobile(req)){
           res.render('ima-mobile', { poster: (req.query.poster || 'static/transparent_overlay.png')});
         } else {
-          res.render('videoindex', { poster: req.query.poster});
+          res.render('videoindex', { poster: req.query.poster, tracking: (req.query.tracking || 'xhr')});
         }
 
     } else if (req.query.type === 'FLASH') {
       res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
     } else {
-      res.render('index');
+      res.render('index', {tracking: (req.query.tracking || 'xhr') });
     }
   }
 });

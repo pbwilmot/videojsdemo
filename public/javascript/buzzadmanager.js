@@ -6,6 +6,9 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
   var VIDEO_API = "/static/javascript/videojsads.js";
 
+  // var TRACKER = "/static/javascript/buzztracker.js";
+
+  var pubtracker, advtracker;
 
   var AD_TYPES = {
     VIDEO: 'VIDEO',
@@ -19,7 +22,8 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var src;
   var isMobile = false;
 
-  var BuzzAdManager = function(id, mobile) {
+  var BuzzAdManager = function(id, tracker, mobile) {
+    pubtracker = tracker;
     adDiv = document.getElementById(id);
     var options = QueryStringToJSON();
     isMobile = mobile;
@@ -31,6 +35,16 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
       closeButton.style = 'color:white;position: absolute;top: 0;right: 10;z-index: 100;cursor: pointer';
       adDiv.appendChild(closeButton);
     }
+
+    // loadjscssfile(TRACKER, 'js');
+    // waitUntil(
+    //   function(){ return (typeof BuzzTracker == 'object'); },
+    //   function(){
+    //     debugger;
+    //     pubtracker = new BuzzTracker(adSettings.pubtracking);
+    //     // advtracker = new BuzzTracker(adSettings.advtracking);
+    //   }
+    // );
     makeAd(adDiv, options.type, options.src, adSettings, options);
 };
 
@@ -76,7 +90,10 @@ function makeAdSettings(options) {
   rv.autoclose = (options.autoclose === 'true');
   rv.impressionpixel = (options.impressionpixel === 'true');
   rv.type = options.type;
-
+  rv.pubtracking = (options.pubtracking || 'xhr');
+  rv.pub_start = options.pub_start;
+  rv.pub_bill = options.pub_bill;
+  rv.pub_end = options.pub_end;
   return rv;
 }
 
@@ -147,6 +164,15 @@ function makeAd(adDiv, type, source, adSettings, options) {
   }
   src = source;
   addIFrame(adDiv, source, adSettings);
+}
+
+function pubTrackEvent(uri){
+  if(uri){
+    waitUntil(
+      function(){ return (typeof pubtracker == 'object'); },
+      function(){ pubtracker.track(uri); }
+    );
+  }
 }
 
 function setOverlay(adDiv, options){
@@ -293,6 +319,8 @@ function loadjscssfile(filename, filetype) {
     if (twitchPlaytime > 0) {
       parentWindow.postMessage("twitch::resume", "*");
     } else {
+      debugger;
+      pubTrackEvent(adSettings.pub_start);
       parentWindow.postMessage("twitch::playing", "*");
     }
   }
@@ -511,6 +539,8 @@ function pollTwitchPlayTime(restart){
     if (progress >= 1 && !rcvStates.complete) {
       parentWindow.postMessage("twitch::complete", "*");
       triggerBeacon("twitch::complete", adSettings.bcod);
+      pubTrackEvent(adSettings.pub_bill);
+      pubTrackEvent(adSettings.pub_end);
       rcvStates.complete = true;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
