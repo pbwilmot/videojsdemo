@@ -33,7 +33,7 @@ iframe {
   position: relative;
 }
 
-#input-poster, #input-viewability, #input-auto-play {
+#input-poster, #input-auto-play {
   display: none;
 }
 
