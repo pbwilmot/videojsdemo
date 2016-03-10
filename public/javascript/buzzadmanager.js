@@ -8,7 +8,8 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
 
   // var TRACKER = "/static/javascript/buzztracker.js";
 
-  var pubtracker, advtracker;
+  var pubtracker;
+  var advtracker;
 
   var AD_TYPES = {
     VIDEO: 'VIDEO',
@@ -31,10 +32,8 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
     } else {
       adSettings = makeAdSettings(options);
     }
-
-    var img= "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg";
-    pubtracker = new BuzzTracker(adSettings.pubtracking);
-    advtracker = new BuzzTracker(adSettings.advtracking);
+    pubtracker = new BuzzTracker(adSettings.pub_tracking);
+    advtracker = new BuzzTracker(adSettings.adv_tracking);
     makeAd(adDiv, adSettings.type, adSettings.src, adSettings);
 };
 
@@ -127,12 +126,12 @@ function makeAdSettings(options) {
   rv.startsplash = options.startsplash;
   rv.endsplash = options.endsplash;
 
-  rv.pubtracking = (options.pub_tracking || 'pixel');
+  rv.pub_tracking = (options.pub_tracking || 'pixel');
   rv.pub_start = options.pub_start;
   rv.pub_bill = options.pub_bill;
   rv.pub_end = options.pub_end;
 
-  rv.advtracking = (options.adv_tracking || 'pixel');
+  rv.adv_tracking = (options.adv_tracking || 'pixel');
   rv.adv_start = options.adv_start;
   rv.adv_bill = options.adv_bill;
   rv.adv_end = options.adv_end;

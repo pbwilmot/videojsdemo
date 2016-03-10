@@ -4,7 +4,7 @@ var BuzzTracker = (function(){
 
 	function BuzzTracker(trackingType){
 		if(supportedTypes.indexOf(trackingType) >= 0){
-			tracking = trackingType;
+			this.tracking = trackingType;
 		} else {
 			new TypeError("unsupported tracking type: "+trackingType);
 		}
@@ -12,7 +12,7 @@ var BuzzTracker = (function(){
 
 	BuzzTracker.prototype.track = function(uri) {
 		if(uri != null){
-			switch(tracking) {
+			switch(this.tracking) {
 				case 'xhr':
 				sendXHR(uri);
 				break;
