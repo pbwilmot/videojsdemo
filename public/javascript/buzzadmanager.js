@@ -31,20 +31,61 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
     } else {
       adSettings = makeAdSettings(options);
     }
+
+    var img= "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg";
     pubtracker = new BuzzTracker(adSettings.pubtracking);
-    pubTrackEvent(adSettings.pub_start);
     advtracker = new BuzzTracker(adSettings.advtracking);
     makeAd(adDiv, adSettings.type, adSettings.src, adSettings);
 };
 
-function toggleClickout(){
-  var clickOutDiv = document.createElement('a');
-  clickOutDiv.id = "click-out";
-  clickOutDiv.style = "color: white; background-color: transparent; z-index: 1; width: 100%; height: 80%; position: absolute;top: 0;left: 0px";
-  clickOutDiv.href = adSettings.clickouturl;
-  clickOutDiv.target = "_blank";
-  adDiv.appendChild(clickOutDiv);
+var openSplash;
+
+function toggleStartSplash(){
+  if(adSettings.startsplash){
+    var splashStyles = 'background-color: black; width: 100%; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: contain; background-image: url("'+adSettings.startsplash+'")';
+    openSplash = createOverlay(null, adDiv, 'start-splash', splashStyles);
+  }
 }
+
+function toggleEndSplash(){
+  if(adSettings.endsplash){
+    removeElement('click-out');
+    var endsplashStyles = 'background-color: black; width: 100%; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: contain; background-image: url("'+adSettings.endsplash+'")';
+    createOverlay(adSettings.clickouturl, adDiv, 'end-splash', endsplashStyles)
+    .addEventListener('click', function(){
+      playerControl('pause');
+    });
+  }
+}
+
+function removeElement(id){
+  try {
+    var overlay = document.getElementById(id);
+    overlay.parentNode.removeChild(overlay);
+  } catch(err){
+  }
+}
+
+function toggleClickout(){
+  removeElement('start-splash');
+  createOverlay(adSettings.clickouturl, adDiv, 'click-out', "color: white; background-color: transparent; width: 100%; height: 80% ")
+  .addEventListener('click', function(){
+    removeElement('click-out');
+    playerControl('pause');
+  });
+}
+
+function createOverlay( clickurl, parent, id , styles ){
+  var element = document.createElement('a');
+  element.id = id;
+  element.href = clickurl;
+  element.target = "_blank";
+  var defaultstyles = "z-index: 1; position: absolute;top: 0;left: 0px";
+  element.style = defaultstyles + ";" + styles;
+  parent.appendChild(element);
+  return element;
+}
+
 /**
  *
  */
@@ -83,6 +124,8 @@ function makeAdSettings(options) {
   rv.autoclose = (options.autoclose === 'true');
   rv.impressionpixel = (options.impressionpixel === 'true');
   rv.type = options.type;
+  rv.startsplash = options.startsplash;
+  rv.endsplash = options.endsplash;
 
   rv.pubtracking = (options.pubtracking || 'pixel');
   rv.pub_start = options.pub_start;
@@ -210,25 +253,19 @@ function loadIma(adDiv, type, source, adSettings){
   }
 }
 
-function waitUntil(check,onComplete,delay,timeout) {
-  // if the check returns true, execute onComplete immediately
+function waitUntil(check, onComplete ,delay ,timeout) {
   if (check()) {
     onComplete();
     return;
   }
-
-  if (!delay) delay=100;
-
+  if (!delay){ delay=100; }
   var timeoutPointer;
   var intervalPointer=setInterval(function () {
-      if (!check()) return; // if check didn't return true, means we need another check in the next interval
-
-      // if the check returned true, means we're done here. clear the interval and the timeout and execute onComplete
+      if (!check()){ return; }
       clearInterval(intervalPointer);
-      if (timeoutPointer) clearTimeout(timeoutPointer);
+      if (timeoutPointer){ clearTimeout(timeoutPointer); }
       onComplete();
     },delay);
-  // if after timeout milliseconds function doesn't return true, abort
   if (timeout) timeoutPointer=setTimeout(function () {
     clearInterval(intervalPointer);
   },timeout);
@@ -295,6 +332,13 @@ function loadjscssfile(filename, filetype) {
     if(adSettings.audiohover){
       setHover(adDiv.id, tplayer, AD_TYPES.TWITCH);
     }
+    if(adSettings.startsplash && !adSettings.autoplay){
+      toggleStartSplash();
+      openSplash.addEventListener('click', function(e){
+        e.preventDefault();
+        playerControl('play');
+      });
+    }
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
     }.bind(this), false);
@@ -323,14 +367,15 @@ function loadjscssfile(filename, filetype) {
   function twitchPlayEventHandler() {
     paused = false;
     pollTwitchPlayTime(true);
+    if(adSettings.clickout){
+      toggleClickout();
+    }
     if (twitchPlaytime > 0) {
       parentWindow.postMessage("twitch::resume", "*");
     } else {
       parentWindow.postMessage("twitch::playing", "*");
+      pubTrackEvent(adSettings.pub_start);
       advTrackEvent(adSettings.adv_start);
-      if(adSettings.clickout){
-        toggleClickout();
-      }
     }
   }
   function twitchPauseEventHandler() {
@@ -484,7 +529,6 @@ function pollTwitchPlayTime(restart){
       rcvStates.billed = true;
     }
 
-
     var windowTime = ( adSettings.completionwindow || 30);
     var progress = twitchPlaytime / windowTime;
     if (progress >= 1 && !rcvStates.complete) {
@@ -493,6 +537,7 @@ function pollTwitchPlayTime(restart){
       advTrackEvent(adSettings.adv_end);
       pubTrackEvent(adSettings.pub_end);
       rcvStates.complete = true;
+      toggleEndSplash();
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
       parentWindow.postMessage("twitch::thirdquartile", "*");

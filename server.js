@@ -66,41 +66,46 @@ app.get('/kotaku', function(req, res) {
 
 
 app.get('/pbcod/:bcode', function(req,res){
+  var time = (new Date()).getTime();
   var usa = {
     autoplay: "false",
     automute: "false",
-    completionwindow: (req.query.completionWindow || 30) ,
+    completionwindow: (req.query.completionwindow || 30) ,
     billwindow: 3,
     src: 'monstercat',
     type: 'TWITCH',
     clickout: "true",
-    trackercode: '5Erej1UrOlvo',
-    pubtracking: 'pixel',
+    trackercode: 'ZBNDploS8qgv4',
+    pubtracking: (req.query.pubtracking || 'pixel'),
     pub_start: req.query.pub_start,
     pub_bill: req.query.pub_bill,
     pub_end: req.query.pub_end,
     advtracking: 'pixel',
     adv_start: null,
-    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord=[timestamp]&rtu=-1',
-    adv_end: null
+    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord='+time+'&rtu=-1',
+    adv_end: null,
+    startsplash: null,
+    endsplash: "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg"
   }
   var ca = {
     autoplay: "false",
     automute: "false",
-    completionwindow: (req.query.completionWindow || 30) ,
+    completionwindow: (req.query.completionwindow || 30) ,
     billwindow: 3,
     src: 'monstercat',
     type: 'TWITCH',
     clickout: "true",
     trackercode: '5Erej1UrOlvo',
-    pubtracking: 'pixel',
+    pubtracking: (req.query.pubtracking || 'pixel'),
     pub_start: req.query.pub_start,
     pub_bill: req.query.pub_bill,
     pub_end: req.query.pub_end,
     advtracking: 'pixel',
     adv_start: null,
-    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord=[timestamp]&rtu=-1',
-    adv_end: null
+    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord='+time+'&rtu=-1',
+    adv_end: null,
+    startsplash: null,
+    endsplash: "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg"
   }
   var dictionary = {
     'Nx7WGpjUpOwNP' : usa,
