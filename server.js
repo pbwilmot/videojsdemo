@@ -85,7 +85,7 @@ app.get('/pbcod/:bcode', function(req,res){
     adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord='+time+'&rtu=-1',
     adv_end: null,
     startsplash: null,
-    endsplash: "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg"
+    endsplash: "http://da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
   }
   var ca = {
     autoplay: "false",
@@ -105,7 +105,7 @@ app.get('/pbcod/:bcode', function(req,res){
     adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord='+time+'&rtu=-1',
     adv_end: null,
     startsplash: null,
-    endsplash: "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg"
+    endsplash: "http://da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
   }
   var dictionary = {
     'Nx7WGpjUpOwNP' : usa,
