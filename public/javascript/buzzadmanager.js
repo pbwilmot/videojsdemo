@@ -6,6 +6,9 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var TWITCH_API = "http://player.twitch.tv/js/embed/v1.js";
   var VIDEO_API = "/static/javascript/videojsads.js";
 
+  // var TRACKER = "/static/javascript/buzztracker.js";
+
+  var pubtracker, advtracker;
 
   var AD_TYPES = {
     VIDEO: 'VIDEO',
@@ -19,24 +22,69 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var src;
   var isMobile = false;
 
-  var BuzzAdManager = function(id, mobile) {
+  var BuzzAdManager = function(id, mobile, settings) {
     adDiv = document.getElementById(id);
     var options = QueryStringToJSON();
     isMobile = mobile;
-    // console.log(JSON.stringify(options));
-    adSettings = makeAdSettings(options);
-    if(options.hideclose == 'true' && !isMobile){
-      debugger;
-      var closeButton = document.createElement('span');
-      closeButton.id = 'close-iframe';
-      closeButton.style = 'color:white;position: absolute;top: 0;right: 10;z-index: 100;cursor: pointer';
-      adDiv.appendChild(closeButton);
+    if(settings){
+      adSettings = makeAdSettings(settings);
+    } else {
+      adSettings = makeAdSettings(options);
     }
-    // console.log('Parsed adSettings : ' + JSON.stringify(adSettings));
-    makeAd(adDiv, options.type, options.src, adSettings, options);
-  // activateDiv(adDiv);
+
+    var img= "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg";
+    pubtracker = new BuzzTracker(adSettings.pubtracking);
+    advtracker = new BuzzTracker(adSettings.advtracking);
+    makeAd(adDiv, adSettings.type, adSettings.src, adSettings);
 };
 
+var openSplash;
+
+function toggleStartSplash(){
+  if(adSettings.startsplash){
+    var splashStyles = 'background-color: black; width: 100%; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: contain; background-image: url("'+adSettings.startsplash+'")';
+    openSplash = createOverlay(null, adDiv, 'start-splash', splashStyles);
+  }
+}
+
+function toggleEndSplash(){
+  if(adSettings.endsplash){
+    removeElement('click-out');
+    var endsplashStyles = 'background-color: black; width: 100%; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: contain; background-image: url("'+adSettings.endsplash+'")';
+    createOverlay(adSettings.clickouturl, adDiv, 'end-splash', endsplashStyles)
+    .addEventListener('click', function(){
+      playerControl('pause');
+    });
+  }
+}
+
+function removeElement(id){
+  try {
+    var overlay = document.getElementById(id);
+    overlay.parentNode.removeChild(overlay);
+  } catch(err){
+  }
+}
+
+function toggleClickout(){
+  removeElement('start-splash');
+  createOverlay(adSettings.clickouturl, adDiv, 'click-out', "color: white; background-color: transparent; width: 100%; height: 80% ")
+  .addEventListener('click', function(){
+    removeElement('click-out');
+    playerControl('pause');
+  });
+}
+
+function createOverlay( clickurl, parent, id , styles ){
+  var element = document.createElement('a');
+  element.id = id;
+  element.href = clickurl;
+  element.target = "_blank";
+  var defaultstyles = "z-index: 1; position: absolute;top: 0;left: 0px";
+  element.style = defaultstyles + ";" + styles;
+  parent.appendChild(element);
+  return element;
+}
 
 /**
  *
@@ -66,20 +114,33 @@ function updateQueryStringParams(uri, key, value) {
 
 function makeAdSettings(options) {
   var rv = {};
-
-  var skipDuration = Number.parseInt(options.skipduration);
-  if (skipDuration >= 0) {
-    // add <span id="close-iframe">x</span>
-  }
-  rv.bcod = options.bcod
-  rv.completionwindow = options.completionwindow
-  rv.audiohover =  (options.audiohover === 'true')
+  rv.src = options.src;
+  rv.bcod = options.bcod;
+  rv.completionwindow = options.completionwindow;
+  rv.billwindow = options.billwindow;
+  rv.audiohover =  (options.audiohover === 'true');
   rv.autoplay = (options.autoplay === 'true');
   rv.automute = (options.automute === 'true');
   rv.autoclose = (options.autoclose === 'true');
   rv.impressionpixel = (options.impressionpixel === 'true');
   rv.type = options.type;
+  rv.startsplash = options.startsplash;
+  rv.endsplash = options.endsplash;
 
+  rv.pubtracking = (options.pubtracking || 'pixel');
+  rv.pub_start = options.pub_start;
+  rv.pub_bill = options.pub_bill;
+  rv.pub_end = options.pub_end;
+
+  rv.advtracking = (options.advtracking || 'pixel');
+  rv.adv_start = options.adv_start;
+  rv.adv_bill = options.adv_bill;
+  rv.adv_end = options.adv_end;
+
+  rv.clickout = (options.clickout === 'true');
+  if(options.trackercode){
+    rv.clickouturl = "http://buzz.st/r/"+options.trackercode+"?bref=buzz.st";
+  }
   return rv;
 }
 
@@ -94,7 +155,7 @@ function addIFrame(parent, source, adSettings) {
 }
 var imaplayer;
 
-function makeAd(adDiv, type, source, adSettings, options) {
+function makeAd(adDiv, type, source, adSettings) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
     loadjscssfile(YOUTUBE_API, "js");
@@ -106,7 +167,7 @@ function makeAd(adDiv, type, source, adSettings, options) {
       loadjscssfile(VINE_SDK_PATH, "js");
       // set vine audio
       var audio = "1";
-      if (typeof options.mute === 'undefined' && adSettings.automute) {
+      if (adSettings.automute) {
         audio = "0";
       }
       source = updateQueryStringParams(source, "audio", audio);
@@ -119,18 +180,17 @@ function makeAd(adDiv, type, source, adSettings, options) {
     // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
     loadjscssfile(VIDEO_API, "js");
-
     waitUntil(
       function() {
         return typeof Ads == "function";
       }, function() {
         if(isMobile){
           window.document.getElementById('mobile-play-overlay').addEventListener('click', function(){
-            loadIma(adDiv, type, source, adSettings, options);
+            loadIma(adDiv, type, source, adSettings);
             removeOverlay();
           });
         } else {
-          loadIma(adDiv, type, source, adSettings, options);
+          loadIma(adDiv, type, source, adSettings);
         }
         parentWindow.addEventListener('remote-control', function(e){
           remoteControlEventHandler(e);
@@ -152,10 +212,23 @@ function makeAd(adDiv, type, source, adSettings, options) {
   addIFrame(adDiv, source, adSettings);
 }
 
-function setOverlay(adDiv, options){
+function pubTrackEvent(uri){ trackEvent(uri, pubtracker); }
+function advTrackEvent(uri){ trackEvent(uri, advtracker); }
+
+function trackEvent(uri, tracker){
+  if(uri){
+    waitUntil(
+      function(){ return (typeof tracker == 'object'); },
+      function(){ tracker.track(uri); }
+    );
+  }
+}
+
+
+function setOverlay(adDiv, poster){
   var img =  new Image();
   img.id = 'play';
-  img.src = options.poster;
+  img.src = poster;
   img.style = 'margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px; z-index:300000';
   adDiv.appendChild(img);
 }
@@ -165,41 +238,34 @@ function removeOverlay(){
   overlay.parentNode.removeChild(overlay);
 }
 
-function loadIma(adDiv, type, source, adSettings, options){
+function loadIma(adDiv, type, source, adSettings){
   var ads = new Ads(source, adSettings.autoplay, adSettings.automute);
   imaplayer = ads.player;
-
 
   if(adSettings.audiohover){
     setHover(adDiv.id, ads.player, AD_TYPES.VIDEO);
   }
-  if((adSettings.completionwindow != null) && (adSettings.bcod != null)){
+  if(adSettings.completionwindow && adSettings.bcod){
     waitUntil(
-      function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && ( imaplayer.ima.getAdsManager().getCurrentAd() != null); },
+      function(){ return (typeof imaplayer.ima.getAdsManager() != 'undefined') && imaplayer.ima.getAdsManager().getCurrentAd(); },
       function(){ pollImaPlaytime(); }
       );
   }
 }
 
-function waitUntil(check,onComplete,delay,timeout) {
-  // if the check returns true, execute onComplete immediately
+function waitUntil(check, onComplete ,delay ,timeout) {
   if (check()) {
     onComplete();
     return;
   }
-
-  if (!delay) delay=100;
-
+  if (!delay){ delay=100; }
   var timeoutPointer;
   var intervalPointer=setInterval(function () {
-      if (!check()) return; // if check didn't return true, means we need another check in the next interval
-
-      // if the check returned true, means we're done here. clear the interval and the timeout and execute onComplete
+      if (!check()){ return; }
       clearInterval(intervalPointer);
-      if (timeoutPointer) clearTimeout(timeoutPointer);
+      if (timeoutPointer){ clearTimeout(timeoutPointer); }
       onComplete();
     },delay);
-  // if after timeout milliseconds function doesn't return true, abort
   if (timeout) timeoutPointer=setTimeout(function () {
     clearInterval(intervalPointer);
   },timeout);
@@ -240,6 +306,7 @@ function loadjscssfile(filename, filetype) {
   var paused = false;
   var inPrerollAd = false;
   var adTime = 0;
+
   function loadTwitch(channel){
     var options = {
       autoplay: false,
@@ -264,6 +331,13 @@ function loadjscssfile(filename, filetype) {
     }
     if(adSettings.audiohover){
       setHover(adDiv.id, tplayer, AD_TYPES.TWITCH);
+    }
+    if(adSettings.startsplash && !adSettings.autoplay){
+      toggleStartSplash();
+      openSplash.addEventListener('click', function(e){
+        e.preventDefault();
+        playerControl('play');
+      });
     }
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
@@ -293,10 +367,15 @@ function loadjscssfile(filename, filetype) {
   function twitchPlayEventHandler() {
     paused = false;
     pollTwitchPlayTime(true);
+    if(adSettings.clickout){
+      toggleClickout();
+    }
     if (twitchPlaytime > 0) {
       parentWindow.postMessage("twitch::resume", "*");
     } else {
       parentWindow.postMessage("twitch::playing", "*");
+      pubTrackEvent(adSettings.pub_start);
+      advTrackEvent(adSettings.adv_start);
     }
   }
   function twitchPauseEventHandler() {
@@ -324,56 +403,6 @@ function loadjscssfile(filename, filetype) {
     pollTwitchPlayTime(false);
   }
 
-
-/*
-  function activateDiv(adDiv) {
-    var closeFrame = document.getElementById('close-iframe');
-    var toggleSlider = document.getElementById('toggle-slider');
-    var slider = document.getElementById('slider');
-    var closeBtn = document.getElementById('toggle-close');
-    var contentVideo = document.getElementById('content_video');
-    var adMuted = false;
-
-    toggleSlider.addEventListener('click', function(){
-      showHide();
-    });
-
-    closeFrame.addEventListener('click', function() {
-      showHide();
-    });
-
-    closeBtn.addEventListener('click', function() {
-      toggleCloseBtn();
-    });
-
-    function showHide() {
-      if (slider) {
-        if (slider.style.height === '0px') {
-          slider.style.height = 364;
-        } else {
-          slider.style.height = 0;
-        }
-      }
-    }
-
-    function toggleCloseBtn() {
-      if (closeFrame.style.display === 'none') {
-        closeFrame.style.display = 'block';
-      } else {
-        closeFrame.style.display = 'none';
-      }
-    }
-
-    window.addEventListener('scroll', function() {
-      startInView();
-    });
-
-    function startInView() {
-      if (viewability.vertical(document.getElementById('slider')).value <= 0.50) {
-      }
-    }
-  }
-  */
   function BuzzIFrameLoaded(iframe, adSettings) {
     console.log('IFrame Loaded : ' + JSON.stringify(adSettings));
     var type = AD_TYPES.VINE;
@@ -412,7 +441,6 @@ function loadjscssfile(filename, filetype) {
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
     }.bind(this), false);
-
   }
 
   function onPlayerError(event) {
@@ -424,7 +452,8 @@ function loadjscssfile(filename, filetype) {
     complete: false,
     thirdquartile: false,
     midpoint: false,
-    firstquartile: false
+    firstquartile: false,
+    billed: false
   };
   function pollGetCurrentTime() {
     var progress = player.getCurrentTime() / player.getDuration();
@@ -433,7 +462,7 @@ function loadjscssfile(filename, filetype) {
       return;
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
-      parentWindow.postMessage("yt::thirdquart", "*");
+      parentWindow.postMessage("yt::thirdquartile", "*");
       rcvStates.thirdquartile = true;
     }
     else if (progress >= 0.5 && !rcvStates.midpoint) {
@@ -441,7 +470,7 @@ function loadjscssfile(filename, filetype) {
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parentWindow.postMessage("yt::firstquart", "*");
+      parentWindow.postMessage("yt::firstquartile", "*");
       rcvStates.firstquartile = true;
     }
 
@@ -452,7 +481,7 @@ function loadjscssfile(filename, filetype) {
   function pollImaPlaytime() {
     var adm = imaplayer.ima.getAdsManager();
     var remaining = adm.getRemainingTime();
-    if(adm.getCurrentAd() == null){
+    if(!adm.getCurrentAd()){
       return;
     }
     var adlength = adm.getCurrentAd().getDuration();
@@ -461,7 +490,7 @@ function loadjscssfile(filename, filetype) {
       played = (adlength - remaining);
     }
     var timewindow = 30;
-    if (adSettings.completionwindow != null){
+    if (adSettings.completionwindow){
       timewindow = adSettings.completionwindow;
     }
     if (played > timewindow && !sentBeacon ){
@@ -475,73 +504,6 @@ function loadjscssfile(filename, filetype) {
       setTimeout(function(){ pollImaPlaytime();}, 1000);
     }
   }
-
-  var BeaconEvent = (function() {
-    var _rawEvent, _btyp, _bcod, _bsrc, _bdat, _args;
-    var _beaconURI = '//api.buzz.st/v1/track';
-
-    function BeaconEvent(rawEvent) {
-      _rawEvent = rawEvent;
-      var components = rawEvent.split("::");
-      if (components.length >= 2) {
-        _bsrc = components[0];
-        _btyp = components[1];
-        _bcod = components[2];
-        _bdat = components[3];
-      } else {
-        throw TypeError("can't parse event from raw event: " + rawEvent);
-      }
-    }
-
-    BeaconEvent.prototype.updateQueryParams = function(uri, key, value) {
-      var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-      var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-      if (uri.match(re)) {
-        return uri.replace(re, '$1' + key + "=" + value + '$2');
-      }
-      else {
-        return uri + separator + key + "=" + value;
-      }
-    };
-
-    BeaconEvent.prototype.toJSONString = function() {
-      return JSON.stringify(this.toJSON());
-    };
-
-    BeaconEvent.prototype.toJSON = function() {
-      return {
-      // temporary since beacon only accepts vast right now
-      "btyp": _btyp,
-      "bcod": _bcod,
-      "bsrc": _bsrc,
-      "bdat": _bdat
-    };
-  };
-
-  BeaconEvent.prototype.buildRequestURI = function() {
-    var jsonRepr = this.toJSON();
-    var rv = _beaconURI;
-    for (var k in jsonRepr) {
-      rv = this.updateQueryParams(rv, k, jsonRepr[k]);
-    }
-    return rv;
-  };
-
-  BeaconEvent.prototype.sendBeacon = function(callback) {
-    // async perform beacon GET /v1/track
-    var req = new XMLHttpRequest();
-    req.open('GET', this.buildRequestURI(), true);
-    req.onreadystatechange = function() {
-      // call callback upon success
-      if (typeof callback === 'function' && req.status == 201) {
-        callback();
-      }
-    };
-    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    req.send(this.toJSONString());
-  };
-  return BeaconEvent;
-})();
 
   function triggerBeacon(eventString, bcod){
     var fullEvent = eventString+"::"+bcod+"::";
@@ -558,13 +520,24 @@ function pollTwitchPlayTime(restart){
       prevTwitchPlaytime = twitchPlaytime;
       return;
     }
+    var billwindow = adSettings.billwindow;
 
-    var windowTime = 30;
+    if((twitchPlaytime >= billwindow) && !rcvStates.billed){
+      triggerBeacon("twitch::comp"+billwindow, adSettings.bcod);
+      advTrackEvent(adSettings.adv_bill);
+      pubTrackEvent(adSettings.pub_bill);
+      rcvStates.billed = true;
+    }
+
+    var windowTime = ( adSettings.completionwindow || 30);
     var progress = twitchPlaytime / windowTime;
     if (progress >= 1 && !rcvStates.complete) {
       parentWindow.postMessage("twitch::complete", "*");
       triggerBeacon("twitch::complete", adSettings.bcod);
+      advTrackEvent(adSettings.adv_end);
+      pubTrackEvent(adSettings.pub_end);
       rcvStates.complete = true;
+      toggleEndSplash();
     }
     else if (progress >= 0.75 && !rcvStates.thirdquartile) {
       parentWindow.postMessage("twitch::thirdquartile", "*");
@@ -577,7 +550,7 @@ function pollTwitchPlayTime(restart){
       rcvStates.midpoint = true;
     }
     else if (progress >= 0.25 && !rcvStates.firstquartile) {
-      parentWindow.postMessage("twitch::firstquart", "*");
+      parentWindow.postMessage("twitch::firstquartile", "*");
       triggerBeacon("twitch::firstquart", adSettings.bcod);
       rcvStates.firstquartile = true;
     }
@@ -603,8 +576,8 @@ function pollTwitchPlayTime(restart){
       triggerBeacon("yt::paused", adSettings.bcod);
       break;
       case YT.PlayerState.ENDED:
-      parentWindow.postMessage("yt::ended", "*");
-      triggerBeacon("yt::ended", adSettings.bcod);
+      parentWindow.postMessage("yt::complete", "*");
+      triggerBeacon("yt::complete", adSettings.bcod);
       break;
       default:
       console.log('unrecognized state');
@@ -691,8 +664,12 @@ function pollTwitchPlayTime(restart){
       break;
     }
   }
-  window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); }
-  window.play = function() { playContent(); }
+
+  function playerControl(action){
+    window.dispatchEvent(new CustomEvent('remote-control', { detail: { "action" : action }}));
+  }
+  window.initPlay = function(){ imaplayer.ima.initializeAdDisplayContainer(); };
+  window.play = function() { playContent(); };
   window.addEventListener('remote-control', remoteControlEventHandler, false);
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   return {"BuzzAdManager": BuzzAdManager};

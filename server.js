@@ -17,8 +17,6 @@ app.use('/static', express.static('public'));
 app.use('/lib', express.static('lib'));
 
 app.get('/', function(req, res) {
-
-
   if(req.query.test === 'twitch'){
       res.render('twitch');
   } else {
@@ -27,13 +25,13 @@ app.get('/', function(req, res) {
         if(isCallerMobile(req)){
           res.render('ima-mobile', { poster: (req.query.poster || 'static/transparent_overlay.png')});
         } else {
-          res.render('videoindex', { poster: req.query.poster});
+          res.render('videoindex', { poster: req.query.poster, tracking: (req.query.tracking || 'xhr')});
         }
 
     } else if (req.query.type === 'FLASH') {
       res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
     } else {
-      res.render('index');
+      res.render('index', {tracking: (req.query.tracking || 'pixel') });
     }
   }
 });
@@ -50,12 +48,87 @@ app.get('/mediakit', function(req, res) {
   res.render('test', { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
-app.get('/mediakit/post/:verticle', function(req, res) {
-  res.render(req.params.verticle, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+app.get('/mediakit/:vertical', function(req, res) {
+  res.render(req.params.vertical, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+});
+
+app.get('/mediakit/post/:vertical', function(req, res) {
+  res.render(req.params.vertical, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
 });
 
 app.get('/innovidmobile', function(req, res) {
   res.render('iframe', { poster: req.query.poster});
 });
 
+app.get('/kotaku', function(req, res) {
+  res.sendFile(path.join(__dirname + '/views/kotaku.html'));
+});
+
+
+app.get('/pbcod/:bcode', function(req,res){
+  var time = (new Date()).getTime();
+  var usa = {
+    autoplay: "false",
+    automute: "false",
+    completionwindow: (req.query.completionwindow || 30) ,
+    billwindow: 3,
+    src: 'monstercat',
+    type: 'TWITCH',
+    clickout: "true",
+    trackercode: 'ZBNDploS8qgv4',
+    pubtracking: (req.query.pubtracking || 'pixel'),
+    pub_start: req.query.pub_start,
+    pub_bill: req.query.pub_bill,
+    pub_end: req.query.pub_end,
+    advtracking: 'pixel',
+    adv_start: null,
+    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord='+time+'&rtu=-1',
+    adv_end: null,
+    startsplash: null,
+    endsplash: "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg"
+  }
+  var ca = {
+    autoplay: "false",
+    automute: "false",
+    completionwindow: (req.query.completionwindow || 30) ,
+    billwindow: 3,
+    src: 'monstercat',
+    type: 'TWITCH',
+    clickout: "true",
+    trackercode: '5Erej1UrOlvo',
+    pubtracking: (req.query.pubtracking || 'pixel'),
+    pub_start: req.query.pub_start,
+    pub_bill: req.query.pub_bill,
+    pub_end: req.query.pub_end,
+    advtracking: 'pixel',
+    adv_start: null,
+    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord='+time+'&rtu=-1',
+    adv_end: null,
+    startsplash: null,
+    endsplash: "http://cdn.gamerant.com/wp-content/uploads/Hitman-in-black-and-white.jpg"
+  }
+  var dictionary = {
+    'Nx7WGpjUpOwNP' : usa,
+    '9gB9EQWI92vdx' : usa,
+    'prwXp84SOD5a' : usa,
+    'djV7vXrtGB5Zp' : usa,
+    '94BxgDlF3WJ19' : ca,
+    'EkJ2dRNhpWrbR' : ca,
+    'j4QrbvEtoaoX2' : ca,
+    'ALRq08GuDpBrP' : ca
+  }
+  var options = dictionary[req.params.bcode];
+  if(options){
+    options.bcod = req.params.bcode;
+    res.render('index', { tracking: (req.query.tracking || 'pixel'), options: JSON.stringify(options) })
+  } else {
+    res.status(404).send('Not Found');
+  }
+});
+
+
+app.get("/kickmeto", function(req,res){
+  res.set('referrer','buzz.st');
+  res.redirect('https://www.twitch.tv/Lirik');
+});
 app.listen(process.env.PORT || 8080);
