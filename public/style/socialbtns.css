@@ -1,0 +1,52 @@
+#social-btns {
+  position: absolute !important;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 5px;
+  z-index: 10;
+  list-style-type: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#social-btns > li {
+  margin-bottom: 5px;
+}
+
+#social-btns > li > a {
+  display: block;
+}
+
+.fa {
+  color: white;
+}
+
+.fa-twitter:hover {
+  color: #50ABF1;
+}
+
+.fa-facebook:hover {
+  color: #3a5795;
+}
+
+.fa-linkedin:hover {
+  color: #0079B8;
+}
+
+.fa-google-plus:hover {
+ color: #DE4D3B;
+}
+
+.fa-stumbleupon:hover {
+  color: #F14A00;
+}
+
+.fa-reddit-alien:hover {
+  color: #CDE3F9;
+}
+
+.fa-envelope-o:hover {
+  color: #EE2A00;
+}
