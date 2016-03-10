@@ -127,12 +127,12 @@ function makeAdSettings(options) {
   rv.startsplash = options.startsplash;
   rv.endsplash = options.endsplash;
 
-  rv.pubtracking = (options.pubtracking || 'pixel');
+  rv.pubtracking = (options.pub_tracking || 'pixel');
   rv.pub_start = options.pub_start;
   rv.pub_bill = options.pub_bill;
   rv.pub_end = options.pub_end;
 
-  rv.advtracking = (options.advtracking || 'pixel');
+  rv.advtracking = (options.adv_tracking || 'pixel');
   rv.adv_start = options.adv_start;
   rv.adv_bill = options.adv_bill;
   rv.adv_end = options.adv_end;
