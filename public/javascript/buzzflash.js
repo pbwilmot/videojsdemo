@@ -35,6 +35,30 @@ var BuzzFlash = (function(window) {
     {bcod: "Wk1b91atGqWy3", weight: 13},
     {bcod: "bVyOAgyIvjW2", weight: 52},
     {bcod: "o7ZpgbNT50vMV", weight: 4}
+    ],
+    "qpkEjQ5F1M154": [
+    {bcod: "qpkEjQ5F1M154", weight: 13},
+    {bcod: "PpLvwZDHLQX9p", weight: 1},
+    {bcod: "13aarLACb3L5Q", weight: 1},
+    {bcod: "D01rPD9HMQJqq", weight: 1},
+    {bcod: "jbQaM05tBZxM", weight: 1},
+    {bcod: "2vbw1QnHgqvbm", weight: 13},
+    {bcod: "pmqAbWyhDm8Z", weight: 13},
+    {bcod: "Eexg4pXFaQqRG", weight: 13},
+    {bcod: "4vkBjl5ig2ApR", weight: 52},
+    {bcod: "lrVVPLnSXBJm7", weight: 4}
+    ],
+    "34XkWwoTewbOm": [
+    {bcod: "34XkWwoTewbOm", weight: 13},
+    {bcod: "MMmmgd4TR1Ljn", weight: 1},
+    {bcod: "QG1DgwliyBV3", weight: 1},
+    {bcod: "D01rPD9HMQJqq", weight: 1},
+    {bcod: "bO2p7lGiGA2BD", weight: 1},
+    {bcod: "pwxdygVf9aoyX", weight: 13},
+    {bcod: "5A918NQUG8Xp", weight: 13},
+    {bcod: "AAe0grkcqqLoR", weight: 13},
+    {bcod: "aXyAxljSLAPNO", weight: 52},
+    {bcod: "nPmmrLNcdMP04", weight: 4}
     ]
   };
 
