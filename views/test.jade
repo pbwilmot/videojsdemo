@@ -28,8 +28,8 @@ shtml
                   .row
                     .input-field.col.s12
                       select#vertical(required)
-                        option(value='', disabled, selected) Choose your option
-                        option(value='male-lifestyle') Male Lifestyle
+                        option(value='', disabled) Choose your option
+                        option(value='male-lifestyle' selected) Male Lifestyle
                         option(value='female-lifestyle') Female Lifestyle
                         option(value='business') Business
                         //- option(value='health-wellness') Health & Wellness
@@ -45,15 +45,15 @@ shtml
                   .row
                     .input-field.col.s12
                       select#ad-type(required)
-                        option(value='', disabled, selected) Choose your option
+                        option(value='', disabled) Choose your option
                         option(value='native' name='ad-type') Native
-                        option(value='sponsored' name='ad-type') Sponsored Post
+                        option(value='sponsored' name='ad-type' selected) Sponsored Post
                       label AD TYPE
                   .row
                     .input-field.col.s12
                       select#type(required)
-                        option(value='', disabled='', selected='') Choose your option
-                        option(value='TWITCH' name='type') Twitch
+                        option(value='', disabled='') Choose your option
+                        option(value='TWITCH' name='type' selected) Twitch
                         option(value='YOUTUBE' name='type') YouTube
                         option(value='VINE' name='type') Vine
                         option(value='VIDEO' name='type') Hosted Video
@@ -61,44 +61,51 @@ shtml
                       label CHANNEL
                   .row
                     .input-field.col.s12
-                        input#src(name='src', type='text' placeholder='Enter Your URL')
+                        input#src(name='src', value='monstercat' type='text' placeholder='Enter Your URL')
                         label(for='src') URL
                   .row#input-poster
                     .input-field.col.s12
                       input#poster(name='poster', type='text' placeholder='Enter Your Poster Image')
                       label(for='poster') Poster
-                  .row
+                  .row#input-viewability
+                    .input-field.col.s12
+                      select#viewabilityPercent
+                        option(value='', disabled='') Choose your option
+                        option(value='50' name='viewabilityPercent' selected) 50%
+                        option(value='100' name='viewabilityPercent') 100%
+                      label VIEWABILITY STANDARD
+                  .row#input-auto-play
                     .input-field.col.s12 AUTO PLAY
                       br
                       input#autoplaytrue(name='autoplay', class='with-gap' type='radio' value="true")
                       label(for='autoplaytrue') on
-                      input#autoplayfalse(name='autoplay', class='with-gap' type='radio' value="false")
+                      input#autoplayfalse(name='autoplay', class='with-gap' type='radio' value="false" checked)
                       label(for='autoplayfalse' class='align-items') off
                   .row
                     .input-field.col.s12 AUTO MUTE
                       br
-                      input#automutetrue(name='automute', class='with-gap' type='radio' value="true")
+                      input#automutetrue(name='automute', class='with-gap' type='radio' value="true" checked)
                       label(for='automutetrue') on
                       input#automutefalse(name='automute', class='with-gap' type='radio' value="false")
                       label(for='automutefalse' class='align-items') off
                   .row
                     .input-field.col.s12 PLAY AUDIO ON HOVER
                       br
-                      input#audiohovertrue(name='audiohover', class='with-gap' type='radio' value="true")
+                      input#audiohovertrue(name='audiohover', class='with-gap' type='radio' value="true" checked)
                       label(for='audiohovertrue') on
                       input#audiohoverfalse(name='audiohover', class='with-gap' type='radio' value="false")
                       label(for='audiohoverfalse' class='align-items') off
                   .row
                     .input-field.col.s12 PLAY / PAUSE ON VIEWABILITY
                       br
-                      input#playpausetrue(name='playpause', class='with-gap' type='radio' value="true")
+                      input#playpausetrue(name='playpause', class='with-gap' type='radio' value="true" checked)
                       label(for='playpausetrue') on
                       input#playpausefalse(name='playpause', class='with-gap' type='radio' value="false")
                       label(for='playpausefalse' class='align-items') off
                   .row
                     .input-field.col.s12 PLACEMENT
                       br
-                      input#in-read(name='readtype', class='with-gap' type='radio' value="in-read")
+                      input#in-read(name='readtype', class='with-gap' type='radio' value="in-read" checked)
                       label(for='in-read') mid
                       input#top-read(name='readtype', class='with-gap' type='radio' value="top-read")
                       label(for='top-read') top

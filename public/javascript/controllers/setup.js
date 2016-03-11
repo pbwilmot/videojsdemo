@@ -65,6 +65,15 @@ $('#type').change(function() {
   }
 });
 
+$('input:radio[name="playpause"]').change(function() {
+  if ($('#playpausetrue').is(':checked')) {
+    $('#input-viewability').show();
+  } else {
+    $('#input-viewability').hide();
+    $('#viewabilityPercent').val('');
+  }
+});
+
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
   if ($('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#' + type).find('img').length >= 1) {
@@ -138,14 +147,11 @@ function loadIframe(source, type) {
       });
   });
   var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
+  var percent;
   $('#randomid').contents().scroll(function() {
     if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-      pauseOutOfView(type);
-    }
-  });
-  $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
-      resumeInView(type);
+      $('#viewabilityPercent').val() === '50' ? percent = 0.50 : percent = 1.00;
+      playOrPauseView(type, percent);
     }
   });
 }
@@ -159,14 +165,11 @@ function startInView() {
   }
 }
 
-function pauseOutOfView(type) {
-  if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value <= 0.50) {
+function playOrPauseView(type, percent) {
+  var elementInView = viewability.vertical($('#randomid').contents().find('#' + type)[0]).value;
+  if (elementInView < percent) {
     player('pause');
-  }
-}
-
-function resumeInView(type) {
-  if (viewability.vertical($('#randomid').contents().find('#' + type)[0]).value >= 0.50) {
+  } else if (elementInView >= percent) {
     player('play');
   }
 }
