@@ -16,6 +16,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
     YOUTUBE: 'YOUTUBE',
     VINE: 'VINE',
     TWITCH: 'TWITCH',
+    VIDEO360: 'VIDEO360'
   };
 
   var adDiv;
