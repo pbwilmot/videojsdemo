@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+  head
+    title Valiant 360 Pano Player
+    meta(charset='utf-8')
+    link(rel='stylesheet', type='text/css', href='/static/style/valiant360.css')
+  body(style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px')
+    .valiantPhoto(data-video-src='/static/assets/manhattan_short_CLIPCHAMP_keep_short.mp4', style='width: 100%; height: 100vh;')
+    script(type='text/javascript', src='lib/js/jquery-1.7.2.min.js')
+    script(type='text/javascript', src='lib/js/three.min.js')
+    script(type='text/javascript', src='static/javascript/jquery.valiant360.js')
+    script(type='text/javascript').
+      $(document).ready(function() {
+        $('.valiantPhoto').Valiant360({
+          autoplay: ('#{autoplay}' === 'true'),
+          muted: ( '#{automute}' === 'true')
+        });
+      });

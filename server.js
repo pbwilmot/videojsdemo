@@ -30,6 +30,8 @@ app.get('/', function(req, res) {
 
     } else if (req.query.type === 'FLASH') {
       res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
+    } else if (req.query.type === 'VIDEO360' ) {
+      res.render('video360', { autoplay: req.query.autoplay, automute: req.query.automute });
     } else {
       res.render('index', {tracking: (req.query.tracking || 'pixel') });
     }
@@ -126,6 +128,9 @@ app.get('/pbcod/:bcode', function(req,res){
   }
 });
 
+app.get("/video360", function(req, res){
+  res.render('video360');
+});
 
 app.get("/kickmeto", function(req,res){
   res.set('referrer','buzz.st');
