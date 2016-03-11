@@ -33,7 +33,7 @@ app.get('/', function(req, res) {
     } else if (req.query.type === 'VIDEO360' ) {
       res.render('video360', { autoplay: req.query.autoplay, automute: req.query.automute });
     } else {
-      res.render('index', {tracking: (req.query.tracking || 'pixel') });
+      res.render('index', {tracking: (req.query.tracking || 'pixel'), options: null });
     }
   }
 });
