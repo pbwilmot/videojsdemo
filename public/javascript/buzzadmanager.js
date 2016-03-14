@@ -28,7 +28,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
     adDiv = document.getElementById(id);
     var options = QueryStringToJSON();
     isMobile = mobile;
-    if(settings){
+    if(Object.keys(settings).length > 0){
       adSettings = makeAdSettings(settings);
     } else {
       adSettings = makeAdSettings(options);
