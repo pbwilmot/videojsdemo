@@ -84,10 +84,10 @@ app.get('/pbcod/:bcode', function(req,res){
     pub_end: req.query.pub_end,
     advtracking: 'pixel',
     adv_start: null,
-    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord='+time+'&rtu=-1',
+    adv_bill: '//bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord='+time+'&rtu=-1',
     adv_end: null,
     startsplash: null,
-    endsplash: "http://da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
+    endsplash: "//da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
   }
   var ca = {
     autoplay: "false",
@@ -104,10 +104,30 @@ app.get('/pbcod/:bcode', function(req,res){
     pub_end: req.query.pub_end,
     advtracking: 'pixel',
     adv_start: null,
-    adv_bill: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord='+time+'&rtu=-1',
+    adv_bill: '//bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord='+time+'&rtu=-1',
     adv_end: null,
     startsplash: null,
-    endsplash: "http://da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
+    endsplash: "//da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
+  }
+  var demo = {
+    autoplay: ( req.query.autoplay || "false"),
+    automute: ( req.query.automute || "false"),
+    completionwindow: (req.query.completionwindow || 30) ,
+    billwindow: ( req.query.billwindow || 3),
+    src: ( req.query.src || 'monstercat'),
+    type: 'TWITCH',
+    clickout: ( req.query.clickout || "true" ),
+    trackercode: ( req.query.clickout || '7p29mjMcmegQd'),
+    pub_tracking: (req.query.pub_tracking || 'pixel'),
+    pub_start: req.query.pub_start,
+    pub_bill: req.query.pub_bill,
+    pub_end: req.query.pub_end,
+    advtracking: 'pixel',
+    adv_start: req.query.adv_start,
+    adv_bill: req.query.adv_bill,
+    adv_end: req.query.adv_end,
+    startsplash: null,
+    endsplash: req.query.endsplash
   }
   var dictionary = {
     'Nx7WGpjUpOwNP' : usa,
@@ -117,7 +137,8 @@ app.get('/pbcod/:bcode', function(req,res){
     '94BxgDlF3WJ19' : ca,
     'EkJ2dRNhpWrbR' : ca,
     'j4QrbvEtoaoX2' : ca,
-    'ALRq08GuDpBrP' : ca
+    'ALRq08GuDpBrP' : ca,
+    '7p29mjMcmegQd' : demo,
   }
   var options = dictionary[req.params.bcode];
   if(options){
