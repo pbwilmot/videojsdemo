@@ -129,6 +129,7 @@ var BuzzFlash = (function(window) {
 
   var options, tracking, source, completionWindow, autoplay;
   var orgbcod;
+  var pub_tracking, pub_start, pub_end, pub_bill;
 
   var initPlayer = function (domtarget, bcod){
     orgbcod = bcod;
@@ -136,6 +137,11 @@ var BuzzFlash = (function(window) {
 
     options = QueryStringToJSON();
     tracking = (options.tracking || 'xhr');
+    pub_tracking = (options.pub_tracking || 'pixel');
+    pub_start = options.pub_start;
+    pub_end = options.pub_end;
+    pub_bill = options.pub_bill;
+
     source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
     autoplay = options.autoplay === 'true';
     completionWindow = (options.completionWindow || 60);
@@ -158,7 +164,8 @@ var BuzzFlash = (function(window) {
           if(completionWindow != null && counter >= completionWindow*1000 && !beacon){
             var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
             beaconEvent.sendBeacon(function(){});
-            thirdpartyGet(options.bill);
+            thirdpartyGet(options.bill, tracking);
+            thirdpartyGet(pub_bill, pub_tracking);
             beacon = true;
           }
         }]
@@ -169,12 +176,14 @@ var BuzzFlash = (function(window) {
       var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
       beaconEvent.sendBeacon(function(){});
       sendXHR(getThirdpartyUri(orgbcod, bcod));
-      thirdpartyGet(options.start);
+      thirdpartyGet(options.start, tracking);
+      thirdpartyGet(pub_start, pub_tracking);
     });
     player.onFinish(function(){
       var beaconEvent = new BeaconEvent("fl::complete::"+bcod+"::");
       beaconEvent.sendBeacon(function(){});
-      thirdpartyGet(options.end);
+      thirdpartyGet(options.end, tracking);
+      thirdpartyGet(pub_end, pub_tracking);
     });
 
   };
@@ -191,10 +200,10 @@ var BuzzFlash = (function(window) {
     return JSON.parse(JSON.stringify(result));
   }
 
-  function thirdpartyGet(uri) {
+  function thirdpartyGet(uri, track_as) {
 
     if(uri != null){
-      switch(tracking) {
+      switch(track_as) {
         case 'xhr':
           sendXHR(uri);
           break;
