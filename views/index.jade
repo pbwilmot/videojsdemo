@@ -5,32 +5,34 @@ html
 		link(rel='stylesheet', href='/static/style/socialbtns.css')
 	body(style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px')
 		#BuzzAdDiv
-		ul#social-btns
-			li
-				a#twitter-share(href='#')
-					i.fa.fa-twitter.fa-lg
-			li
-				a#facebook-share(href='#')
-					i.fa.fa-facebook.fa-lg
-			li
-				a#google-share(href='#')
-					i.fa.fa-google-plus.fa-lg
-			li
-				a#linkedin-share(href='#')
-					i.fa.fa-linkedin.fa-lg
-			li
-				a#stumble-share(href='#')
-					i.fa.fa-stumbleupon.fa-lg
-			li
-				a#reddit-share(href='#')
-					i.fa.fa-reddit-alien.fa-lg
-			li
-				a#email-share(href='#')
-					i.fa.fa-envelope-o.fa-lg
+		- if (social)
+			ul#social-btns
+				li
+					a#twitter-share(href='#')
+						i.fa.fa-twitter.fa-lg
+				li
+					a#facebook-share(href='#')
+						i.fa.fa-facebook.fa-lg
+				li
+					a#google-share(href='#')
+						i.fa.fa-google-plus.fa-lg
+				li
+					a#linkedin-share(href='#')
+						i.fa.fa-linkedin.fa-lg
+				li
+					a#stumble-share(href='#')
+						i.fa.fa-stumbleupon.fa-lg
+				li
+					a#reddit-share(href='#')
+						i.fa.fa-reddit-alien.fa-lg
+				li
+					a#email-share(href='#')
+						i.fa.fa-envelope-o.fa-lg
 		script(src='/static/javascript/buzzbeacon.js')
 		script(src='/static/javascript/buzztracker.js')
 		script(src='/static/javascript/buzzadmanager.js')
-		script(src='static/javascript/controllers/social.js')
+		- if (social)
+			script(src='static/javascript/controllers/social.js')
 		script(type='text/javascript').
 			document.addEventListener("DOMContentLoaded",function() {
 						var settings = !{options};

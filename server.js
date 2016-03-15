@@ -17,6 +17,7 @@ app.use('/static', express.static('public'));
 app.use('/lib', express.static('lib'));
 
 app.get('/', function(req, res) {
+  var social = (req.query.social === 'true');
   if(req.query.test === 'twitch'){
       res.render('twitch');
   } else {
@@ -25,14 +26,14 @@ app.get('/', function(req, res) {
         if(isCallerMobile(req)){
           res.render('ima-mobile', { poster: (req.query.poster || 'static/transparent_overlay.png')});
         } else {
-          res.render('videoindex', { type: req.query.type, source: req.query.src, poster: req.query.poster, tracking: (req.query.tracking || 'xhr')});
+          res.render('videoindex', { social: social, type: req.query.type, source: req.query.src, poster: req.query.poster, tracking: (req.query.tracking || 'xhr')});
         }
     } else if (req.query.type === 'FLASH') {
       res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
     } else if (req.query.type === 'VIDEO360' ) {
       res.render('video360', { autoplay: req.query.autoplay, automute: req.query.automute });
     } else {
-      res.render('index', {type: req.query.type, source: req.query.src, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify({}) });
+      res.render('index', { social: social, type: req.query.type, source: req.query.src, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify({}) });
     }
   }
 });
@@ -139,10 +140,11 @@ app.get('/pbcod/:bcode', function(req,res){
     'ALRq08GuDpBrP' : ca,
     '7p29mjMcmegQd' : demo,
   }
+  var social = (req.query.social === 'true');
   var options = dictionary[req.params.bcode];
   if(options){
     options.bcod = req.params.bcode;
-    res.render('index', { tracking: (req.query.tracking || 'pixel'), options: JSON.stringify(options) })
+    res.render('index', { social: social, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify(options) })
   } else {
     res.status(404).send('Not Found');
   }
