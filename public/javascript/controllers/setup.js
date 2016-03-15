@@ -104,7 +104,7 @@ function loadIframe(source, type) {
   var height, width;
   height = $('#randomid').contents().find('#' + type).height();
   width = $('#randomid').contents().find('#' + type).width();
-
+  var closeBtnOn = $("input[name='close']:checked").val();
   var vertical = $('#vertical').val();
 
   $('#randomid')
@@ -121,13 +121,20 @@ function loadIframe(source, type) {
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
     });
 
-    if ($('#randomid').contents().find('#close-iframe').length < 1) {
+    if ($('#randomid').contents().find('#close-iframe').length < 1 && closeBtnOn === 'true') {
       $('#randomid')
         .contents()
         .find('#' + type)
         .parent()
         .css('position', 'relative')
         .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 10px; background-color: transparent; color: white; border: none; font-size: 1.75em; box-shadow: none; padding: 0">x</button>');
+    } else {
+      $('#randomid')
+        .contents()
+        .find('#' + type)
+        .parent()
+        .find('button')
+        .remove();
     }
 
   $('#randomid')
@@ -149,7 +156,7 @@ function loadIframe(source, type) {
   var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
   var percent;
   $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true' && closeIframe.is(':visible')) {
+    if ($("input[name='playpause']:checked").val() === 'true') {
       $('#viewabilityPercent').val() === '50' ? percent = 0.50 : percent = 1.00;
       playOrPauseView(type, percent);
     }
