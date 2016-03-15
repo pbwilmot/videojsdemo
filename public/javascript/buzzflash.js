@@ -2,22 +2,22 @@ var BuzzFlash = (function(window) {
   var dictionary = {
     "82WxOWdT7ZRR": [
     {bcod: "82WxOWdT2ZAg5", weight: 13},
-    // {bcod: "M21bX1qTRN3G7", weight: 1},
-    // {bcod: "Qe1b41lhPX5EG", weight: 1},
-    // {bcod: "O21bA17TlVVvB", weight: 1},
-    // {bcod: "omdZldMsPOZ2q", weight: 1},
+    {bcod: "M21bX1qTRN3G7", weight: 1},
+    {bcod: "Qe1b41lhPX5EG", weight: 1},
+    {bcod: "O21bA17TlVVvB", weight: 1},
+    {bcod: "omdZldMsPOZ2q", weight: 1},
     {bcod: "2rw8Gw2Fap50g", weight: 13},
     {bcod: "Dq1bm19ukL487", weight: 13},
     {bcod: "kmrGqrWskALrn", weight: 13},
     {bcod: "7XoV3NoU5Zn09", weight: 52},
-    // {bcod: "VebyxG9fWglpk", weight: 4}
+    {bcod: "VebyxG9fWglpk", weight: 4}
     ],
     "M21bX1qTgRLaW": [
     {bcod: "5NLJBLRcQnEaA", weight: 13},
-    // {bcod: "Vr1bd1XFr5qMR", weight: 1},
-    // {bcod: "NB1bX1kh2eZaq", weight: 1},
-    // {bcod: "v7dMxdmfXjmLy", weight: 1},
-    // {bcod: "ypdwEd0TwjOO", weight: 1},
+    {bcod: "Vr1bd1XFr5qMR", weight: 1},
+    {bcod: "NB1bX1kh2eZaq", weight: 1},
+    {bcod: "v7dMxdmfXjmLy", weight: 1},
+    {bcod: "ypdwEd0TwjOO", weight: 1},
     {bcod: "BD1bJ1gcvDlQ", weight: 13},
     {bcod: "mmdX7dWsy0Wrl", weight: 13},
     {bcod: "2rw8Gw2FW2EVe", weight: 13},
@@ -26,39 +26,39 @@ var BuzzFlash = (function(window) {
     ],
     "X7Av9AjfdEr5J": [
     {bcod: "7N89O8dcOD97", weight: 13},
-    // {bcod: "Dq1bm19uJGqP", weight: 1},
-    // {bcod: "rodNGdMfJQbJy", weight: 1},
-    // {bcod: "BD1bJ1gckjpVe", weight: 1},
-    // {bcod: "X7Av9Ajf9bl0", weight: 1},
+    {bcod: "Dq1bm19uJGqP", weight: 1},
+    {bcod: "rodNGdMfJQbJy", weight: 1},
+    {bcod: "BD1bJ1gckjpVe", weight: 1},
+    {bcod: "X7Av9Ajf9bl0", weight: 1},
     {bcod: "AG1bv1df5B0L", weight: 13},
     {bcod: "Dq1bm19uPJrg", weight: 13},
     {bcod: "Wk1b91atGqWy3", weight: 13},
     {bcod: "bVyOAgyIvjW2", weight: 52},
-    // {bcod: "o7ZpgbNT50vMV", weight: 4}
+    {bcod: "o7ZpgbNT50vMV", weight: 4}
     ],
     "qpkEjQ5F1M154": [
     {bcod: "qpkEjQ5F1M154", weight: 13},
-    // {bcod: "PpLvwZDHLQX9p", weight: 1},
-    // {bcod: "13aarLACb3L5Q", weight: 1},
-    // {bcod: "D01rPD9HMQJqq", weight: 1},
-    // {bcod: "jbQaM05tBZxM", weight: 1},
+    {bcod: "PpLvwZDHLQX9p", weight: 1},
+    {bcod: "13aarLACb3L5Q", weight: 1},
+    {bcod: "D01rPD9HMQJqq", weight: 1},
+    {bcod: "jbQaM05tBZxM", weight: 1},
     {bcod: "2vbw1QnHgqvbm", weight: 13},
     {bcod: "pmqAbWyhDm8Z", weight: 13},
     {bcod: "Eexg4pXFaQqRG", weight: 13},
     {bcod: "4vkBjl5ig2ApR", weight: 52},
-    // {bcod: "lrVVPLnSXBJm7", weight: 4}
+    {bcod: "lrVVPLnSXBJm7", weight: 4}
     ],
     "34XkWwoTewbOm": [
     {bcod: "34XkWwoTewbOm", weight: 13},
-    // {bcod: "MMmmgd4TR1Ljn", weight: 1},
-    // {bcod: "QG1DgwliyBV3", weight: 1},
-    // {bcod: "D01rPD9HMQJqq", weight: 1},
-    // {bcod: "bO2p7lGiGA2BD", weight: 1},
+    {bcod: "MMmmgd4TR1Ljn", weight: 1},
+    {bcod: "QG1DgwliyBV3", weight: 1},
+    {bcod: "D01rPD9HMQJqq", weight: 1},
+    {bcod: "bO2p7lGiGA2BD", weight: 1},
     {bcod: "pwxdygVf9aoyX", weight: 13},
     {bcod: "5A918NQUG8Xp", weight: 13},
     {bcod: "AAe0grkcqqLoR", weight: 13},
     {bcod: "aXyAxljSLAPNO", weight: 52},
-    // {bcod: "nPmmrLNcdMP04", weight: 4}
+    {bcod: "nPmmrLNcdMP04", weight: 4}
     ]
   };
 
@@ -129,6 +129,7 @@ var BuzzFlash = (function(window) {
 
   var options, tracking, source, completionWindow, autoplay;
   var orgbcod;
+  var pub_tracking, pub_start, pub_end, pub_bill;
 
   var initPlayer = function (domtarget, bcod){
     orgbcod = bcod;
@@ -136,6 +137,11 @@ var BuzzFlash = (function(window) {
 
     options = QueryStringToJSON();
     tracking = (options.tracking || 'xhr');
+    pub_tracking = (options.pub_tracking || 'pixel');
+    pub_start = options.pub_start;
+    pub_end = options.pub_end;
+    pub_bill = options.pub_bill;
+
     source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
     autoplay = options.autoplay === 'true';
     completionWindow = (options.completionWindow || 60);
@@ -158,7 +164,8 @@ var BuzzFlash = (function(window) {
           if(completionWindow != null && counter >= completionWindow*1000 && !beacon){
             var beaconEvent = new BeaconEvent("fl::comp"+completionWindow+"::"+bcod+"::");
             beaconEvent.sendBeacon(function(){});
-            thirdpartyGet(options.bill);
+            thirdpartyGet(options.bill, tracking);
+            thirdpartyGet(pub_bill, pub_tracking);
             beacon = true;
           }
         }]
@@ -169,12 +176,14 @@ var BuzzFlash = (function(window) {
       var beaconEvent = new BeaconEvent("fl::start::"+bcod+"::");
       beaconEvent.sendBeacon(function(){});
       sendXHR(getThirdpartyUri(orgbcod, bcod));
-      thirdpartyGet(options.start);
+      thirdpartyGet(options.start, tracking);
+      thirdpartyGet(pub_start, pub_tracking);
     });
     player.onFinish(function(){
       var beaconEvent = new BeaconEvent("fl::complete::"+bcod+"::");
       beaconEvent.sendBeacon(function(){});
-      thirdpartyGet(options.end);
+      thirdpartyGet(options.end, tracking);
+      thirdpartyGet(pub_end, pub_tracking);
     });
 
   };
@@ -191,10 +200,10 @@ var BuzzFlash = (function(window) {
     return JSON.parse(JSON.stringify(result));
   }
 
-  function thirdpartyGet(uri) {
+  function thirdpartyGet(uri, track_as) {
 
     if(uri != null){
-      switch(tracking) {
+      switch(track_as) {
         case 'xhr':
           sendXHR(uri);
           break;

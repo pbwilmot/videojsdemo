@@ -8,5 +8,6 @@ html
 		script(src='/static/javascript/buzzadmanager.js')
 		script(type='text/javascript').
 			document.addEventListener("DOMContentLoaded",function() {
-						BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false, !{options} );
+						var settings = !{options};
+						BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false , settings );
 					});
