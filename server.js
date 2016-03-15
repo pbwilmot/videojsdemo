@@ -25,15 +25,14 @@ app.get('/', function(req, res) {
         if(isCallerMobile(req)){
           res.render('ima-mobile', { poster: (req.query.poster || 'static/transparent_overlay.png')});
         } else {
-          res.render('videoindex', { poster: req.query.poster, tracking: (req.query.tracking || 'xhr')});
+          res.render('videoindex', { type: req.query.type, source: req.query.src, poster: req.query.poster, tracking: (req.query.tracking || 'xhr')});
         }
-
     } else if (req.query.type === 'FLASH') {
       res.render('flow', { completionWindow: req.query.completionWindow, bcod: req.query.bcod, src: req.query.src });
     } else if (req.query.type === 'VIDEO360' ) {
       res.render('video360', { autoplay: req.query.autoplay, automute: req.query.automute });
     } else {
-      res.render('index', {tracking: (req.query.tracking || 'pixel'), options: JSON.stringify({}) });
+      res.render('index', {type: req.query.type, source: req.query.src, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify({}) });
     }
   }
 });
