@@ -32,10 +32,14 @@ html
 		script(src='/static/javascript/buzztracker.js')
 		script(src='/static/javascript/buzzadmanager.js')
 		- if (social)
-			script(src='static/javascript/controllers/social.js')
+			script(src='/static/javascript/controllers/social.js')
 		script(type='text/javascript').
 			document.addEventListener("DOMContentLoaded",function() {
-						var settings = !{options};
-						BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false , settings );
-						loadSocialBtns('#{type}','#{source}');
-					});
+				var settings = !{options};
+				BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false , settings );
+			});
+		- if(social)
+			script(type="text/javascript").
+				document.addEventListener("DOMContentLoaded",function() {
+					loadSocialBtns('#{type}','#{source}');
+				});

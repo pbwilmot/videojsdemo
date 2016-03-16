@@ -144,7 +144,7 @@ app.get('/pbcod/:bcode', function(req,res){
   var options = dictionary[req.params.bcode];
   if(options){
     options.bcod = req.params.bcode;
-    res.render('index', { social: social, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify(options) })
+    res.render('index', { type: options.type, social: social, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify(options) })
   } else {
     res.status(404).send('Not Found');
   }
