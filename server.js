@@ -4,6 +4,11 @@ var path = require('path');
 var cors = require('cors');
 var request_helper = require('./request_helper');
 
+app.get('/redirect/:id', function(req, res) {
+  var redirectUrl = redirectLibrary[req.params.id];
+  res.render('redirect', { redirectUrl: redirectUrl });
+});
+
 app.set('view engine', 'jade');
 
 app.use(cors());
