@@ -1,13 +1,6 @@
 var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   'use strict';
 
-  var VINE_SDK_PATH = "https://platform.vine.co/static/scripts/embed.js";
-  var YOUTUBE_API = "https://www.youtube.com/iframe_api";
-  var TWITCH_API = "//player.twitch.tv/js/embed/v1.js";
-  var VIDEO_API = "/static/javascript/videojsads.js";
-
-  // var TRACKER = "/static/javascript/buzztracker.js";
-
   var pubtracker;
   var advtracker;
 
@@ -26,13 +19,8 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
 
   var BuzzAdManager = function(id, mobile, settings) {
     adDiv = document.getElementById(id);
-    var options = QueryStringToJSON();
     isMobile = mobile;
-    if(Object.keys(settings).length > 0){
-      adSettings = makeAdSettings(settings);
-    } else {
-      adSettings = makeAdSettings(options);
-    }
+    adSettings = settings;
     pubtracker = new BuzzTracker(adSettings.pub_tracking);
     advtracker = new BuzzTracker(adSettings.adv_tracking);
     makeAd(adDiv, adSettings.type, adSettings.src, adSettings);
@@ -86,21 +74,6 @@ function createOverlay( clickurl, parent, id , styles ){
   return element;
 }
 
-/**
- *
- */
- function QueryStringToJSON() {
-  var pairs = location.search.slice(1).split('&');
-
-  var result = {};
-  pairs.forEach(function(pair) {
-    pair = pair.split('=');
-    result[pair[0]] = decodeURIComponent(pair[1] || '');
-  });
-
-  return JSON.parse(JSON.stringify(result));
-}
-
 function updateQueryStringParams(uri, key, value) {
   var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
   var separator = uri.indexOf('?') !== -1 ? "&" : "?";
@@ -110,38 +83,6 @@ function updateQueryStringParams(uri, key, value) {
   else {
     return uri + separator + key + "=" + value;
   }
-}
-
-function makeAdSettings(options) {
-  var rv = {};
-  rv.src = options.src;
-  rv.bcod = options.bcod;
-  rv.completionwindow = options.completionwindow;
-  rv.billwindow = options.billwindow;
-  rv.audiohover =  (options.audiohover === 'true');
-  rv.autoplay = (options.autoplay === 'true');
-  rv.automute = (options.automute === 'true');
-  rv.autoclose = (options.autoclose === 'true');
-  rv.impressionpixel = (options.impressionpixel === 'true');
-  rv.type = options.type;
-  rv.startsplash = options.startsplash;
-  rv.endsplash = options.endsplash;
-
-  rv.pub_tracking = (options.pub_tracking || 'pixel');
-  rv.pub_start = options.pub_start;
-  rv.pub_bill = options.pub_bill;
-  rv.pub_end = options.pub_end;
-
-  rv.adv_tracking = (options.adv_tracking || 'pixel');
-  rv.adv_start = options.adv_start;
-  rv.adv_bill = options.adv_bill;
-  rv.adv_end = options.adv_end;
-
-  rv.clickout = (options.clickout === 'true');
-  if(options.trackercode){
-    rv.clickouturl = "http://buzz.st/r/"+options.trackercode+"?bref=buzz.st";
-  }
-  return rv;
 }
 
 function addIFrame(parent, source, adSettings) {
@@ -158,14 +99,10 @@ var imaplayer;
 function makeAd(adDiv, type, source, adSettings) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
-    loadjscssfile(YOUTUBE_API, "js");
     addIFrame(adDiv, '', adSettings);
     src = source;
     return;
     case AD_TYPES.VINE:
-      // Load Vine SDK
-      loadjscssfile(VINE_SDK_PATH, "js");
-      // set vine audio
       var audio = "1";
       if (adSettings.automute) {
         audio = "0";
@@ -177,35 +114,22 @@ function makeAd(adDiv, type, source, adSettings) {
       }
       source = updateQueryStringParams(source, "autoplay", autoplay);
       break;
-    // Fall through to youtube and add the iframe
     case AD_TYPES.VIDEO:
-    loadjscssfile(VIDEO_API, "js");
-    waitUntil(
-      function() {
-        return typeof Ads == "function";
-      }, function() {
-        if(isMobile){
-          window.document.getElementById('mobile-play-overlay').addEventListener('click', function(){
-            loadIma(adDiv, type, source, adSettings);
-            removeOverlay();
-          });
-        } else {
+      if(isMobile){
+        window.document.getElementById('mobile-play-overlay').addEventListener('click', function(){
           loadIma(adDiv, type, source, adSettings);
-        }
-        parentWindow.addEventListener('remote-control', function(e){
-          remoteControlEventHandler(e);
-        }.bind(this), false);
-      });
+          removeOverlay();
+        });
+      } else {
+        loadIma(adDiv, type, source, adSettings);
+      }
+      parentWindow.addEventListener('remote-control', function(e){
+        remoteControlEventHandler(e);
+      }.bind(this), false);
     break;
-    // Fall through to youtube and add the iframe
     case AD_TYPES.TWITCH:
-    loadjscssfile(TWITCH_API,"js");
     src = source;
-    waitUntil(
-      function() {
-        return typeof Twitch == "object";},
-        function() {loadTwitch(source);}
-        );
+    loadTwitch(source);
     return;
   }
   src = source;

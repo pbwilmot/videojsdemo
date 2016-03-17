@@ -35,8 +35,7 @@ html
 			script(src='/static/javascript/controllers/social.js')
 		script(type='text/javascript').
 			document.addEventListener("DOMContentLoaded",function() {
-				var settings = !{options};
-				BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false , settings );
+				BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false , !{options} );
 			});
 		- if(social)
 			script(type="text/javascript").

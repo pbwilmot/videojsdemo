@@ -1,54 +1,28 @@
 doctype html
 html
   head
-    link(href='//vjs.zencdn.net/5.3/video-js.min.css', rel='stylesheet')
-    link(rel='stylesheet', type='text/css', href='/static/style/style.css')
-    link(rel='stylesheet', href='/static/style/videojs.ads.css')
-    link(rel='stylesheet', href='/static/style/videojs.ima.css')
-    link(rel='stylesheet', href='/static/style/socialbtns.css')
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
-  body(style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px')
-    #BuzzAdDiv
-      video#content_video.video-js.vjs-big-play-centered.vjs-default-skin(poster='#{poster}', controls='', preload='auto', style='width:100%; height:100vh')
-        source(src='//da2hw5uyqeo5b.cloudfront.net/blank.mp4', type='video/mp4')
-      - if (social)
-        ul#social-btns
-          li
-            a#twitter-share(href='#')
-              i.fa.fa-twitter.fa-lg
-          li
-            a#facebook-share(href='#')
-              i.fa.fa-facebook.fa-lg
-          li
-            a#google-share(href='#')
-              i.fa.fa-google-plus.fa-lg
-          li
-            a#linkedin-share(href='#')
-              i.fa.fa-linkedin.fa-lg
-          li
-            a#stumble-share(href='#')
-              i.fa.fa-stumbleupon.fa-lg
-          li
-            a#reddit-share(href='#')
-              i.fa.fa-reddit-alien.fa-lg
-          li
-            a#email-share(href='#')
-              i.fa.fa-envelope-o.fa-lg
-    script(src='//vjs.zencdn.net/5.3/video.min.js')
-    script(src='//imasdk.googleapis.com/js/sdkloader/ima3.js')
-    script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ads.js')
-    script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ima.js')
-    script(src='/static/javascript/buzztracker.js')
-    script(src='/static/javascript/buzzadmanager.js')
-      - if (social)
-        script(src='/static/javascript/controllers/social.js')
-    script(type='text/javascript').
-      document.addEventListener("DOMContentLoaded",function() {
-        var tracker = new BuzzTracker('#{tracking}');
-        BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', tracker, false);
-      });
-    - if(social)
-      script(type="text/javascript").
+    include ./includes/header.jade
+case type
+  when 'FLASH'
+    include ./includes/partials/flow-container.jade
+  when 'VIDEO360'
+    include ./includes/partials/video360-container.jade    
+  default
+    body(style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px')
+      #BuzzAdDiv
+        if (mobile)
+          img(src='#{poster}', id='mobile-play-overlay', style='margin:0; overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px; z-index:300000')
+        if (type == 'VIDEO')
+          video#content_video.video-js.vjs-big-play-centered.vjs-default-skin(poster='#{poster}', controls='', preload='auto', style='width:100%; height:100vh')
+          source(src='//da2hw5uyqeo5b.cloudfront.net/blank.mp4', type='video/mp4')
+        if (social)
+          include ./includes/partials/social-btns.jade    
+      script(type='text/javascript').
         document.addEventListener("DOMContentLoaded",function() {
-          loadSocialBtns('#{type}','#{source}');
+          BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false, !{options});
         });
+      if(social)
+        script(type="text/javascript").
+          document.addEventListener("DOMContentLoaded",function() {
+            loadSocialBtns('#{type}','#{source}');
+          });
