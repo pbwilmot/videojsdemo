@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var cors = require('cors');
 var VAST = require('vast-xml');
+var querystring = require('querystring');
 
 var redirectLibrary = {
   1: '/mediakit/post/tech-post',
@@ -168,9 +169,8 @@ app.get('/pbcod/:bcode', function(req,res){
   }
 });
 
-app.get("/vast", function(req,res){
-    console.log("bump");
-
+app.get("/vast/:bcod", function(req,res){
+    var protocol = req.secure ? "https" : "http";
     var events = [
       'creativeView'
     , 'start'
@@ -193,22 +193,20 @@ app.get("/vast", function(req,res){
   ];
 
   var vast = new VAST();
-  var tag = "https://ad.doubleclick.net/ddm/pfadx/N30602.1355588DOUBLECLICK.COMB57/B9159337.124494810;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml;dc_vast=3";
+  var tag = protocol+"://ad.doubleclick.net/ddm/pfadx/N30602.1355588DOUBLECLICK.COMB57/B9159337.124494810;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml;dc_vast=3";
 
   var ad = vast.attachAd({
-    id: "SomeID"
+    id: req.params.bcod
   , structure : 'wrapper'
   , AdSystem : 'Common name of the ad'
-  , Error: '//error.err'
+  , Error: protocol+"://metrics.buzz.st/v0/track?bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
   , VASTAdTagURI : tag
-  }).attachImpression({ id: Date.now(), url : '//impression.com' })
+  }).attachImpression({ id: Date.now(), url : protocol+"://metrics.buzz.st/v0/track?bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) })
 
   var creative = ad.attachCreative('Linear',{ Duration : '00:00:00'});
-  creative.attachVideoClick("ClickTracking", "click-tracking");
-  var i;
-  for(i = 0; i < events.length; i++){
-    creative.attachTrackingEvent(events[i],events[i]);
-  }
+  creative.attachVideoClick("ClickTracking", protocol+"://metrics.buzz.st/v0/track?bcod="+req.params.bcod+"&btyp=click&"+querystring.stringify(req.query));
+
+  events.forEach(function(event){ creative.attachTrackingEvent(event,protocol+"://metrics.buzz.st/v0/track?bcod="+req.params.bcod+"&btyp="+event+"&"+querystring.stringify(req.query)); });
 
   res.end(vast.xml({ pretty : true, indent : '  ', newline : '\n' }));
 });
