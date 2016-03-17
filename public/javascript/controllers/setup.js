@@ -224,9 +224,19 @@ function validateSrc(type) {
       return validateYouTubeUrl(url);
     case 'TWITCH':
       return validateTwitchUrl(url);
+    case 'VINE' :
+      return validateVineUrl(url);
     default:
       return url;
   }
+}
+
+function validateVineUrl(url) {
+  var match = url.match('vine\.co\/v\/([^\/]*)');
+  if (match && match[1]) {
+    return match[1];
+  }
+  return url;
 }
 
 function validateYouTubeUrl(url) {
