@@ -170,7 +170,7 @@ app.get('/pbcod/:bcode', function(req,res){
 });
 
 app.get("/vast/:bcod", function(req,res){
-    var protocol = req.secure ? "https" : "http";
+    var protocol = req.protocol;
     var events = [
       'creativeView'
     , 'start'
