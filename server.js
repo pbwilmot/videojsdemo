@@ -170,7 +170,7 @@ app.get('/pbcod/:bcode', function(req,res){
 });
 
 app.get("/vast/:bcod", function(req,res){
-    var protocol = req.protocol;
+    var protocol = req.headers['x-forwarded-proto'];
     console.log(protocol);
     var events = [
       'creativeView'
