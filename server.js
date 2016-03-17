@@ -171,6 +171,7 @@ app.get('/pbcod/:bcode', function(req,res){
 
 app.get("/vast/:bcod", function(req,res){
     var protocol = req.protocol;
+    console.log(protocol);
     var events = [
       'creativeView'
     , 'start'
