@@ -54,7 +54,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/crossdomain.xml', function(req,res){
-  res.sendFile(path.join(__dirname + "/static/assets/crossdomain.xml"));
+  res.sendFile(path.join(__dirname + "/public/assets/crossdomain.xml"));
 });
 
 app.get('/demo', function(req,res){
