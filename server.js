@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var cors = require('cors');
+var shortid = require('shortid');
+
+var genId = function() {
+  return shortid.generate();
+};
 
 var redirectLibrary = {
   1: '/mediakit/post/tech-post',
@@ -165,6 +170,10 @@ app.get('/pbcod/:bcode', function(req,res){
 
 app.get("/video360", function(req, res){
   res.render('video360');
+});
+
+app.get("/genId", function(req, res) {
+  res.end(genId());
 });
 
 app.get("/kickmeto", function(req,res){
