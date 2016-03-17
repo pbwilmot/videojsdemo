@@ -171,7 +171,6 @@ app.get('/pbcod/:bcode', function(req,res){
 
 app.get("/vast/:bcod", function(req,res){
     var protocol = req.headers['x-forwarded-proto'];
-    console.log(protocol);
     var events = [
       'creativeView'
     , 'start'
@@ -194,8 +193,7 @@ app.get("/vast/:bcod", function(req,res){
   ];
 
   var vast = new VAST();
-  var tag = protocol+"://ad.doubleclick.net/ddm/pfadx/N30602.1355588DOUBLECLICK.COMB57/B9159337.124494810;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml;dc_vast=3";
-
+  var tag = protocol+'://buzz.st/v1/ads/'+req.params.bcod+'/vast';
   var ad = vast.attachAd({
     id: req.params.bcod
   , structure : 'wrapper'
