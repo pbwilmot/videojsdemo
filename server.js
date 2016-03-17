@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var cors = require('cors');
+var VAST = require('vast-xml');
 
 var redirectLibrary = {
   1: '/mediakit/post/tech-post',
@@ -49,6 +50,10 @@ app.get('/', function(req, res) {
       res.render('index', { social: social, type: req.query.type, source: req.query.src, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify({}) });
     }
   }
+});
+
+app.get('/crossdomain.xml', function(req,res){
+  res.sendFile(path.join(__dirname + "/static/assets/crossdomain.xml"));
 });
 
 app.get('/demo', function(req,res){
@@ -163,12 +168,49 @@ app.get('/pbcod/:bcode', function(req,res){
   }
 });
 
-app.get("/video360", function(req, res){
-  res.render('video360');
+app.get("/vast", function(req,res){
+    console.log("bump");
+
+    var events = [
+      'creativeView'
+    , 'start'
+    , 'firstQuartile'
+    , 'midpoint'
+    , 'thirdQuartile'
+    , 'complete'
+    , 'mute'
+    , 'unmute'
+    , 'pause'
+    , 'rewind'
+    , 'resume'
+    , 'fullscreen'
+    , 'exitFullscreen'
+    , 'expand'
+    , 'collapse'
+    , 'acceptInvitationLinear'
+    , 'closeLinear'
+    , 'skip'
+  ];
+
+  var vast = new VAST();
+  var tag = "https://ad.doubleclick.net/ddm/pfadx/N30602.1355588DOUBLECLICK.COMB57/B9159337.124494810;sz=0x0;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;dcmt=text/xml;dc_vast=3";
+
+  var ad = vast.attachAd({
+    id: "SomeID"
+  , structure : 'wrapper'
+  , AdSystem : 'Common name of the ad'
+  , Error: '//error.err'
+  , VASTAdTagURI : tag
+  }).attachImpression({ id: Date.now(), url : '//impression.com' })
+
+  var creative = ad.attachCreative('Linear',{ Duration : '00:00:00'});
+  creative.attachVideoClick("ClickTracking", "click-tracking");
+  var i;
+  for(i = 0; i < events.length; i++){
+    creative.attachTrackingEvent(events[i],events[i]);
+  }
+
+  res.end(vast.xml({ pretty : true, indent : '  ', newline : '\n' }));
 });
 
-app.get("/kickmeto", function(req,res){
-  res.set('referrer','buzz.st');
-  res.redirect('https://www.twitch.tv/Lirik');
-});
 app.listen(process.env.PORT || 8080);
