@@ -1,0 +1,38 @@
+
+script(src='/static/javascript/buzzbeacon.js')  
+script(src='/static/javascript/buzztracker.js')
+
+case type
+	when 'VIDEO'
+		link(href='//vjs.zencdn.net/5.3/video-js.min.css', rel='stylesheet')
+		link(rel='stylesheet', href='/static/style/videojs.ads.css')
+		link(rel='stylesheet', href='/static/style/videojs.ima.css')
+		script(src='//vjs.zencdn.net/5.3/video.min.js')
+		script(src='//imasdk.googleapis.com/js/sdkloader/ima3.js')
+		script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ads.js')
+		script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ima.js')
+		script(src='/static/javascript/videojsads.js')
+	when 'TWITCH'
+		script(src='//player.twitch.tv/js/embed/v1.js')
+	when 'YOUTUBE'
+		script(src='//www.youtube.com/iframe_api')
+	when 'VINE'
+		script(src='//platform.vine.co/static/scripts/embed.js')
+	when 'VIDEO360'
+		meta(charset='utf-8')
+		link(rel='stylesheet', type='text/css', href='/static/style/valiant360.css')
+		script(type='text/javascript', src='lib/js/jquery-1.7.2.min.js')
+		script(type='text/javascript', src='lib/js/three.min.js')
+		script(type='text/javascript', src='static/javascript/jquery.valiant360.js')
+	when 'FLASH'
+		script(src='/lib/flowplayer-3.2.13.min.js')
+		script(src='/static/javascript/buzzflash.js')
+
+if social
+	link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+	link(rel='stylesheet', href='/static/style/socialbtns.css')
+	script(src='/static/javascript/controllers/social.js')
+
+if (type != 'FLASH' && type != 'VIDEO360')
+	script(src='/static/javascript/buzzadmanager.js')
+	link(rel='stylesheet', type='text/css', href='/static/style/style.css')
