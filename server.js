@@ -197,7 +197,7 @@ app.get("/vast/:bcod", function(req,res){
   var ad = vast.attachAd({
     id: req.params.bcod
   , structure : 'wrapper'
-  , AdSystem : 'Common name of the ad'
+  , AdSystem : 'BuzzStarter'
   , Error: protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
   , VASTAdTagURI : tag
   }).attachImpression({ id: Date.now(), url : protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) })
