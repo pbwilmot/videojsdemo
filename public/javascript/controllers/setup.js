@@ -7,15 +7,8 @@ $('#setup-form').submit(function(e) {
   e.preventDefault();
   var query = createQuery();
   var adType = $('#ad-type').val();
-  var url, vertical;
   var parent = document.getElementById('content');
-  if (adType === 'sponsored') {
-    vertical = $('#vertical').val() + '-post';
-    url = '/mediakit/post/' + vertical;
-  } else {
-    vertical = $('#vertical').val();
-    url = '/mediakit/' + vertical;
-  }
+  var url = createUrl();
   if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native') {
       replaceIframe(query);
   } else {
@@ -24,18 +17,28 @@ $('#setup-form').submit(function(e) {
       replaceIframe(query);
     });
   }
+  $('#share-link').val('');
+  $('#share-input').hide();
+  if (adType !== 'native') {
+    $('#share-btn').show();
+  } else {
+    $('#share-btn').hide();
+  }
   $('.event-non-fired').removeClass('event-fired');
 });
 
-$('#vertical').change(function() {
+$('#share-btn').click(function() {
   var adType = $('#ad-type').val();
-  if (adType === 'sponsored') {
-    vertical = $('#vertical').val() + '-post';
-    url = '/mediakit/post/' + vertical;
-  } else {
-    vertical = $('#vertical').val();
-    url = '/mediakit/' + vertical;
-  }
+  var vertical = $('#vertical').val() + '-post';
+  var url = '/mediakit/post/' + vertical;
+  var shareableLink = window.location.origin + url + createQuery() + '&shared=true';
+  $('#share-link').val(shareableLink);
+  $('#share-input').show();
+});
+
+$('#vertical').change(function() {
+  var url = createUrl();
+  var adType = $('#ad-type').val();
   var parent = document.getElementById('content');
   if ($('#randomid').contents().find('.iframe-new').length > 0) {
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
@@ -46,6 +49,15 @@ $('#vertical').change(function() {
   } else {
     addIFrame(parent, url);
   }
+
+  $('#share-link').val('');
+  $('#share-input').hide();
+  if (adType !== 'native') {
+    $('#share-btn').show();
+  } else {
+    $('#share-btn').hide();
+  }
+
   $('.event-non-fired').removeClass('event-fired');
 });
 
@@ -70,16 +82,7 @@ $('input:radio[name="playpause"]').change(function() {
 function replaceIframe(source) {
   var type = $( "input[name='readtype']:checked" ).val();
   if ($('#randomid').contents().find('.iframe-new').length > 0 && $('#randomid').contents().find('#' + type).find('img').length >= 1) {
-    var vertical;
-    var adType = $('#ad-type').val();
-    if (adType === 'sponsored') {
-      vertical = $('#vertical').val() + '-post';
-      url = '/mediakit/post/' + vertical;
-    } else {
-      vertical = $('#vertical').val();
-      url = '/mediakit/' + vertical;
-    }
-    var url = '/mediakit/post/' + vertical;
+    var url = createUrl();
     var parent = document.getElementById('content');
     var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
     addIFrame(parent, url);
@@ -91,6 +94,46 @@ function replaceIframe(source) {
   } else {
     loadIframe(source, type);
   }
+}
+
+function loadExternalIframe(source, query) {
+  var type = '#' + query.readtype;
+  var closeBtnOn = query.close;
+  var height = $(type).height();
+  var width = $(type).width();
+  var percent;
+  $(type).replaceWith("<iframe class='iframe-new' id='" + type + "' src=/" + source + " width='" + width + "' height='" + height + "'></iframe>");
+  $('.iframe-new').load(function() {
+    $('.iframe-new')
+      .contents()
+      .find('#BuzzAdDiv')
+      .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
+
+    if (closeBtnOn === 'true') {
+      $('.iframe-new')
+        .parent()
+        .css('position', 'relative')
+        .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 10px; background-color: transparent; color: white; border: none; font-size: 1.75em; box-shadow: none; padding: 0">x</button>');
+    }
+
+    $(window).scroll(function() {
+      if (query.playpause === 'true') {
+        query.viewpercent === '50' ? percent = 0.50 : percent = 1.00;
+        playOrPauseView(document.getElementsByClassName('iframe-new')[0], percent);
+      }
+    });
+  });
+}
+
+function queryToJSON() {
+ var pairs = location.search.slice(1).split('&');
+ var result = {};
+ pairs.forEach(function(pair) {
+   pair = pair.split('=');
+   result[pair[0]] = decodeURIComponent(pair[1] || '');
+ });
+
+ return JSON.parse(JSON.stringify(result));
 }
 
 function loadIframe(source, type) {
@@ -105,6 +148,15 @@ function loadIframe(source, type) {
     .find('#' + type)
     .replaceWith("<iframe class='iframe-new' id='" + type + "' src='" + source + "' width='" + width + "' height='" + height + "'></iframe>");
 
+  if ($('#randomid').contents().find('#close-iframe').length > 0) {
+    $('#randomid')
+      .contents()
+      .find('#' + type)
+      .parent()
+      .find('button')
+      .remove();
+  }
+
   $('#randomid')
     .contents()
     .find('#' + type).load(function () {
@@ -112,23 +164,15 @@ function loadIframe(source, type) {
         .contents()
         .find('#BuzzAdDiv')
         .attr("style","position: absolute;top: 0;left: 0;width: 100%;height: 100%;");
+      if (closeBtnOn === 'true') {
+        $('#randomid')
+          .contents()
+          .find('#' + type)
+          .parent()
+          .css('position', 'relative')
+          .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 10px; background-color: transparent; color: white; border: none; font-size: 1.75em; box-shadow: none; padding: 0">x</button>');
+      }
     });
-
-    if ($('#randomid').contents().find('#close-iframe').length < 1 && closeBtnOn === 'true') {
-      $('#randomid')
-        .contents()
-        .find('#' + type)
-        .parent()
-        .css('position', 'relative')
-        .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 10px; background-color: transparent; color: white; border: none; font-size: 1.75em; box-shadow: none; padding: 0">x</button>');
-    } else {
-      $('#randomid')
-        .contents()
-        .find('#' + type)
-        .parent()
-        .find('button')
-        .remove();
-    }
 
   $('#randomid')
     .contents()
@@ -166,7 +210,12 @@ function startInView() {
 }
 
 function playOrPauseView(type, percent) {
-  var elementInView = viewability.vertical($('#randomid').contents().find('#' + type)[0]).value;
+  var elementInView;
+  if ($('#randomid').length > 0) {
+    elementInView = viewability.vertical($('#randomid').contents().find('#' + type)[0]).value;
+  } else {
+    elementInView = viewability.vertical(type).value;
+  }
   if (elementInView < percent) {
     player('pause');
   } else if (elementInView >= percent) {
@@ -199,6 +248,7 @@ function addIFrame(parent, source, adSettings) {
        addIFrame(parent, href);
        $('#randomid').load(function () {
          replaceIframe(query);
+         $('#share-btn').show();
        });
        $('.event-non-fired').removeClass('event-fired');
     });
@@ -207,13 +257,28 @@ function addIFrame(parent, source, adSettings) {
 
 function createQuery() {
   var type = $('#type').val();
+  var view = $('#viewabilityPercent').val();
   if (validateSrc(type)) {
     $('#src').val(validateSrc(type));
     var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
-    query += '&type=' + type;
+    query += '&type=' + type + '&viewpercent=' + view;
     return query;
   } else {
     return alert('not a valid url for ' + type);
+  }
+}
+
+function createUrl() {
+  var url;
+  var adType = $('#ad-type').val();
+  if (adType === 'sponsored') {
+    vertical = $('#vertical').val() + '-post';
+    url = '/mediakit/post/' + vertical;
+    return url;
+  } else {
+    vertical = $('#vertical').val();
+    url = '/mediakit/' + vertical;
+    return url;
   }
 }
 

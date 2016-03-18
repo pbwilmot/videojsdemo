@@ -68,7 +68,11 @@ app.get('/mediakit/:vertical', function(req, res) {
 });
 
 app.get('/mediakit/post/:vertical', function(req, res) {
-  res.render(req.params.vertical, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+  if(req.query.shared === 'true') {
+    res.render(req.params.vertical, { shared: req.query.shared, src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+  } else {
+    res.render(req.params.vertical, { src:  req.query.src, type: req.query.type, autoplay: req.query.autoplay, automute: req.query.automute });
+  }
 });
 
 app.get('/innovidmobile', function(req, res) {

@@ -118,3 +118,20 @@ iframe {
   margin-bottom: -30px !important;
   width: 50% !important;
 }
+
+#share-input, #share-btn {
+  display: none;
+}
+
+#share-input {
+  margin-bottom: 5px;
+}
+
+#share-btn {
+  color: #26a69a;
+  cursor: pointer;
+}
+
+#share-btn-row {
+  margin: 5px 0;
+}

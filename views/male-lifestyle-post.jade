@@ -1657,3 +1657,16 @@ html.js.no-touch.svg.inlinesvg.svgclippaths.no-ie8compat(lang='en-US', itemscope
                 a.shiftnav-target(href='#')
                   i.fa.fa-chevron-left
                   |  Back
+    script
+    - if (shared)
+      script(src='//code.jquery.com/jquery-2.1.2.min.js')
+      script(src='/static/javascript/callbacks.js')
+      script(src='/static/javascript/buzzadmanager.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
+      script(src='/static/javascript/controllers/setup.js')
+      script(src='//cdn.jsdelivr.net/viewability/latest/viewability.min.js')
+    script(type='text/javascript').
+      document.addEventListener('DOMContentLoaded', function() {
+      var query = queryToJSON()
+      loadExternalIframe(location.search, query)
+      })
