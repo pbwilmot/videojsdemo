@@ -3,6 +3,11 @@ var app = express();
 var path = require('path');
 var cors = require('cors');
 var VAST = require('vast-xml');
+var shortid = require('shortid');
+
+var genId = function() {
+  return shortid.generate();
+};
 var querystring = require('querystring');
 
 var redirectLibrary = {
@@ -210,4 +215,12 @@ app.get("/vast/:bcod", function(req,res){
   res.end(vast.xml({ pretty : true, indent : '  ', newline : '\n' }));
 });
 
+app.get("/genId", function(req, res) {
+  res.end(genId());
+});
+
+app.get("/kickmeto", function(req,res){
+  res.set('referrer','buzz.st');
+  res.redirect('https://www.twitch.tv/Lirik');
+});
 app.listen(process.env.PORT || 8080);
