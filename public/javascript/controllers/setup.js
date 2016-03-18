@@ -5,31 +5,24 @@ $('#in-read-image').hide();
 
 $('#setup-form').submit(function(e) {
   e.preventDefault();
-  var type = $('#type').val();
+  var query = createQuery();
   var adType = $('#ad-type').val();
   var url, vertical;
-  if (validateSrc(type)) {
-    $('#src').val(validateSrc(type));
-    var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
-    query += '&type=' + type;
-    var parent = document.getElementById('content');
-    if (adType === 'sponsored') {
-      vertical = $('#vertical').val() + '-post';
-      url = '/mediakit/post/' + vertical;
-    } else {
-      vertical = $('#vertical').val();
-      url = '/mediakit/' + vertical;
-    }
-    if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native' && url.indexOf('-post') > -1 ) {
-        replaceIframe(query);
-    } else {
-      addIFrame(parent, url);
-      $('#randomid').load(function () {
-        replaceIframe(query);
-      });
-    }
+  var parent = document.getElementById('content');
+  if (adType === 'sponsored') {
+    vertical = $('#vertical').val() + '-post';
+    url = '/mediakit/post/' + vertical;
   } else {
-    alert('not a valid url for ' + type);
+    vertical = $('#vertical').val();
+    url = '/mediakit/' + vertical;
+  }
+  if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native') {
+      replaceIframe(query);
+  } else {
+    addIFrame(parent, url);
+    $('#randomid').load(function () {
+      replaceIframe(query);
+    });
   }
   $('.event-non-fired').removeClass('event-fired');
 });
@@ -197,34 +190,31 @@ function addIFrame(parent, source, adSettings) {
   $('.progress-overlay').show();
   $('#randomid').load(function () {
     $('.progress-overlay').css('display', 'none');
-     $('#randomid').contents().find('body').contents().find('.native-ad').click(function() {
-      var vertical = $('#vertical').val() + '-post';
-      var url = '/mediakit/post/' + vertical;
-      var parent = document.getElementById('content');
-      if ($('#randomid').contents().find('.iframe-new').length > 0) {
-        var innerSrc = $('#randomid').contents().find('.iframe-new').attr('src');
-        addIFrame(parent, url);
-        $('#randomid').load(function () {
-          replaceIframe(innerSrc);
-        });
-        $('.event-non-fired').removeClass('event-fired');
-      } else {
-        var type = $('#type').val();
-        if (validateSrc(type)) {
-          $('#src').val(validateSrc(type));
-          var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
-          query += '&type=' + type;
-          addIFrame(parent, url);
-          $('#randomid').load(function () {
-            replaceIframe(query);
-          });
-        } else {
-          alert('not a valid url for ' + type);
-        }
-      }
-      $('.event-non-fired').removeClass('event-fired');
+     $('#randomid').contents().find('body').contents().find('.native-ad').click(function(e) {
+       e.preventDefault();
+       var query = createQuery();
+       var href = $(this).closest('a').attr('href');
+       var parent = document.getElementById('content');
+       href += query;
+       addIFrame(parent, href);
+       $('#randomid').load(function () {
+         replaceIframe(query);
+       });
+       $('.event-non-fired').removeClass('event-fired');
     });
   });
+}
+
+function createQuery() {
+  var type = $('#type').val();
+  if (validateSrc(type)) {
+    $('#src').val(validateSrc(type));
+    var query = '/?' + $('#setup-form input').not('[value=""]').serialize();
+    query += '&type=' + type;
+    return query;
+  } else {
+    return alert('not a valid url for ' + type);
+  }
 }
 
 function validateSrc(type) {
