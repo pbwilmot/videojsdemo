@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var cors = require('cors');
+var VAST = require('vast-xml');
+var querystring = require('querystring');
 
 var redirectLibrary = {
   1: '/mediakit/post/tech-post',
@@ -49,6 +51,10 @@ app.get('/', function(req, res) {
       res.render('index', { social: social, type: req.query.type, source: req.query.src, tracking: (req.query.tracking || 'pixel'), options: JSON.stringify({}) });
     }
   }
+});
+
+app.get('/crossdomain.xml', function(req,res){
+  res.sendFile(path.join(__dirname + "/public/assets/crossdomain.xml"));
 });
 
 app.get('/demo', function(req,res){
@@ -163,12 +169,45 @@ app.get('/pbcod/:bcode', function(req,res){
   }
 });
 
-app.get("/video360", function(req, res){
-  res.render('video360');
+app.get("/vast/:bcod", function(req,res){
+    var protocol = req.headers['x-forwarded-proto'];
+    var events = [
+      'creativeView'
+    , 'start'
+    , 'firstQuartile'
+    , 'midpoint'
+    , 'thirdQuartile'
+    , 'complete'
+    , 'mute'
+    , 'unmute'
+    , 'pause'
+    , 'rewind'
+    , 'resume'
+    , 'fullscreen'
+    , 'exitFullscreen'
+    , 'expand'
+    , 'collapse'
+    , 'acceptInvitationLinear'
+    , 'closeLinear'
+    , 'skip'
+  ];
+
+  var vast = new VAST();
+  var tag = protocol+'://buzz.st/v1/ads/'+req.params.bcod+'/vast';
+  var ad = vast.attachAd({
+    id: req.params.bcod
+  , structure : 'wrapper'
+  , AdSystem : 'BuzzStarter'
+  , Error: protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
+  , VASTAdTagURI : tag
+  }).attachImpression({ id: Date.now(), url : protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) })
+
+  var creative = ad.attachCreative('Linear',{ Duration : '00:00:00'});
+  creative.attachVideoClick("ClickTracking", protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=click&"+querystring.stringify(req.query));
+
+  events.forEach(function(event){ creative.attachTrackingEvent(event,protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp="+event+"&"+querystring.stringify(req.query)); });
+
+  res.end(vast.xml({ pretty : true, indent : '  ', newline : '\n' }));
 });
 
-app.get("/kickmeto", function(req,res){
-  res.set('referrer','buzz.st');
-  res.redirect('https://www.twitch.tv/Lirik');
-});
 app.listen(process.env.PORT || 8080);
