@@ -3,6 +3,21 @@ var app = express();
 var path = require('path');
 var cors = require('cors');
 var request_helper = require('./request_helper');
+var VAST = require('vast-xml');
+var shortid = require('shortid');
+
+var genId = function() {
+  return shortid.generate();
+};
+var querystring = require('querystring');
+
+var redirectLibrary = {
+  1: '/mediakit/post/tech-post',
+  2: '/mediakit/post/business-post',
+  3: '/mediakit/post/gaming-post',
+  4: '/mediakit/post/male-lifestyle-post',
+  5: '/mediakit/post/female-lifestyle-post',
+};
 
 app.get('/redirect/:id', function(req, res) {
   var redirectUrl = redirectLibrary[req.params.id];
@@ -25,6 +40,10 @@ app.get('/', function(req, res) {
     poster: (req.query.poster || 'static/transparent_overlay.png'), 
     tracking: (req.query.tracking || 'xhr'), 
     options: JSON.stringify(request_helper.loadConfig(req.query))});
+});
+
+app.get('/crossdomain.xml', function(req,res){
+  res.sendFile(path.join(__dirname + "/public/assets/crossdomain.xml"));
 });
 
 app.get('/demo', function(req,res){
@@ -141,4 +160,53 @@ app.get('/pbcod/:bcode', function(req,res){
   }
 });
 
+app.get("/vast/:bcod", function(req,res){
+    var protocol = req.headers['x-forwarded-proto'];
+    var events = [
+      'creativeView'
+    , 'start'
+    , 'firstQuartile'
+    , 'midpoint'
+    , 'thirdQuartile'
+    , 'complete'
+    , 'mute'
+    , 'unmute'
+    , 'pause'
+    , 'rewind'
+    , 'resume'
+    , 'fullscreen'
+    , 'exitFullscreen'
+    , 'expand'
+    , 'collapse'
+    , 'acceptInvitationLinear'
+    , 'closeLinear'
+    , 'skip'
+  ];
+
+  var vast = new VAST();
+  var tag = protocol+'://buzz.st/v1/ads/'+req.params.bcod+'/vast';
+  var ad = vast.attachAd({
+    id: req.params.bcod
+  , structure : 'wrapper'
+  , AdSystem : 'BuzzStarter'
+  , Error: protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
+  , VASTAdTagURI : tag
+  }).attachImpression({ id: Date.now(), url : protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) })
+
+  var creative = ad.attachCreative('Linear',{ Duration : '00:00:00'});
+  creative.attachVideoClick("ClickTracking", protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=click&"+querystring.stringify(req.query));
+
+  events.forEach(function(event){ creative.attachTrackingEvent(event,protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp="+event+"&"+querystring.stringify(req.query)); });
+
+  res.end(vast.xml({ pretty : true, indent : '  ', newline : '\n' }));
+});
+
+app.get("/genId", function(req, res) {
+  res.end(genId());
+});
+
+app.get("/kickmeto", function(req,res){
+  res.set('referrer','buzz.st');
+  res.redirect('https://www.twitch.tv/Lirik');
+});
 app.listen(process.env.PORT || 8080);

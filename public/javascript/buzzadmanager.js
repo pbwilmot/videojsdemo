@@ -1,6 +1,9 @@
 var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   'use strict';
 
+  // Setup Vine creatives in the format : https://vine.co/v/#{VINE_ID}/embed/simple
+  var VINE_STRING_ROOT = 'https://vine.co/v/';
+  var VINE_STRING_SUFFIX = '/embed/simple';
   var pubtracker;
   var advtracker;
 
@@ -103,6 +106,7 @@ function makeAd(adDiv, type, source, adSettings) {
     src = source;
     return;
     case AD_TYPES.VINE:
+      source = VINE_STRING_ROOT + source + VINE_STRING_SUFFIX;
       var audio = "1";
       if (adSettings.automute) {
         audio = "0";

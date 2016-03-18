@@ -140,7 +140,7 @@ var BuzzFlash = (function(window) {
     pub_end = options.pub_end;
     pub_bill = options.pub_bill;
 
-    source = (options.src || '//buzz.st/v1/ads/'+bcod+'/vast');
+    source = (options.src || '/vast/'+bcod);
     autoplay = options.autoplay === 'true';
     completionWindow = (options.completionwindow || 60);
     var beacon = false;
