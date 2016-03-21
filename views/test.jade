@@ -110,6 +110,13 @@ shtml
                       input#closefalse(name='close', class='with-gap' type='radio' value="false")
                       label(for='closefalse' class='align-items') off
                   .row
+                    .input-field.col.s12 SOCIAL BUTTONS
+                      br
+                      input#social-true(name='social', class='with-gap' type='radio' value="true" checked)
+                      label(for='social-true') on
+                      input#social-false(name='social', class='with-gap' type='radio' value="false")
+                      label(for='social-false' class='align-items') off
+                  .row
                     .input-field.col.s12 PLACEMENT
                       br
                       input#in-read(name='readtype', class='with-gap' type='radio' value="in-read" checked)
@@ -118,6 +125,12 @@ shtml
                       label(for='top-read') top
                   .card-action
                     button.btn.waves-effect.waves-light.btn-submit(type='submit') Submit
+                  .row#share-btn-row.center-align
+                    span#share-btn Share
+                  .row#share-input
+                    .input-field.col.s12
+                      input#share-link(name='share-link', type='text' placeholder='Copy This Link')
+                      label(for='share-link') SHAREABLE LINK
           .col.s12
             .card#option2
               .card-content.center-align

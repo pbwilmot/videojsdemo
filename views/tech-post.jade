@@ -140,6 +140,19 @@ html(xmlns='http://www.w3.org/1999/xhtml', xmlns:og='http://opengraphprotocol.or
     //if lte IE 8 
       script(src='http://s0.wp.com/wp-content/themes/vip/techcrunch-2013/assets/js/respond.min.js?m=1381204869g')
     meta(name='st:robots', content='follow, index')
+  script
+  - if (shared)
+    script(src='//code.jquery.com/jquery-2.1.2.min.js')
+    script(src='/static/javascript/callbacks.js')
+    script(src='/static/javascript/buzzadmanager.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
+    script(src='/static/javascript/controllers/setup.js')
+    script(src='//cdn.jsdelivr.net/viewability/latest/viewability.min.js')
+  script(type='text/javascript').
+    document.addEventListener('DOMContentLoaded', function() {
+    var query = queryToJSON()
+    loadExternalIframe(location.search, query)
+    })
   body.single.single-post.postid-1281952.single-format-standard.mobile-header-ad.mp6.customizer-styles-applied.highlander-enabled.highlander-light.single-post-mobile-collapse.single-post-standard
     header.header.header-fixed-mobile.cf.header-context-news(role='banner')
       .ad-top-mobile

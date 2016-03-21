@@ -1087,4 +1087,16 @@ html(lang='en', dir='ltr', prefix='content: http://purl.org/rss/1.0/modules/cont
                 |         {* /requiredFieldsForm *}
             // BEGIN Krux Control Tag for "Womens Health Mag"
             // Source: /snippet/controltag?confid=J_bQY24c&site=Womens%20Health%20Mag&edit=1
-            
+            script
+            - if (shared)
+              script(src='//code.jquery.com/jquery-2.1.2.min.js')
+              script(src='/static/javascript/callbacks.js')
+              script(src='/static/javascript/buzzadmanager.js')
+              script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
+              script(src='/static/javascript/controllers/setup.js')
+              script(src='//cdn.jsdelivr.net/viewability/latest/viewability.min.js')
+            script(type='text/javascript').
+              document.addEventListener('DOMContentLoaded', function() {
+              var query = queryToJSON()
+              loadExternalIframe(location.search, query)
+              })
