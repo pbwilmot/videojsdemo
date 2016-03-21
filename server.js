@@ -5,6 +5,7 @@ var cors = require('cors');
 var request_helper = require('./request_helper');
 var VAST = require('vast-xml');
 var shortid = require('shortid');
+var redis = require('redis').createClient(process.env.REDIS_URL);
 
 var genId = function() {
   return shortid.generate();
@@ -158,6 +159,12 @@ app.get('/pbcod/:bcode', function(req,res){
   } else {
     res.status(404).send('Not Found');
   }
+});
+
+app.get("/redis", function(req,res){
+  var options = JSON.parse(redis.get('7p29mjMcmegQd'));
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(options));
 });
 
 app.get("/vast/:bcod", function(req,res){
