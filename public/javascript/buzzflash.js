@@ -22,7 +22,7 @@ var BuzzFlash = (function(window) {
     {bcod: "mmdX7dWsy0Wrl", weight: 13},
     {bcod: "2rw8Gw2FW2EVe", weight: 13},
     {bcod: "1rb29Bbu4WZw8", weight: 52},
-    // {bcod: "EDbQ5oNsAmlZ", weight: 4}
+    {bcod: "EDbQ5oNsAmlZ", weight: 4}
     ],
     "X7Av9AjfdEr5J": [
     {bcod: "7N89O8dcOD97", weight: 13},

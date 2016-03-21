@@ -1,6 +1,7 @@
 var BeaconEvent = (function() {
     var _rawEvent, _btyp, _bcod, _bsrc, _bdat;
     var _beaconURI = '//api.buzz.st/v1/track';
+    var _metricsURI = '//metrics.buzz.st/v0/track';
 
     function BeaconEvent(rawEvent) {
         _rawEvent = rawEvent;
@@ -48,6 +49,15 @@ var BeaconEvent = (function() {
         return rv;
       };
 
+      BeaconEvent.prototype.buildMetricURI = function() {
+        var jsonRepr = this.toJSON();
+        var rv = _metricsURI;
+        for (var k in jsonRepr) {
+          rv = this.updateQueryParams(rv, k, jsonRepr[k]);
+        }
+        return rv;
+      };
+
       BeaconEvent.prototype.sendBeacon = function(callback) {
         // async perform beacon GET /v1/track
         var req = new XMLHttpRequest();
@@ -60,6 +70,21 @@ var BeaconEvent = (function() {
         };
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         req.send(this.toJSONString());
+        try {
+          this.sendMetrics();
+        } catch (e) {
+          console.log(e);
+        }
       };
+
+      BeaconEvent.prototype.sendMetrics = function() {
+        // async perform beacon GET /v0/track
+        var req = new XMLHttpRequest();
+        req.open('GET', this.buildMetricURI(), true);
+        req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        req.send(this.toJSONString());
+      };
+
+
     return BeaconEvent;
 })();

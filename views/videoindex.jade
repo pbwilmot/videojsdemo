@@ -38,13 +38,17 @@ html
     script(src='//imasdk.googleapis.com/js/sdkloader/ima3.js')
     script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ads.js')
     script(src='//da2hw5uyqeo5b.cloudfront.net/videojs.ima.js')
-    script(src='static/javascript/buzztracker.js')
+    script(src='/static/javascript/buzztracker.js')
     script(src='/static/javascript/buzzadmanager.js')
       - if (social)
-        script(src='static/javascript/controllers/social.js')
+        script(src='/static/javascript/controllers/social.js')
     script(type='text/javascript').
       document.addEventListener("DOMContentLoaded",function() {
         var tracker = new BuzzTracker('#{tracking}');
         BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', tracker, false);
-        loadSocialBtns('#{type}','#{source}');
       });
+    - if(social)
+      script(type="text/javascript").
+        document.addEventListener("DOMContentLoaded",function() {
+          loadSocialBtns('#{type}','#{source}');
+        });
