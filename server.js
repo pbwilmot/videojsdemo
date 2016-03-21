@@ -5,6 +5,9 @@ var cors = require('cors');
 var request_helper = require('./request_helper');
 var VAST = require('vast-xml');
 var shortid = require('shortid');
+var redis_url = process.env.REDIS_URL;
+// var redis_url = "redis://h:p85mev7bk2lfif4jnkf3htn2d2@ec2-54-227-250-102.compute-1.amazonaws.com:9069";
+var redis = require('redis').createClient(redis_url);
 
 var genId = function() {
   return shortid.generate();
@@ -80,88 +83,22 @@ app.get('/kotaku', function(req, res) {
 
 
 app.get('/pbcod/:bcode', function(req,res){
-  var time = (new Date()).getTime();
-  var usa = {
-    autoplay: "false",
-    automute: "false",
-    completionwindow: (req.query.completionwindow || 30) ,
-    billwindow: 3,
-    src: 'Lirik',
-    type: 'TWITCH',
-    clickout: "true",
-    trackercode: 'ZBNDploS8qgv4',
-    pub_tracking: (req.query.pub_tracking || 'pixel'),
-    pub_start: req.query.pub_start,
-    pub_bill: req.query.pub_bill,
-    pub_end: req.query.pub_end,
-    advtracking: 'pixel',
-    adv_start: null,
-    adv_bill: '//bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993262&PluID=0&ord='+time+'&rtu=-1',
-    adv_end: null,
-    startsplash: null,
-    endsplash: "//da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
-  }
-  var ca = {
-    autoplay: "false",
-    automute: "false",
-    completionwindow: (req.query.completionwindow || 30) ,
-    billwindow: 3,
-    src: 'Lirik',
-    type: 'TWITCH',
-    clickout: "true",
-    trackercode: '5Erej1UrOlvo',
-    pub_tracking: (req.query.pub_tracking || 'pixel'),
-    pub_start: req.query.pub_start,
-    pub_bill: req.query.pub_bill,
-    pub_end: req.query.pub_end,
-    advtracking: 'pixel',
-    adv_start: null,
-    adv_bill: '//bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=16993266&PluID=0&ord='+time+'&rtu=-1',
-    adv_end: null,
-    startsplash: null,
-    endsplash: "//da2hw5uyqeo5b.cloudfront.net/imgs/hitman_twitch_end.jpg"
-  }
-  var demo = {
-    autoplay: ( req.query.autoplay || "false"),
-    automute: ( req.query.automute || "false"),
-    completionwindow: (req.query.completionwindow || 30) ,
-    billwindow: ( req.query.billwindow || 3),
-    src: ( req.query.src || 'monstercat'),
-    type: 'TWITCH',
-    clickout: ( req.query.clickout || "true" ),
-    trackercode: ( req.query.clickout || '7p29mjMcmegQd'),
-    pub_tracking: (req.query.pub_tracking || 'pixel'),
-    pub_start: req.query.pub_start,
-    pub_bill: req.query.pub_bill,
-    pub_end: req.query.pub_end,
-    advtracking: 'pixel',
-    adv_start: req.query.adv_start,
-    adv_bill: req.query.adv_bill,
-    adv_end: req.query.adv_end,
-    startsplash: null,
-    endsplash: req.query.endsplash
-  }
-  var dictionary = {
-    'Nx7WGpjUpOwNP' : usa,
-    '9gB9EQWI92vdx' : usa,
-    'prwXp84SOD5a' : usa,
-    'djV7vXrtGB5Zp' : usa,
-    '94BxgDlF3WJ19' : ca,
-    'EkJ2dRNhpWrbR' : ca,
-    'j4QrbvEtoaoX2' : ca,
-    'ALRq08GuDpBrP' : ca,
-    '7p29mjMcmegQd' : demo,
-  }
-  var social = (req.query.social === 'true');
-  var options = dictionary[req.params.bcode];
-  if(options){
-    options.bcod = req.params.bcode;
-    options.clickouturl = "//buzz.st/r/"+options.trackercode+"?bref=buzz.st"
-    res.render('videoindex', { mobile: request_helper.isCallerMobile(req), social: social, type: options.type, source: req.query.src, poster: (req.query.poster || 'static/transparent_overlay.png'), tracking: (req.query.tracking || 'pixel'), options: JSON.stringify(options)});
-
-  } else {
-    res.status(404).send('Not Found');
-  }
+  redis.get(req.params.bcode, function(err, data){
+    if(!err){
+      var options = JSON.parse(data);
+      options = request_helper.sanitize(req, options);
+      res.render('videoindex', {
+        mobile: request_helper.isCallerMobile(req),
+        social: options.social,
+        type: options.type,
+        source: req.query.src,
+        poster: (req.query.poster || 'static/transparent_overlay.png'),
+        tracking: (req.query.tracking || 'pixel'),
+        options: JSON.stringify(options)});
+    }else{
+      res.status(404).send('Not Found');
+    }
+  });
 });
 
 app.get("/vast/:bcod", function(req,res){
@@ -209,8 +146,4 @@ app.get("/genId", function(req, res) {
   res.end(genId());
 });
 
-app.get("/kickmeto", function(req,res){
-  res.set('referrer','buzz.st');
-  res.redirect('https://www.twitch.tv/Lirik');
-});
 app.listen(process.env.PORT || 8080);
