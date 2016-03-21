@@ -5,7 +5,10 @@ var cors = require('cors');
 var request_helper = require('./request_helper');
 var VAST = require('vast-xml');
 var shortid = require('shortid');
+// var dev = "redis://h:p85mev7bk2lfif4jnkf3htn2d2@ec2-54-227-250-102.compute-1.amazonaws.com:9069";
 var redis = require('redis').createClient(process.env.REDIS_URL);
+// var redis = require('redis').createClient(dev);
+
 
 var genId = function() {
   return shortid.generate();
@@ -147,7 +150,7 @@ app.get('/pbcod/:bcode', function(req,res){
     'EkJ2dRNhpWrbR' : ca,
     'j4QrbvEtoaoX2' : ca,
     'ALRq08GuDpBrP' : ca,
-    '7p29mjMcmegQd' : demo,
+    '7p29mjMcmegQd' : demo
   }
   var social = (req.query.social === 'true');
   var options = dictionary[req.params.bcode];
@@ -162,9 +165,12 @@ app.get('/pbcod/:bcode', function(req,res){
 });
 
 app.get("/redis", function(req,res){
-  var options = JSON.parse(redis.get('7p29mjMcmegQd'));
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(options));
+  var data = "{}";
+  redis.get('7p29mjMcmegQd', function(err,data){
+    var options = JSON.parse(data);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(options));
+  });
 });
 
 app.get("/vast/:bcod", function(req,res){
