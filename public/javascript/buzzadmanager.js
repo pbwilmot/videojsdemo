@@ -5,6 +5,9 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   var YOUTUBE_API = "https://www.youtube.com/iframe_api";
   var TWITCH_API = "//player.twitch.tv/js/embed/v1.js";
   var VIDEO_API = "/static/javascript/videojsads.js";
+  // Setup Vine creatives in the format : https://vine.co/v/#{VINE_ID}/embed/simple
+  var VINE_STRING_ROOT = 'https://vine.co/v/';
+  var VINE_STRING_SUFFIX = '/embed/simple';
 
   // var TRACKER = "/static/javascript/buzztracker.js";
 
@@ -165,6 +168,7 @@ function makeAd(adDiv, type, source, adSettings) {
     case AD_TYPES.VINE:
       // Load Vine SDK
       loadjscssfile(VINE_SDK_PATH, "js");
+      source = VINE_STRING_ROOT + source + VINE_STRING_SUFFIX;
       // set vine audio
       var audio = "1";
       if (adSettings.automute) {

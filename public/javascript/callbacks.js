@@ -72,8 +72,8 @@ return Event;
 function handleEvent(e){
   var event = new Event(e.data);
   var type = event.toJSON().btyp.split('vast')[1];
-  var metric = document.getElementById('event-' + type);
-  if (metric) {
+  var metric = document.getElementById('event-' + type);  
+  if (metric && !metric.classList.contains('event-fired')) {
     metric.className += ' event-fired';
   }
 
