@@ -1,0 +1,14 @@
+link(rel='stylesheet', type='text/css', href='/static/style/style.css')
+- if(type == 'VIDEO')
+  include ./lib/videojs.jade
+- else if ( type == 'TWITCH')
+  include ./lib/twitch.jade  
+- if(social)
+  include ./lib/social.jade
+link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+script(src='/static/javascript/buzzbeacon.js')  
+script(src='/static/javascript/buzztracker.js')
+- if (type == 'FLASH')
+  script(src='/lib/flowplayer-3.2.13.min.js')
+- else
+  script(src='/static/javascript/buzzadmanager.js') 

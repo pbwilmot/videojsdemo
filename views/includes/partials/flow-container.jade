@@ -1,0 +1,9 @@
+body(style="margin:0")
+	#flow-container
+		header
+			#flow-player-container
+				a#player(href='static/blank.flv', style='display:block; height:100vh')
+	script.
+		document.addEventListener("DOMContentLoaded",function() {
+			BuzzFlash.initPlayer('player', !{options} );
+		});
