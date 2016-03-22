@@ -37,8 +37,7 @@ function loadSocialBtns(type, source) {
   } else if (type === 'YOUTUBE') {
     url = "https://www.youtube.com/watch?v=" + source;
   } else if (type === 'VINE') {
-    var video = source.substring(source.indexOf("/v/")+3 ,source.lastIndexOf("/embed"));
-    url = 'https://vine.co/v/' + video;
+    url = 'https://vine.co/v/' + source;
   } else if (type === 'VIDEO') {
     url = parent.parent.window.location.href;
   }

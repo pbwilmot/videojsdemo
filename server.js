@@ -7,7 +7,7 @@ var VAST = require('vast-xml');
 var shortid = require('shortid');
 var redis_url = process.env.REDIS_URL;
 // var redis_url = "redis://h:p85mev7bk2lfif4jnkf3htn2d2@ec2-54-227-250-102.compute-1.amazonaws.com:9069";
-var redis = require('redis').createClient(redis_url);
+var redis = require('redis');
 
 var genId = function() {
   return shortid.generate();
@@ -83,6 +83,7 @@ app.get('/kotaku', function(req, res) {
 
 
 app.get('/pbcod/:bcode', function(req,res){
+  redis = redis.createClient(redis_url);
   redis.get(req.params.bcode, function(err, data){
     if(!err){
       var options = JSON.parse(data);
