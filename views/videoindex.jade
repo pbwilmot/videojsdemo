@@ -15,8 +15,8 @@ case type
         if (type == 'VIDEO')
           video#content_video.video-js.vjs-big-play-centered.vjs-default-skin(poster='#{poster}', controls='', preload='auto', style='width:100%; height:100vh')
           source(src='//da2hw5uyqeo5b.cloudfront.net/blank.mp4', type='video/mp4')
-        if (social)
-          include ./includes/partials/social-btns.jade    
+      if (social)
+        include ./includes/partials/social-btns.jade
       script(type='text/javascript').
         document.addEventListener("DOMContentLoaded",function() {
           BUZZADMANAGER.BuzzAdManager('BuzzAdDiv', false, !{options});
