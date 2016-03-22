@@ -114,6 +114,11 @@ function loadExternalIframe(source, query) {
         .parent()
         .css('position', 'relative')
         .append('<button id="close-iframe" style="position: absolute; top: 5px; right: 10px; background-color: transparent; color: white; border: none; font-size: 1.75em; box-shadow: none; padding: 0">x</button>');
+      $('#close-iframe').on('click', function() {
+        $('.iframe-new').slideUp(1000);
+        player('pause');
+        $(this).remove();
+      });
     }
 
     $(window).scroll(function() {
