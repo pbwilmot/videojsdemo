@@ -84,6 +84,10 @@ app.get('/kotaku', function(req, res) {
 
 app.get('/pbcod/:bcode', function(req,res){
   redis = redis.createClient(redis_url);
+  redis.on("error",function(err){
+    console.log("Error connecting to redis", err);
+    res.status(404).send("Cant retrieve campaign data");
+  });
   redis.get(req.params.bcode, function(err, data){
     if(!err){
       var options = JSON.parse(data);
