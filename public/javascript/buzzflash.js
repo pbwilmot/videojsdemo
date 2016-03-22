@@ -131,11 +131,9 @@ var BuzzFlash = (function(window) {
   var orgbcod;
   var pub_tracking, pub_start, pub_end, pub_bill;
 
-  var initPlayer = function (domtarget, bcod){
-    orgbcod = bcod;
-    bcod = replacebcod(bcod);
-
-    options = QueryStringToJSON();
+  var initPlayer = function (domtarget, options){
+    orgbcod = options.bcod;
+    bcod = replacebcod(options.bcod);
     tracking = (options.tracking || 'xhr');
     pub_tracking = (options.pub_tracking || 'pixel');
     pub_start = options.pub_start;
@@ -144,7 +142,7 @@ var BuzzFlash = (function(window) {
 
     source = (options.src || '/vast/'+bcod);
     autoplay = options.autoplay === 'true';
-    completionWindow = (options.completionWindow || 60);
+    completionWindow = (options.completionwindow || 60);
     var beacon = false;
     var counter = 0;
     var player = flowplayer(domtarget, "/lib/flowplayer-3.2.18.swf", {
