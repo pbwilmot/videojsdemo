@@ -16,7 +16,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   };
 
   var adDiv;
-  var adSettings = {};
+  var adSettings;
   var src;
   var isMobile = false;
 
@@ -102,7 +102,11 @@ var imaplayer;
 function makeAd(adDiv, type, source, adSettings) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
-    src = source;
+      var fileref = document.createElement('script');
+      fileref.setAttribute("type","text/javascript");
+      fileref.setAttribute("src", 'https://www.youtube.com/iframe_api');
+      document.getElementsByTagName('head')[0].appendChild(fileref);
+      src = source;
     return;
     case AD_TYPES.VINE:
       source = VINE_STRING_ROOT + source + VINE_STRING_SUFFIX;
@@ -348,10 +352,7 @@ function loadjscssfile(filename, filetype) {
 
   var player;
   function onYouTubeIframeAPIReady() {
-    waitUntil(function(){
-      return adSettings.hasOwnProperty('type');
-    }, function(){
-      player = new YT.Player(adDiv, {
+    player = new YT.Player(adDiv, {
       videoId: src,
       events: {
         'onReady': function(event) {
@@ -372,9 +373,6 @@ function loadjscssfile(filename, filetype) {
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
     }.bind(this), false);
-
-    });
-
   }
 
   function onPlayerError(event) {
