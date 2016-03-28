@@ -102,7 +102,6 @@ var imaplayer;
 function makeAd(adDiv, type, source, adSettings) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
-    addIFrame(adDiv, '', adSettings);
     src = source;
     return;
     case AD_TYPES.VINE:
@@ -117,6 +116,7 @@ function makeAd(adDiv, type, source, adSettings) {
         autoplay = "0";
       }
       source = updateQueryStringParams(source, "autoplay", autoplay);
+      addIFrame(adDiv, source, adSettings);
       break;
     case AD_TYPES.VIDEO:
       if(isMobile){
@@ -130,6 +130,7 @@ function makeAd(adDiv, type, source, adSettings) {
       parentWindow.addEventListener('remote-control', function(e){
         remoteControlEventHandler(e);
       }.bind(this), false);
+      addIFrame(adDiv, source, adSettings);
     break;
     case AD_TYPES.TWITCH:
     src = source;
@@ -137,7 +138,6 @@ function makeAd(adDiv, type, source, adSettings) {
     return;
   }
   src = source;
-  addIFrame(adDiv, source, adSettings);
 }
 
 function pubTrackEvent(uri){ trackEvent(uri, pubtracker); }
