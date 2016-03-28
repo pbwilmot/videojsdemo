@@ -16,7 +16,7 @@ var BUZZADMANAGER = BUZZADMANAGER || (function(window) {
   };
 
   var adDiv;
-  var adSettings;
+  var adSettings = {};
   var src;
   var isMobile = false;
 
@@ -348,7 +348,10 @@ function loadjscssfile(filename, filetype) {
 
   var player;
   function onYouTubeIframeAPIReady() {
-    player = new YT.Player(adDiv, {
+    waitUntil(function(){
+      return adSettings.hasOwnProperty('type');
+    }, function(){
+      player = new YT.Player(adDiv, {
       videoId: src,
       events: {
         'onReady': function(event) {
@@ -363,16 +366,15 @@ function loadjscssfile(filename, filetype) {
         'onError': onPlayerError
       }
     });
-    waitUntil(function(){
-      adSettings
-    }, function(){
-      if(adSettings.audiohover){
-        setHover(player.l.id, player, AD_TYPES.YOUTUBE);
-      }
-    });
+    if(adSettings.audiohover){
+      setHover(player.l.id, player, AD_TYPES.YOUTUBE);
+    }
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
     }.bind(this), false);
+
+    });
+
   }
 
   function onPlayerError(event) {
