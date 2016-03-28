@@ -137,7 +137,7 @@ app.get("/vast/:bcod", function(req,res){
   , AdSystem : 'BuzzStarter'
   , Error: protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
   , VASTAdTagURI : tag
-  }).attachImpression({ id: Date.now(), url : protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) })
+  }).attachImpression({ id: Date.now(), url : protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) });
 
   var creative = ad.attachCreative('Linear',{ Duration : '00:00:00'});
   creative.attachVideoClick("ClickTracking", protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=click&"+querystring.stringify(req.query));
