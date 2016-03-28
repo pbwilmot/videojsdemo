@@ -363,9 +363,13 @@ function loadjscssfile(filename, filetype) {
         'onError': onPlayerError
       }
     });
-    if(adSettings.audiohover){
-      setHover(player.l.id, player, AD_TYPES.YOUTUBE);
-    }
+    waitUntil(function(){
+      adSettings
+    }, function(){
+      if(adSettings.audiohover){
+        setHover(player.l.id, player, AD_TYPES.YOUTUBE);
+      }
+    });
     parentWindow.addEventListener('remote-control', function(e){
       remoteControlEventHandler(e);
     }.bind(this), false);
