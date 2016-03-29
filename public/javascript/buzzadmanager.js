@@ -102,8 +102,11 @@ var imaplayer;
 function makeAd(adDiv, type, source, adSettings) {
   switch (type) {
     case AD_TYPES.YOUTUBE:
-    addIFrame(adDiv, '', adSettings);
-    src = source;
+      var fileref = document.createElement('script');
+      fileref.setAttribute("type","text/javascript");
+      fileref.setAttribute("src", 'https://www.youtube.com/iframe_api');
+      document.getElementsByTagName('head')[0].appendChild(fileref);
+      src = source;
     return;
     case AD_TYPES.VINE:
       source = VINE_STRING_ROOT + source + VINE_STRING_SUFFIX;
@@ -117,6 +120,7 @@ function makeAd(adDiv, type, source, adSettings) {
         autoplay = "0";
       }
       source = updateQueryStringParams(source, "autoplay", autoplay);
+      addIFrame(adDiv, source, adSettings);
       break;
     case AD_TYPES.VIDEO:
       if(isMobile){
@@ -130,6 +134,7 @@ function makeAd(adDiv, type, source, adSettings) {
       parentWindow.addEventListener('remote-control', function(e){
         remoteControlEventHandler(e);
       }.bind(this), false);
+      addIFrame(adDiv, source, adSettings);
     break;
     case AD_TYPES.TWITCH:
     src = source;
@@ -137,7 +142,6 @@ function makeAd(adDiv, type, source, adSettings) {
     return;
   }
   src = source;
-  addIFrame(adDiv, source, adSettings);
 }
 
 function pubTrackEvent(uri){ trackEvent(uri, pubtracker); }

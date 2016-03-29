@@ -130,19 +130,19 @@ app.get("/vast/:bcod", function(req,res){
   ];
 
   var vast = new VAST();
-  var tag = protocol+'://buzz.st/v1/ads/'+req.params.bcod+'/vast';
+  var tag = protocol+'://api.buzz.st/v1/ads/'+req.params.bcod+'/vast';
   var ad = vast.attachAd({
     id: req.params.bcod
   , structure : 'wrapper'
   , AdSystem : 'BuzzStarter'
-  , Error: protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
+  , Error: protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=error&"+querystring.stringify(req.query)
   , VASTAdTagURI : tag
-  }).attachImpression({ id: Date.now(), url : protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) })
+  }).attachImpression({ id: Date.now(), url : protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=impression&"+querystring.stringify(req.query) });
 
   var creative = ad.attachCreative('Linear',{ Duration : '00:00:00'});
-  creative.attachVideoClick("ClickTracking", protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=click&"+querystring.stringify(req.query));
+  creative.attachVideoClick("ClickTracking", protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp=click&"+querystring.stringify(req.query));
 
-  events.forEach(function(event){ creative.attachTrackingEvent(event,protocol+"://metrics.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp="+event+"&"+querystring.stringify(req.query)); });
+  events.forEach(function(event){ creative.attachTrackingEvent(event,protocol+"://metric1.buzz.st/v0/track?bsrc=vast&bcod="+req.params.bcod+"&btyp="+event+"&"+querystring.stringify(req.query)); });
 
   res.end(vast.xml({ pretty : true, indent : '  ', newline : '\n' }));
 });
