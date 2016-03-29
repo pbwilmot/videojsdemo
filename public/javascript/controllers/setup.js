@@ -9,6 +9,7 @@ $('#setup-form').submit(function(e) {
   var adType = $('#ad-type').val();
   var parent = document.getElementById('content');
   var url = createUrl();
+  clearInterval(callReport);
   if ($('#randomid').contents().find('.iframe-new').length > 0 && adType !== 'native') {
       replaceIframe(query);
   } else {
@@ -147,6 +148,7 @@ function loadIframe(source, type) {
   width = $('#randomid').contents().find('#' + type).width();
   var closeBtnOn = $("input[name='close']:checked").val();
   var vertical = $('#vertical').val();
+  var adType = $('#ad-type').val();
 
   $('#randomid')
     .contents()
@@ -198,13 +200,13 @@ function loadIframe(source, type) {
   var closeIframe = $('#randomid').contents().find('#' + type).parent().find('#close-iframe');
   var percent;
   $('#randomid').contents().scroll(function() {
-    if ($("input[name='playpause']:checked").val() === 'true') {
+    if ($("input[name='playpause']:checked").val() === 'true' && adType === 'sponsored') {
       $('#viewabilityPercent').val() === '50' ? percent = 0.50 : percent = 1.00;
       playOrPauseView(type, percent);
     }
   });
 
-  if ($("input[name='playpause']:checked").val() === 'true') {
+  if ($("input[name='playpause']:checked").val() === 'true' && adType === 'sponsored') {
     $('#viewabilityPercent').val() === '50' ? percent = 0.50 : percent = 1.00;
     if (isRunning) {
       clearInterval(callReport);
@@ -295,6 +297,8 @@ function addIFrame(parent, source, adSettings) {
        var parent = document.getElementById('content');
        href += query;
        addIFrame(parent, href);
+       $('#ad-type').val('sponsored');
+       $('#ad-type').material_select();
        $('#randomid').load(function () {
          replaceIframe(query);
          $('#share-btn').show();
