@@ -5,6 +5,7 @@ var cors = require('cors');
 var request_helper = require('./request_helper');
 var VAST = require('vast-xml');
 var shortid = require('shortid');
+// var redis_url = "redis://127.0.0.1:6379";
 var redis_url = process.env.REDIS_URL;
 // var redis_url = "redis://h:p85mev7bk2lfif4jnkf3htn2d2@ec2-54-227-250-102.compute-1.amazonaws.com:9069";
 var redis = require('redis');
@@ -13,6 +14,13 @@ var genId = function() {
   return shortid.generate();
 };
 var querystring = require('querystring');
+var redisClient = null;
+var redisConn = function(){
+  if(!redisClient){
+    redisClient = redis.createClient(redis_url);
+  }
+  return redisClient;
+}
 
 var redirectLibrary = {
   1: '/mediakit/post/tech-post',
@@ -25,6 +33,17 @@ var redirectLibrary = {
 app.get('/redirect/:id', function(req, res) {
   var redirectUrl = redirectLibrary[req.params.id];
   res.render('redirect', { redirectUrl: redirectUrl });
+});
+
+app.get('/rd/:bcod', function(req, res) {
+  var redirectUrl = redisConn().get(req.params.bcod, function(err, data){
+    if(!err){
+      var target = data;
+      res.render('rd', { target: target, bcod: req.params.bcod });
+    }else{
+      res.status(404).send('Not Found');
+    }
+  });
 });
 
 app.set('view engine', 'jade');
@@ -83,12 +102,11 @@ app.get('/kotaku', function(req, res) {
 
 
 app.get('/pbcod/:bcode', function(req,res){
-  redis = redis.createClient(redis_url);
-  redis.on("error",function(err){
+  redisConn().on("error",function(err){
     console.log("Error connecting to redis", err);
     res.status(404).send("Cant retrieve campaign data");
   });
-  redis.get(req.params.bcode, function(err, data){
+  redisConn().get(req.params.bcode, function(err, data){
     if(!err){
       var options = JSON.parse(data);
       options = request_helper.sanitize(req, options);

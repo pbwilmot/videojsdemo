@@ -1,0 +1,11 @@
+html
+	head
+		script(src='/static/javascript/buzztracker.js') 
+	body
+		script.
+			document.addEventListener("DOMContentLoaded",function() {
+				var buzzmetric_url = "https://metrics.buzz.st/v0/track?bsrc=cpc&btyp=click&bcod="+'!{bcod}'+"&pub_id=103";
+				var tracker = new BuzzTracker('pixel');
+				tracker.track(buzzmetric_url);
+				window.location = '!{target}';
+			});
