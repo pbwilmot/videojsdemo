@@ -38,6 +38,7 @@ var BuzzTracker = (function(){
 		iframe.src = uri;
 		iframe.width = 1;
 		iframe.height = 1;
+		iframe.style = "display:none";
 		document.body.appendChild(iframe);
 	}
 
@@ -46,6 +47,7 @@ var BuzzTracker = (function(){
 		img.src = uri;
 		img.width = 1;
 		img.height = 1;
+		img.style = "display:none";
 		document.body.appendChild(img);
 	}
 	return BuzzTracker;
