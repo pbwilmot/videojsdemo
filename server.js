@@ -183,7 +183,7 @@ app.get("/ads/:play_list_id", function(req,res){
   var cnf = {};
   cnf.img = creative.img;
   cnf.bcod = creative.bcod;
-  cnf.pub_clk = req.query.pub_click
+  cnf.pub_clk = req.query.pub
   cnf.dfa_imp = "//ad.doubleclick.net/ddm/trackimp/N30602.1355588DOUBLECLICK.COMB57/B9617427.130617330;dc_trk_aid=303420272;dc_trk_cid=69986920;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=?";
   cnf.dfa_clk = "//ad.doubleclick.net/ddm/trackclk/N30602.1355588DOUBLECLICK.COMB57/B9617427.130617330;dc_trk_aid=303420272;dc_trk_cid=69986920;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=";
   cnf.ttn_imp = "//metrics.buzz.st/v0/track?bsrc=cpc&btyp=impression&bcod="+creative.bcod+"&cb="+(new Date()).getTime()+"&pub_id="+req.query.pub_id+"&plid="+req.params.play_list_id;
