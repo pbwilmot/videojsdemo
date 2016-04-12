@@ -20,6 +20,8 @@ shtml
                 a(href='#option1') Setup
               li.tab.col.s6
                 a(href='#option2') Metrics
+              li.tab.col.s6
+                a(href='#option3') Targeting
         .row
           .col.s12
             .card#option1
@@ -155,6 +157,20 @@ shtml
                   span#view-combined.event-metrics 0%
                 p.event-non-fired.event-metrics-label Elapsed Time (s) 
                   span#view-time.event-metrics 0
+          .col.s12
+            .card#option3
+              .card-content.center-align
+                form#keyword-form
+                  .row
+                    .input-field.col.s12
+                        input#keyword-positive(name='keyword-positive', value='' type='text' placeholder='Enter Your Keywords')
+                        label(for='keyword-positive') Positive Keywords
+                  .row
+                    .input-field.col.s12
+                        input#keyword-negative(name='keyword-negative', value='' type='text' placeholder='Enter Your Keywords')
+                        label(for='keyword-negative') Negative Keywords
+                  .card-action
+                    button.btn.waves-effect.waves-light.btn-submit(type='submit') Submit
       div#content.col.m9
         .progress-overlay
           .preloader-wrapper.big.active
@@ -170,6 +186,7 @@ shtml
     script(src='//code.jquery.com/jquery-2.1.2.min.js')
     script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
     script(src='/static/javascript/controllers/setup.js')
+    script(src='/static/javascript/controllers/targeting.js')
     script(src='/static/javascript/callbacks.js')
     script(src='/static/javascript/buzzadmanager.js')
-    
+    script(src='/static/javascript/highlight.js')
